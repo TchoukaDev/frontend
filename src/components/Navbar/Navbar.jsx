@@ -40,12 +40,12 @@ export default function Navbar() {
   return (
     <nav
       ref={navbarRef}
-      className="bg-sand font-title shadow-lg shadow-blue2/50 relative"
+      className="bg-sand font-title shadow-lg shadow-black/40  relative text-lg"
     >
-      <div className=" px-10 lg:px-20">
+      <div className=" px-10 lg:px-18">
         <div className="flex justify-between items-center py-4">
           {/* Menu desktop - caché sur mobile */}
-          <ul className="hidden lg:flex space-x-6">
+          <ul className="hidden lg:flex space-x-7">
             {links.map((link) => (
               <li key={link[0]}>
                 <Link
@@ -78,7 +78,7 @@ export default function Navbar() {
           <div>
             {/* Bouton de connexion */}
             <Link
-              className="bg-sand p-2 text-sm  border border-blue3 hover:border-sand rounded-lg hover:bg-blue3 text-blue3 text-center hover:text-sand transition-all duration-200 cursor-pointer;"
+              className="bg-sand p-2  border border-blue3 hover:border-sand rounded-lg hover:bg-blue3 text-blue3 text-center  hover:text-sand transition-all duration-200 cursor-pointer;"
               href="/signin"
             >
               Connexion

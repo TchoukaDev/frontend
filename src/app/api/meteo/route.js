@@ -1,22 +1,34 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  // transformer l'url en objet
+  // transformer l'URL en objet pour récupérer les query params
   const { searchParams } = new URL(req.url);
-  // récupérer les paramètre de l'URL (ici ?ville)
+
+  // récupérer la ville passée en paramètre, par défaut "Biscarrosse"
   const ville = searchParams.get("ville") || "Biscarrosse";
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${ville}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric&lang=fr`;
+
+  // encoder la ville pour éviter les caractères spéciaux qui cassent l'URL
+  const encodedVille = encodeURIComponent(ville);
+
+  // URL OpenWeather
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodedVille}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric&lang=fr`;
 
   try {
+    // fetch vers OpenWeather
     const response = await fetch(url);
+
+    // transformer la réponse en JSON
     const data = await response.json();
 
-    if (response.ok) {
-      return NextResponse.json(data, { status: 200 });
-    } else {
-      return NextResponse.json({ error: "Ville non trouvée" }, { status: 400 });
+    // On renvoie toujours status 200 avec un objet error
+    if (!response.ok) {
+      return NextResponse.json({ error: data.message });
     }
+
+    // Tout est OK, on renvoie les données météo
+    return NextResponse.json(data);
   } catch (error) {
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    // Si fetch échoue (réseau, clé invalide, timeout)
+    return NextResponse.json({ error: "Erreur serveur" });
   }
 }

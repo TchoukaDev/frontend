@@ -1,4 +1,5 @@
 "use client";
+
 export default function Button({ children }) {
-  return <button className="btn">{children}</button>;
+  return <button className={styles.btn}>{children}</button>;
 }

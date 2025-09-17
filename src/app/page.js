@@ -1,8 +1,11 @@
+import MeteoWidget from "@/components/MeteoWidgets/MeteoWidgets";
+
 export default function Home() {
   return (
     <section className="h-full">
       <div className="flex justify-center items-center h-[80vh]">
-        <div class="flex justify-center">
+        <MeteoWidget />
+        <div className="flex justify-center">
           <span className="animateLetter">B</span>
           <span className="animateLetter">i</span>
           <span className="animateLetter">e</span>

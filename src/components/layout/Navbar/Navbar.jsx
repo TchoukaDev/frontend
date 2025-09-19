@@ -77,10 +77,7 @@ export default function Navbar() {
           )}
           <div>
             {/* Bouton de connexion */}
-            <Link
-              className="bg-sand p-2  border border-blue3 hover:border-sand rounded-lg hover:bg-blue3 text-blue3 text-center  hover:text-sand transition-all duration-200 cursor-pointer;"
-              href="/signin"
-            >
+            <Link className="btn font-main text-sm " href="/signin">
               Connexion
             </Link>
           </div>

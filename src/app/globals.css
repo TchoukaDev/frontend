@@ -13,19 +13,25 @@
 
 @layer components {
   .btn {
-    @apply bg-sand p-2 text-sm border border-black hover:border-sand rounded-lg hover:bg-blue3 text-black text-center hover:text-sand transition-all duration-200 cursor-pointer;
+    @apply bg-blue3 p-3 text-sand  border border-blue3 hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-not-allowed;
   }
-  .header {
+  header {
     @apply flex flex-col lg:flex-row justify-center lg:justify-around gap-8 lg:gap-0  items-center bg-gradient-to-br from-blue3 to-blue1 text-sand p-12;
   }
   .input {
-    @apply placeholder:text-black bg-sand p-1.5 rounded focus:outline-blue3;
+    @apply w-full max-w-[350px] bg-sand border border-blue2 text-black placeholder:text-gray-500 rounded-md px-3 py-2 mb-3 focus:outline-2 focus:outline-blue3;
+  }
+  .label {
+    @apply block mb-2 text-black;
   }
   .animateLetter {
     @apply font-title text-7xl inline-block text-blue2 transform translate-y-0;
   }
   .footerLink {
     @apply hover:text-blue3 hover:underline transition-all duration-200;
+  }
+  h2 {
+    @apply font-title text-center text-2xl underline w-[300px] md:w-[500px] mx-auto bg-sand !text-blue3 my-7.5 p-2.5 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)] rounded-full;
   }
 }
 
@@ -35,10 +41,16 @@ body {
 @utility custom-gradient {
   @apply bg-gradient-to-br from-blue3 to-blue1;
 }
+@utility custom-gradient-light {
+  @apply bg-gradient-to-br from-blue2 to-blue1;
+}
 
 @utility shadowcustom {
   box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.4),
     0 -4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+@utility formError {
+  @apply text-red-500 text-sm font-semibold mt-1;
 }
 
 /* Lettres animées de bienvenue */

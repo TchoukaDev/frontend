@@ -1,8 +1,8 @@
-import Header from "@/components/Header/Header";
+import Header from "@/components/layout/Header/Header";
 import "./globals.css";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "@/components/layout/Navbar/Navbar";
 import QueryProvider from "@/components/Providers/QueryClientProvider/QueryClientProvider";
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/layout/Footer/Footer";
 
 export const metadata = {
   title: "Les randonneurs des sables",

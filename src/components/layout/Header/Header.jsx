@@ -1,5 +1,5 @@
 import Image from "next/image";
-import LoginForm from "../LoginForm/LoginForm";
+import LoginForm from "@/components/LoginForm/LoginForm";
 import Link from "next/link";
 
 export default function Header() {

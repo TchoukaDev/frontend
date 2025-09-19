@@ -13,20 +13,20 @@ export default function MeteoWidgetClient({ initialData }) {
   // Si pas de données initiales, afficher loading
   if (error) {
     return (
-      <div className="custom-gradient p-3 from-blue3 to-blue1 rounded-2xl border-2 border-blue1">
+      <div className="custom-gradient p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
         Une erreur est survenue lors du chargement de la meteo. {error.message}
       </div>
     );
   }
   if (isLoading) {
     return (
-      <div className="animate-pulse custom-gradient p-3 from-blue3 to-blue1 rounded-2xl border-2 border-blue1">
+      <div className="animate-pulse custom-gradient p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
         Chargement meteo en cours...
       </div>
     );
   }
   return (
-    <div className="custom-gradient p-3 from-blue3 to-blue1 grid grid-rows-[auto_1fr] grid-cols-[1fr_auto] text-center rounded-2xl border-2 text-lg font-semibold border-blue1 relative">
+    <div className="custom-gradient p-3 from-blue3 to-blue1 grid grid-rows-[auto_1fr] grid-cols-[1fr_auto] text-center rounded-xl border-2 text-lg font-semibold border-blue1 relative">
       <div className="col-span-2 p-1">{meteo.name}</div>
 
       <div className="flex flex-col">

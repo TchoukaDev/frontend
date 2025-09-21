@@ -1,23 +1,30 @@
 "use client";
 
-import { useHandleClickOutside } from "@/hooks/handleClickOutside";
+import Button from "@/components/ui/Button/Button";
+import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
 import { Menu, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function Navbar() {
   // Variables
   const Path = usePathname();
-  console.log(Path);
+  const routeur = useRouter();
+
   // State
   // Gère ouverture et fermeture navbar responsive
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   // Ref
   const navbarRef = useRef();
-  // Hook
+  // Hooks
+
   // Détecter le clic en dehors de la navbar pour la fermer
   useHandleClickOutside(navbarRef, () => setIsMenuOpen(false));
+  // Session
+  const { data: session } = useSession();
 
   const links = [
     ["Accueil", "/"],
@@ -25,16 +32,22 @@ export default function Navbar() {
     ["Marche aquatique", "/waterWalking"],
     ["Séances", "/sessions"],
     ["Informations", "/infos"],
-    ["Compétitions", "/competitions"],
+    ["Compétitions", "/competitions", "protected"],
     ["Galerie", "/gallery/"],
   ];
 
+  // Function
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const logOut = async () => {
+    await signOut({ redirect: false });
+    routeur.refresh();
   };
 
   return (
@@ -46,18 +59,22 @@ export default function Navbar() {
         <div className="flex justify-between items-center py-4">
           {/* Menu desktop - caché sur mobile */}
           <ul className="hidden lg:flex space-x-7">
-            {links.map((link) => (
-              <li key={link[0]}>
-                <Link
-                  href={link[1]}
-                  className={`hover:text-blue-600 transition-colors ${
-                    Path === link[1] ? "text-blue3" : "text-blue2"
-                  } duration-200`}
-                >
-                  {link[0]}
-                </Link>
-              </li>
-            ))}
+            {links.map((link) => {
+              if (link[2] === "protected" && !session?.user) return null;
+
+              return (
+                <li key={link[0]}>
+                  <Link
+                    href={link[1]}
+                    className={`hover:text-blue-600 transition-colors ${
+                      Path === link[1] ? "text-blue3" : "text-blue2"
+                    } duration-200`}
+                  >
+                    {link[0]}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {isMenuOpen ? (
@@ -76,10 +93,12 @@ export default function Navbar() {
             />
           )}
           <div>
-            {/* Bouton de connexion */}
-            <Link className="btn font-main text-sm " href="/signin">
-              Connexion
-            </Link>
+            {!session?.user ? (
+              /* Bouton de connexion */
+              <Button onClick={() => routeur.push("/login")}>Connexion</Button>
+            ) : (
+              <Button onClick={logOut}>Se déconnecter</Button>
+            )}
           </div>
         </div>
 
@@ -89,19 +108,23 @@ export default function Navbar() {
             isMenuOpen ? "max-h-96 pb-4" : "max-h-0"
           }`}
         >
-          {links.map((link) => (
-            <li key={link[0]} className="py-2">
-              <Link
-                href={link[1]}
-                onClick={closeMenu}
-                className={`block hover:text-blue-600 transition-colors ${
-                  Path === link[1] ? "text-blue3" : "text-blue2"
-                } duration-200`}
-              >
-                {link[0]}
-              </Link>
-            </li>
-          ))}
+          {links.map((link) => {
+            if (link[2] === "protected" && !session.user) return null;
+
+            return (
+              <li key={link[0]} className="py-2">
+                <Link
+                  href={link[1]}
+                  onClick={closeMenu}
+                  className={`block hover:text-blue-600 transition-colors ${
+                    Path === link[1] ? "text-blue3" : "text-blue2"
+                  } duration-200`}
+                >
+                  {link[0]}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>

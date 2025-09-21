@@ -19,10 +19,10 @@
     @apply flex flex-col lg:flex-row justify-center lg:justify-around gap-8 lg:gap-0  items-center bg-gradient-to-br from-blue3 to-blue1 text-sand p-12;
   }
   .input {
-    @apply w-full max-w-[350px] bg-sand border border-blue2 text-black placeholder:text-gray-500 rounded-md px-3 py-2 mb-3 focus:outline-2 focus:outline-blue3;
+    @apply w-full max-w-[300px] bg-sand border border-blue2 text-black placeholder:text-gray-500 rounded-md px-3 py-2 mb-3 focus:outline-2 focus:outline-blue3;
   }
   .label {
-    @apply block mb-2 text-black;
+    @apply block mb-2 max-w-[300px] mx-auto;
   }
   .animateLetter {
     @apply font-title text-7xl inline-block text-blue2 transform translate-y-0;
@@ -31,12 +31,12 @@
     @apply hover:text-blue3 hover:underline transition-all duration-200;
   }
   h2 {
-    @apply font-title text-center text-2xl underline w-[300px] md:w-[500px] mx-auto bg-sand !text-blue3 my-7.5 p-2.5 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)] rounded-full;
+    @apply font-title text-center text-2xl underline w-[300px] md:w-[500px] mx-auto bg-sand mt-7 mb-10 p-2.5 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)] rounded-full;
   }
 }
 
 body {
-  @apply flex flex-col  text-sand font-main bg-fixed bg-no-repeat bg-cover min-h-screen w-full bg-[url(/images/fond.jpg)];
+  @apply flex flex-col font-main bg-fixed bg-no-repeat bg-cover min-h-screen w-full bg-[url(/images/fond.jpg)];
 }
 @utility custom-gradient {
   @apply bg-gradient-to-br from-blue3 to-blue1;

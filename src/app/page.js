@@ -20,7 +20,7 @@ export default function Home() {
             <MeteoWidget />
 
             {/* Date */}
-            <div className="custom-gradient p-3  from-blue3 to-blue1 grid grid-rows-[auto_1fr] grid-cols-[1fr_auto] text-center rounded-xl border-2 text-lg font-semibold border-blue1 relative">
+            <div className="custom-gradient p-3 text-sand from-blue3 to-blue1 grid grid-rows-[auto_1fr] grid-cols-[1fr_auto] text-center rounded-xl border-2 text-lg font-semibold border-blue1 relative">
               {dateFr}
             </div>
           </div>

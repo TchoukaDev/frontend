@@ -3,10 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/utils/validation";
-import { startTransition, useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import { createUser } from "@/actions/create-user";
 import Button from "../ui/Button/Button";
-import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
@@ -23,6 +22,9 @@ export default function SignupForm() {
     reset,
     formState: { errors: clientErrors },
   } = useForm({ resolver: zodResolver(signUpSchema), mode: "onChange" });
+
+  const firstnameRegister = register("firstname");
+  const firstnameRef = useRef();
 
   // Envoi du formulaire au serveur
   const onSubmit = (data) => {
@@ -41,6 +43,11 @@ export default function SignupForm() {
     }
   }, [serverState, isPending, reset]);
 
+  // Focus au chargement de la page
+  useEffect(() => {
+    firstnameRef.current.focus();
+  }, []);
+
   return (
     <form
       method="POST"
@@ -56,7 +63,11 @@ export default function SignupForm() {
           <input
             type="text"
             id="firstname"
-            {...register("firstname")}
+            {...firstnameRegister}
+            ref={(e) => {
+              firstnameRegister.ref(e);
+              firstnameRef.current = e;
+            }}
             placeholder="Votre prénom"
             autoComplete="given-name"
             className="input"

@@ -1,6 +1,6 @@
 "use server";
 
-import { getCollection } from "@/app/libs/mongodb";
+import { getCollection } from "@/libs/mongodb";
 import { signUpSchema } from "@/utils/validation";
 import bcrypt from "bcrypt";
 

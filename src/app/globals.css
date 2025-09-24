@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Delius&display=swap");
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
+
 @theme {
   --color-sand: #f7eedd;
   --color-blue1: #ace2e1;
@@ -13,7 +15,7 @@
 
 @layer components {
   .btn {
-    @apply bg-blue3 p-3 text-sand  border border-blue3 hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-not-allowed;
+    @apply bg-blue3 p-3 text-sand  border border-blue2   hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-not-allowed;
   }
   header {
     @apply flex flex-col lg:flex-row justify-center lg:justify-around gap-8 lg:gap-0  items-center bg-gradient-to-br from-blue3 to-blue1 text-sand p-12;
@@ -31,7 +33,10 @@
     @apply hover:text-blue3 hover:underline transition-all duration-200;
   }
   h2 {
-    @apply font-title text-center text-2xl underline w-[300px] md:w-[500px] mx-auto bg-sand mt-7 mb-10 p-2.5 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)] rounded-full;
+    @apply font-title text-center text-2xl md:text-3xl text-gray-900 underline w-[300px] md:w-[500px] mx-auto mt-10 mb-15 p-2.5 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)] rounded-full;
+  }
+  h3 {
+    @apply text-sand  font-semibold;
   }
 }
 
@@ -42,7 +47,10 @@ body {
   @apply bg-gradient-to-br from-blue3 to-blue1;
 }
 @utility custom-gradient-light {
-  @apply bg-gradient-to-br from-blue2 to-blue1;
+  @apply bg-gradient-to-br from-blue1 to-sand;
+}
+@utility custom-gradient-dark {
+  @apply bg-gradient-to-br from-blue3 to-blue2;
 }
 
 @utility shadowcustom {
@@ -52,7 +60,17 @@ body {
 @utility formError {
   @apply text-red-500 text-sm font-semibold mt-1;
 }
+@utility scroll-container {
+  @apply flex flex-row justify-start items-center custom-gradient-dark border-4 border-blue3 rounded-4xl mb-15 mx-auto overflow-hidden w-full md:w-[400px] max-w-full py-2;
+}
+@utility scroll {
+  @apply inline-block will-change-transform text-sand;
+}
 
+.scroll-left,
+.scroll-right {
+  @apply scroll;
+}
 /* Lettres animées de bienvenue */
 .animateLetter {
   @apply font-title text-5xl md:text-7xl -mt-20 md:mt-0 text-blue2;

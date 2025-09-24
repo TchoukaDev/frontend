@@ -28,7 +28,7 @@ export default function Navbar() {
 
   const links = [
     ["Accueil", "/"],
-    ["Présentation", "/presentation"],
+    ["Le club", "/club"],
     ["Marche aquatique", "/waterWalking"],
     ["Séances", "/sessions"],
     ["Informations", "/infos"],
@@ -56,9 +56,9 @@ export default function Navbar() {
       className="bg-sand font-title shadow-lg shadow-black/40  relative text-lg"
     >
       <div className=" px-10 lg:px-18">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between xl:justify-center items-center py-4 ">
           {/* Menu desktop - caché sur mobile */}
-          <ul className="hidden lg:flex space-x-7">
+          <ul className="hidden lg:flex space-x-9">
             {links.map((link) => {
               if (link[2] === "protected" && !session?.user) return null;
 
@@ -92,12 +92,16 @@ export default function Navbar() {
               aria-label="Toggle menu"
             />
           )}
-          <div>
+          <div className="absolute right-10">
             {!session?.user ? (
               /* Bouton de connexion */
-              <Button onClick={() => routeur.push("/login")}>Connexion</Button>
+              <Button sm onClick={() => routeur.push("/login")}>
+                Connexion
+              </Button>
             ) : (
-              <Button onClick={logOut}>Se déconnecter</Button>
+              <Button sm onClick={logOut}>
+                Se déconnecter
+              </Button>
             )}
           </div>
         </div>
@@ -109,7 +113,7 @@ export default function Navbar() {
           }`}
         >
           {links.map((link) => {
-            if (link[2] === "protected" && !session.user) return null;
+            if (link[2] === "protected" && !session?.user) return null;
 
             return (
               <li key={link[0]} className="py-2">

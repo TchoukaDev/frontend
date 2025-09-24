@@ -1,6 +1,4 @@
 import Image from "next/image";
-import LoginForm from "@/components/LoginForm/LoginForm";
-import Link from "next/link";
 
 export default function Header() {
   return (
@@ -16,7 +14,7 @@ export default function Header() {
         />
       </div>
       {/* Titre */}
-      <h1 className="text-center font-title text-3xl md:text-4xl">
+      <h1 className="text-center font-title text-4xl md:text-5xl">
         ~~ Marche Aquatique ~~ <br />
         Les randonneurs des Sables du Born
       </h1>{" "}

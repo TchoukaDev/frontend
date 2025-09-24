@@ -1,4 +1,4 @@
-import { getCollection } from "@/app/libs/mongodb";
+import { getCollection } from "@/libs/mongodb";
 import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 // Import du provider Credentials, qui permet une connexion avec email + mot de passe.

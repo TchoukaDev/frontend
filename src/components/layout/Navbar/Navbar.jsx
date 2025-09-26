@@ -53,7 +53,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navbarRef}
-      className="bg-sand font-title shadow-lg shadow-black/40  relative text-lg"
+      className="bg-sand font-title shadow-lg shadow-black/40 z-1000 sticky top-0 text-lg"
     >
       <div className=" px-10 lg:px-18">
         <div className="flex justify-between xl:justify-center items-center py-4 ">

@@ -22,7 +22,7 @@ export default async function Presentation() {
         </section>
         <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
           <AnimatedTitle as="h3">{data?.titre2}</AnimatedTitle>
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
             {animateurs.map((anim) => (
               <div
                 key={anim.id}

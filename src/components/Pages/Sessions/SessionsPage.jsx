@@ -2,11 +2,9 @@
 import PdfThumbnail from "@/components/PdfThumbnail/PdfThumbnail";
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
-import { fetchStrapi } from "@/utils/fetchStrapi";
 
-export default async function Sessions() {
-  // Récupération des données depuis Strapi avec cache de 300 secondes
-  const sessions = await fetchStrapi("seance/optimized", 300);
+export default async function SessionsPage({ data }) {
+  const sessions = data;
 
   // Extraction des tableaux de séances et des documents PDF
   const tableaux = sessions.tableau;

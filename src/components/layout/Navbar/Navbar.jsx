@@ -29,11 +29,11 @@ export default function Navbar() {
   const links = [
     ["Accueil", "/"],
     ["Le club", "/club"],
-    ["Marche aquatique", "/waterWalking"],
-    ["Séances", "/sessions"],
+    ["Marche aquatique", "/marche-aquatique"],
+    ["Séances", "/seances"],
     ["Informations", "/infos"],
     ["Compétitions", "/competitions", "protected"],
-    ["Galerie", "/gallery/"],
+    ["Galerie", "/galerie/"],
   ];
 
   // Function

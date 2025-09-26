@@ -4,8 +4,7 @@ import { fetchStrapi } from "@/utils/fetchStrapi";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
-export default async function Presentation() {
-  const data = await fetchStrapi("club/optimized", 300);
+export default async function ClubPage({ data }) {
   const animateurs = data.animateurs;
 
   return (

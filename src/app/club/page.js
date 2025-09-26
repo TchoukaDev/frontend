@@ -10,7 +10,7 @@ export default async function Presentation() {
 
   return (
     <Card>
-      <h2>Le club</h2>
+      <h2>{data.titreprincipal}</h2>
       <div className="space-y-10">
         <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
           <AnimatedTitle as="h3" odd>

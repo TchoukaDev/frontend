@@ -4,11 +4,12 @@ import { fetchStrapi } from "@/utils/fetchStrapi";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 export default async function WaterWalking() {
-  const sections = await fetchStrapi("marche-aquatique/optimized", 300);
+  const data = await fetchStrapi("marche-aquatique/optimized", 300);
+  const sections = data.sections;
 
   return (
     <Card>
-      <h2>La marche aquatique</h2>
+      <h2>{data.titreprincipal}</h2>
       <div className="space-y-10">
         {sections.map(
           (

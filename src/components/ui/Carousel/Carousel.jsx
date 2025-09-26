@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const Carousel = ({ images, strapiUrl }) => {
+const Carousel = ({ images = [], strapiUrl }) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = vers la droite, -1 = vers la gauche
-  const [paused, setPaused] = useState(false); // <-- nouveau state
-  console.log(images);
+  const [paused, setPaused] = useState(false);
+
   const nextSlide = () => {
     setDirection(1);
-    setIndex((prev) => (prev + 1) % images.length);
+    setIndex((prev) => (prev + 1) % images?.length);
   };
 
   const prevSlide = () => {
     setDirection(-1);
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
+    setIndex((prev) => (prev - 1 + images?.length) % images?.length);
   };
 
   const variants = {
@@ -36,7 +36,7 @@ const Carousel = ({ images, strapiUrl }) => {
 
     const timeout = setTimeout(() => {
       setDirection(1);
-      setIndex((prev) => (prev + 1) % images.length);
+      setIndex((prev) => (prev + 1) % images?.length);
     }, 5000);
 
     return () => clearTimeout(timeout); // nettoyage
@@ -44,7 +44,7 @@ const Carousel = ({ images, strapiUrl }) => {
 
   return (
     <div className="space-y-20">
-      <div className="relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+      <div className="relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl shadow-blue3/40 border border-blue2">
         {/* Zone d’affichage */}
         <div className="relative h-64 md:h-96">
           <AnimatePresence mode="wait" custom={direction}>
@@ -58,14 +58,20 @@ const Carousel = ({ images, strapiUrl }) => {
               transition={{ duration: 0.5 }}
               className="absolute w-full h-full"
             >
-              <Image
-                src={`${strapiUrl}${images[index].url}`}
-                alt={`Slide ${index + 1}`}
-                fill
-                unoptimized
-                className="object-cover"
-                priority={index === 0}
-              />
+              {images?.length < 1 ? (
+                <div className="font-semibold flex justify-center items-center h-full">
+                  Aucune image n'a été publiée pour le moment
+                </div>
+              ) : (
+                <Image
+                  src={`${strapiUrl}${images[index]?.url}`}
+                  alt={`Slide ${index + 1}`}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  priority={index === 0}
+                />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -92,7 +98,7 @@ const Carousel = ({ images, strapiUrl }) => {
 
         {/* Indicateurs */}
         <div className="absolute bottom-4 w-full flex justify-center space-x-2">
-          {images.map((_, i) => (
+          {images?.map((_, i) => (
             <button
               key={i}
               onClick={() => {
@@ -109,15 +115,15 @@ const Carousel = ({ images, strapiUrl }) => {
         </div>
       </div>
       <div className="flex gap-20 flex-wrap items-center justify-center">
-        {images.map((image, i) => (
+        {images?.map((image, i) => (
           <Image
             onClick={() => {
               setDirection(i > index ? 1 : -1);
               setIndex(i);
             }}
-            key={image.id}
+            key={image?.id}
             src={`${strapiUrl}${image.url}`}
-            alt={image.alternativeText}
+            alt={image?.alternativeText}
             width={100}
             height={100}
             unoptimized

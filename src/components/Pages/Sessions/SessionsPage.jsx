@@ -39,15 +39,15 @@ export default async function SessionsPage({ data }) {
   return (
     <Card>
       {/* Titre principal de la page */}
-      <h2>Les horaires et sites de séances</h2>
+      <h1>Les horaires et sites de séances</h1>
 
       {/* Container principal avec espacement entre sections */}
       <div className="space-y-10">
         {/* Section 1 : Tableaux des horaires */}
-        <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
+        <section className="section">
           <div className="space-y-12">
             {/* Titre animé de la section */}
-            <AnimatedTitle as="h3" odd>
+            <AnimatedTitle as="h2" odd>
               {sessions.titre1}
             </AnimatedTitle>
 
@@ -55,19 +55,20 @@ export default async function SessionsPage({ data }) {
             {tableaux.map((tableau) => (
               <div className="space-y-6 text-black" key={tableau.id}>
                 {/* Dates de validité du tableau */}
-                <p className="text-center underline">{tableau.dates}</p>
+                <p className="text-center underline prose max-w-none">
+                  {tableau.dates}
+                </p>
 
                 {/* Container responsive pour le tableau */}
                 <div className="w-full px-2 sm:px-4 md:px-0">
                   {/* Container avec scroll horizontal si nécessaire */}
                   <div className="overflow-x-auto">
                     {/* Tableau responsive :
-                        - w-full sur mobile pour utiliser toute la largeur
-                        - md:w-[70%] sur desktop pour centrer avec marges
+       
                     */}
-                    <table className="table-auto border-collapse w-full md:w-[70%] mx-auto">
+                    <table className="table-auto border-collapse bg-blue1 w-full md:w-[70%] mx-auto">
                       {/* En-tête du tableau avec fond gris clair */}
-                      <thead className="bg-gray-50">
+                      <thead className="bg-blue-50">
                         <tr>
                           {daysArray.map((day, index) => (
                             <th
@@ -116,7 +117,7 @@ export default async function SessionsPage({ data }) {
 
                   {/* Commentaire optionnel sous le tableau */}
                   {tableau.commentaire && (
-                    <p className="text-center font-semibold mt-4 px-2 text-sm sm:text-base">
+                    <p className="text-center font-semibold prose max-w-none mt-4 px-2 text-sm sm:text-base">
                       {tableau.commentaire}
                     </p>
                   )}
@@ -127,9 +128,9 @@ export default async function SessionsPage({ data }) {
         </section>
 
         {/* Section 2 : Documents PDF */}
-        <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
+        <section className="section">
           {/* Titre animé de la section documents */}
-          <AnimatedTitle as="h3">{sessions.titre2}</AnimatedTitle>
+          <AnimatedTitle as="h2">{sessions.titre2}</AnimatedTitle>
 
           {/* Container pour les PDF avec espacement important */}
           <div className="space-y-20">

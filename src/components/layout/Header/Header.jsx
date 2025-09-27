@@ -14,10 +14,10 @@ export default function Header() {
         />
       </div>
       {/* Titre */}
-      <h1 className="text-center font-title text-4xl md:text-5xl">
+      <div className="text-center font-title text-4xl md:text-5xl">
         ~~ Marche Aquatique ~~ <br />
         Les randonneurs des Sables du Born
-      </h1>{" "}
+      </div>{" "}
       <div className="w-[60px] md:w-[80px]">
         <Image
           width={80}

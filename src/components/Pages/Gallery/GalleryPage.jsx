@@ -7,8 +7,10 @@ export default async function GalleryPage({ data }) {
 
   return (
     <Card>
-      <h2>{data.titreprincipal}</h2>
-      <Carousel strapiUrl={strapiUrl} images={photos} />
+      <h1>{data.titreprincipal}</h1>
+      <section className="section">
+        <Carousel strapiUrl={strapiUrl} images={photos} />
+      </section>
     </Card>
   );
 }

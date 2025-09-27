@@ -1,6 +1,5 @@
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
-import { fetchStrapi } from "@/utils/fetchStrapi";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
@@ -9,23 +8,32 @@ export default async function ClubPage({ data }) {
 
   return (
     <Card>
-      <h2>{data.titreprincipal}</h2>
+      {/* Titre de la page */}
+      <h1>{data.titreprincipal}</h1>
+
       <div className="space-y-10">
-        <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
-          <AnimatedTitle as="h3" odd>
+        <section className="section">
+          {/* Titre défilant */}
+          <AnimatedTitle as="h2" odd>
             {data?.titre1}
           </AnimatedTitle>
+
+          {/* Contenu */}
           <div className="prose max-w-none prose-p:mb-2">
             <BlocksRenderer content={data?.contenu} />
           </div>
         </section>
-        <section className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10">
-          <AnimatedTitle as="h3">{data?.titre2}</AnimatedTitle>
+
+        <section className="section">
+          {/* Titre défilant */}
+          <AnimatedTitle as="h2">{data?.titre2}</AnimatedTitle>
+
+          {/* Photos */}
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
             {animateurs.map((anim) => (
               <div
                 key={anim.id}
-                className="flex flex-col justify-around items-center gap-2"
+                className="flex flex-col justify-between items-center gap-2"
               >
                 <Image
                   width={80}
@@ -35,7 +43,9 @@ export default async function ClubPage({ data }) {
                   className="object-cover"
                   alt={anim.file.alternativeText}
                 />
-                <div className="text-center">{anim.file.caption}</div>
+                <div className="text-center prose grow">
+                  {anim.file.caption}
+                </div>
               </div>
             ))}
           </div>

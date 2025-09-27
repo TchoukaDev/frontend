@@ -6,7 +6,7 @@ export default function Button({ children, disabled, margin, onClick, sm }) {
       onClick={onClick}
       type="submit"
       disabled={disabled}
-      className={`btn ${margin} ${sm && "text-sm"}`}
+      className={`btn ${margin} disabled:cursor-not-allowed ${sm && "text-sm"}`}
     >
       {children}
     </button>

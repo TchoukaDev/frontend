@@ -8,17 +8,14 @@ export default async function WaterWalkingPage({ data }) {
 
   return (
     <Card>
-      <h2>{data.titreprincipal}</h2>
+      <h1>{data.titreprincipal}</h1>
       <div className="space-y-10">
         {sections.map(
           (
             section,
             index, // ← Ajouter index
           ) => (
-            <section
-              key={section.id}
-              className="not-last:border-b-2 border-dotted border-blue3 px-8 pt-0 pb-10"
-            >
+            <section key={section.id} className="section">
               <AnimatedTitle odd={index % 2 === 0}>
                 {" "}
                 {/* ← Passer odd */}

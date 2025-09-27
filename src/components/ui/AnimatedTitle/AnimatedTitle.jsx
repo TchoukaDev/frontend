@@ -2,7 +2,7 @@
 import { TextScroll } from "@/utils/TextScroll";
 import { useEffect, useId } from "react";
 
-export default function AnimatedTitle({ children, as: Heading = "h3", odd }) {
+export default function AnimatedTitle({ children, as: Heading = "h2", odd }) {
   const uniqueId = useId();
   const containerId = `container-${uniqueId}`;
   const textId = `text-${uniqueId}`;

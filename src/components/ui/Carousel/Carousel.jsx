@@ -128,7 +128,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
             height={100}
             unoptimized
             className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-              i === index && "border-3 border-blue3"
+              i === index && "border-3 border-blue3 shadow-lg"
             }`}
           />
         ))}

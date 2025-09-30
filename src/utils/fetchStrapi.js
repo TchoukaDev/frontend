@@ -1,14 +1,19 @@
+// utils/fetchStrapi.js
 export async function fetchStrapi(endpoint, cache) {
-  const response = await fetch(`${process.env.STRAPI_API}/api/${endpoint}`, {
-    next: { revalidate: cache },
-  });
+  try {
+    const response = await fetch(`${process.env.STRAPI_API}/api/${endpoint}`, {
+      next: { revalidate: cache },
+    });
 
-  if (!response.ok) {
-    console.error(response.status, response.statusText);
-    return null;
+    if (!response.ok) {
+      console.log(`Strapi ${endpoint}: ${response.status}`);
+      return { data: {} }; // ✅ Structure Strapi vide
+    }
+
+    const data = await response.json();
+    return data || { data: {} };
+  } catch (error) {
+    console.log(`Fetch error: ${error.message}`);
+    return { data: {} }; // ✅ Structure Strapi vide
   }
-
-  const data = await response.json();
-
-  return data || {};
 }

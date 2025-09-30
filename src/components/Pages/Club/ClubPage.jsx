@@ -39,13 +39,13 @@ export default async function ClubPage({ data = {} }) {
                 <Image
                   width={80}
                   height={80}
-                  src={`${process.env.STRAPI_API}${anim.file.url}`}
+                  src={`${process.env.STRAPI_API}${anim.file?.url}`}
                   unoptimized
                   className="object-cover"
-                  alt={anim.file.alternativeText}
+                  alt={anim.file?.alternativeText}
                 />
                 <div className="text-center prose grow">
-                  {anim.file.caption}
+                  {anim.file?.caption}
                 </div>
               </div>
             ))}

@@ -4,9 +4,7 @@ import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
 export default async function ClubPage({ data = {} }) {
-  console.log(data);
   const animateurs = data.animateurs || [];
-  console.log(animateurs);
   return (
     <Card>
       {/* Titre de la page */}
@@ -30,26 +28,28 @@ export default async function ClubPage({ data = {} }) {
           <AnimatedTitle as="h2">{data.titre2}</AnimatedTitle>
 
           {/* Photos */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
-            {animateurs?.map((anim) => (
-              <div
-                key={anim.id}
-                className="flex flex-col justify-between items-center gap-2"
-              >
-                <Image
-                  width={80}
-                  height={80}
-                  src={`${process.env.STRAPI_API}${anim.file?.url}`}
-                  unoptimized
-                  className="object-cover"
-                  alt={anim.file?.alternativeText}
-                />
-                <div className="text-center prose grow">
-                  {anim.file?.caption}
+          {animateurs.lenght > 0 && (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
+              {animateurs?.map((anim) => (
+                <div
+                  key={anim.id}
+                  className="flex flex-col justify-between items-center gap-2"
+                >
+                  <Image
+                    width={80}
+                    height={80}
+                    src={`${process.env.STRAPI_API}${anim.file?.url}`}
+                    unoptimized
+                    className="object-cover"
+                    alt={anim.file?.alternativeText}
+                  />
+                  <div className="text-center prose grow">
+                    {anim.file?.caption}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </Card>

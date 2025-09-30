@@ -36,7 +36,6 @@ export default function MeteoWidgetClient({ initialData }) {
 
       <div className="flex justify-center items-center   col-start-2">
         <Image
-          unoptimized
           width={40}
           height={40}
           src={`https://openweathermap.org/img/wn/${meteo.weather[0].icon}@2x.png`}

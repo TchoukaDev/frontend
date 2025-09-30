@@ -63,7 +63,6 @@ export default async function Info({ params }) {
               alt={image.alternativeText}
               width={300}
               height={200}
-              unoptimized
             />
           </div>
         ))}

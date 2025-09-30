@@ -19,7 +19,6 @@ export default function Publication({ data }) {
                 width={300}
                 height={300}
                 className="object-contain"
-                unoptimized
                 alt={article.image.alternativeText}
               />
             )}

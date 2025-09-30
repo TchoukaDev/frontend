@@ -39,7 +39,6 @@ export default async function ClubPage({ data = {} }) {
                     width={80}
                     height={80}
                     src={`${process.env.STRAPI_API}${anim.file?.url}`}
-                    unoptimized
                     className="object-cover"
                     alt={anim.file?.alternativeText}
                   />

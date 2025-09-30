@@ -67,7 +67,6 @@ const Carousel = ({ images = [], strapiUrl }) => {
                   src={`${strapiUrl}${images[index].url}`}
                   alt={`Slide ${index + 1}`}
                   fill
-                  unoptimized
                   className="object-cover"
                   priority={index === 0}
                 />
@@ -126,7 +125,6 @@ const Carousel = ({ images = [], strapiUrl }) => {
             alt={image.alternativeText}
             width={100}
             height={100}
-            unoptimized
             className={`object-cover aspect-square rounded cursor-pointer transition-all ${
               i === index && "border-3 border-blue3 shadow-lg"
             }`}

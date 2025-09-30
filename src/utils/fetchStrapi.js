@@ -5,9 +5,7 @@ export async function fetchStrapi(endpoint, cache) {
 
   if (!response.ok) {
     console.error(response.status, response.statusText);
-    throw new Error(
-      "Une erreur est survenue lors de la récupération des données",
-    );
+    return null;
   }
 
   const data = await response.json();

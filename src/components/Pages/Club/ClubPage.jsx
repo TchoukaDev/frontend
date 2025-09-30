@@ -30,7 +30,7 @@ export default async function ClubPage({ data = {} }) {
 
           {/* Photos */}
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
-            {animateurs.map((anim) => (
+            {animateurs?.map((anim) => (
               <div
                 key={anim.id}
                 className="flex flex-col justify-between items-center gap-2"

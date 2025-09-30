@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Carousel = ({ images = [], strapiUrl }) => {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = vers la droite, -1 = vers la gauche
+  const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
 
   const nextSlide = () => {
@@ -31,21 +31,36 @@ const Carousel = ({ images = [], strapiUrl }) => {
     }),
   };
 
+  // Auto-play
   useEffect(() => {
-    if (paused) return; // <-- si en pause, on ne lance pas de timeout
+    if (paused || images.length === 0) return;
 
     const timeout = setTimeout(() => {
       setDirection(1);
       setIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
-    return () => clearTimeout(timeout); // nettoyage
-  }, [index, paused]);
+    return () => clearTimeout(timeout);
+  }, [index, paused, images.length]);
+
+  // Préchargement des images adjacentes
+  useEffect(() => {
+    if (images.length === 0) return;
+
+    // Précharge l'image suivante et précédente
+    const nextIndex = (index + 1) % images.length;
+    const prevIndex = (index - 1 + images.length) % images.length;
+
+    [nextIndex, prevIndex].forEach((i) => {
+      const img = new window.Image();
+      img.src = `${strapiUrl}${images[i].url}`;
+    });
+  }, [index, images, strapiUrl]);
 
   return (
     <div className="space-y-20">
       <div className="relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl shadow-blue3/40 border border-blue2">
-        {/* Zone d’affichage */}
+        {/* Zone d'affichage */}
         <div className="relative h-64 md:h-96">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -65,10 +80,11 @@ const Carousel = ({ images = [], strapiUrl }) => {
               ) : (
                 <Image
                   src={`${strapiUrl}${images[index].url}`}
-                  alt={`Slide ${index + 1}`}
+                  alt={images[index].alternativeText || `Slide ${index + 1}`}
                   fill
                   className="object-cover"
                   priority={index === 0}
+                  sizes="(max-width: 768px) 95vw, 768px"
                 />
               )}
             </motion.div>
@@ -81,6 +97,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow cursor-pointer opacity-60 hover:opacity-80 transition-all"
+          aria-label="Image précédente"
         >
           ◀
         </button>
@@ -91,6 +108,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow cursor-pointer opacity-60 hover:opacity-80 transition-all"
+          aria-label="Image suivante"
         >
           ▶
         </button>
@@ -106,13 +124,16 @@ const Carousel = ({ images = [], strapiUrl }) => {
               }}
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
-              className={`w-3 h-3 rounded-full cursor-pointer ${
+              className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
                 i === index ? "bg-white" : "bg-gray-400/70"
               }`}
+              aria-label={`Aller à l'image ${i + 1}`}
             />
           ))}
         </div>
       </div>
+
+      {/* Miniatures avec préchargement au survol */}
       <div className="flex gap-20 flex-wrap items-center justify-center">
         {images.map((image, i) => (
           <Image
@@ -120,14 +141,20 @@ const Carousel = ({ images = [], strapiUrl }) => {
               setDirection(i > index ? 1 : -1);
               setIndex(i);
             }}
+            onMouseEnter={() => {
+              // Précharge l'image en grand au survol de la miniature
+              const img = new window.Image();
+              img.src = `${strapiUrl}${image.url}`;
+            }}
             key={image.id}
             src={`${strapiUrl}${image.url}`}
-            alt={image.alternativeText}
+            alt={image.alternativeText || `Miniature ${i + 1}`}
             width={100}
             height={100}
             className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-              i === index && "border-3 border-blue3 shadow-lg"
+              i === index ? "border-3 border-blue3 shadow-lg" : ""
             }`}
+            priority={i < 3}
           />
         ))}
       </div>

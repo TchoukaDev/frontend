@@ -1,4 +1,3 @@
-"use server";
 import Card from "@/components/ui/Card/Card";
 import BlocksRendererWrapper from "@/components/Utils/BlockRendererWrapper/BlocksRendererWrapper";
 import { fetchStrapi } from "@/utils/fetchStrapi";
@@ -10,7 +9,7 @@ import { formatDate } from "@/utils/formatDate";
 export default async function Info({ params }) {
   const { slug } = await params;
   const response = await fetchStrapi(`infos/${slug}`, 300);
-  const data = response.data || {};
+  const data = response?.data || {};
   const documents = data.documents || [];
   const images = data.images || [];
 
@@ -37,7 +36,7 @@ export default async function Info({ params }) {
           {data.titre}
         </h1>{" "}
         <div className="prose max-w-none my-5">
-          <BlocksRendererWrapper content={data.contenu} />
+          <BlocksRendererWrapper content={data?.contenu || []} />
         </div>
         {documents.map((doc) => (
           <div
@@ -71,4 +70,23 @@ export default async function Info({ params }) {
       </section>
     </Card>
   );
+}
+
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  try {
+    const data = await fetchStrapi("infos?pagination[limit]=100", 300);
+
+    // ✅ Vérifiez la structure - probablement data.data, pas data.infos
+    const infos = data?.data || [];
+
+    // ✅ RETOURNEZ le résultat du map avec la bonne syntaxe
+    return infos.map((info) => ({
+      slug: info.slug,
+    }));
+  } catch (e) {
+    console.error(e.message);
+    return []; // ✅ Bon fallback
+  }
 }

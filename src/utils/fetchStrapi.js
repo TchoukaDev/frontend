@@ -1,4 +1,3 @@
-// utils/fetchStrapi.js
 export async function fetchStrapi(endpoint, cache) {
   try {
     const response = await fetch(`${process.env.STRAPI_API}/api/${endpoint}`, {
@@ -6,14 +5,14 @@ export async function fetchStrapi(endpoint, cache) {
     });
 
     if (!response.ok) {
-      console.log(`Strapi ${endpoint}: ${response.status}`);
-      return {}; // ✅ Structure Strapi vide
+      console.error(response.status, response.statusText);
+      return {}; // ✅ Changez juste ça : return null au lieu de throw
     }
 
     const data = await response.json();
-    return data || { data: {} };
-  } catch (error) {
-    console.log(`Fetch error: ${error.message}`);
-    return {}; // ✅ Structure Strapi vide
+    return data || {};
+  } catch (e) {
+    console.error(e.message);
+    return {};
   }
 }

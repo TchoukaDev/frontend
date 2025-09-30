@@ -3,7 +3,7 @@ import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import { useEffect, useRef } from "react";
 
 // Wrapper pour ajouter la propriété target = _blank dans les liens externes du contenu
-export default function BlocksRendererWrapper({ content, noLinks }) {
+export default function BlocksRendererWrapper({ content = [], noLinks }) {
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function BlocksRendererWrapper({ content, noLinks }) {
   if (noLinks) {
     return (
       <BlocksRenderer
-        content={content}
+        content={content || []}
         blocks={{
           link: ({ children }) => (
             <span className="text-blue-600 underline">{children}</span>
@@ -31,7 +31,7 @@ export default function BlocksRendererWrapper({ content, noLinks }) {
 
   return (
     <div ref={contentRef} className="prose max-w-none">
-      <BlocksRenderer content={content} />
+      <BlocksRenderer content={content || []} />
     </div>
   );
 }

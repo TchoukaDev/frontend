@@ -28,7 +28,7 @@ export default async function Page({ params }) {
   return <PageComponent data={data} />;
 }
 
-const revalidate = 300;
+export const revalidate = 300;
 
 // Pour que Next.js génère les pages statiques
 export function generateStaticParams() {

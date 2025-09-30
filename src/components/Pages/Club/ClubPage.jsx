@@ -20,7 +20,7 @@ export default async function ClubPage({ data = {} }) {
 
           {/* Contenu */}
           <div className="prose max-w-none">
-            <BlocksRenderer content={data.contenu} />
+            <BlocksRenderer content={data.contenu || []} />
           </div>
         </section>
 

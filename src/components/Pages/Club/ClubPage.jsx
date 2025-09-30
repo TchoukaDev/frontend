@@ -28,7 +28,7 @@ export default async function ClubPage({ data = {} }) {
           <AnimatedTitle as="h2">{data.titre2}</AnimatedTitle>
 
           {/* Photos */}
-          {animateurs.lenght > 0 && (
+          {animateurs.length > 0 && (
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
               {animateurs?.map((anim) => (
                 <div

@@ -167,12 +167,12 @@ export default function SignupForm() {
             className="input"
           />
           {/* Erreur côté client */}
-          {clientErrors.paswword && (
+          {clientErrors.password && (
             <p className="formError">{clientErrors.paswword.message}</p>
           )}
           {/* Erreur côté serveur */}
-          {serverState?.fieldErrors?.paswword && !clientErrors.paswword && (
-            <p className="formError">{serverState.fieldErrors.paswword}</p>
+          {serverState?.fieldErrors?.password && !clientErrors.password && (
+            <p className="formError">{serverState.fieldErrors.password}</p>
           )}
         </div>
 

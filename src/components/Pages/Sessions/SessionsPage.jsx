@@ -5,7 +5,7 @@ import Card from "@/components/ui/Card/Card";
 
 export default async function SessionsPage({ data = {} }) {
   const sessions = data;
-
+  console.log(data);
   // Extraction des tableaux de séances et des documents PDF
   const tableaux = sessions.tableau || [];
   const docs = sessions.pdf || [];
@@ -39,7 +39,7 @@ export default async function SessionsPage({ data = {} }) {
   return (
     <Card>
       {/* Titre principal de la page */}
-      <h1>Les horaires et sites de séances</h1>
+      <h1>{sessions?.titreprincipal}</h1>
 
       {/* Container principal avec espacement entre sections */}
       <div className="space-y-10">

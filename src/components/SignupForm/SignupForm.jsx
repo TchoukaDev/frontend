@@ -168,7 +168,7 @@ export default function SignupForm() {
           />
           {/* Erreur côté client */}
           {clientErrors.password && (
-            <p className="formError">{clientErrors.paswword.message}</p>
+            <p className="formError">{clientErrors.password.message}</p>
           )}
           {/* Erreur côté serveur */}
           {serverState?.fieldErrors?.password && !clientErrors.password && (

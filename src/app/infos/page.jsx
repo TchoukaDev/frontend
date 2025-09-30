@@ -143,7 +143,6 @@ export default async function InfosPage({ searchParams }) {
         ) : (
           // État vide - également rendu côté serveur
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">📭</div>
             <p className="text-gray-500 text-lg">
               Aucune information disponible pour le moment.
             </p>

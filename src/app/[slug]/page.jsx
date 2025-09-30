@@ -1,7 +1,5 @@
-// app/[slug]/page.jsx
-
 import ClubPage from "@/components/Pages/Club/ClubPage";
-import CompetitionsPage from "@/components/Pages/Competitions/CompetitionsPage";
+// import CompetitionsPage from "@/components/Pages/Competitions/CompetitionsPage";
 import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
 import SessionsPage from "@/components/Pages/Sessions/SessionsPage";
 import WaterWalkingPage from "@/components/Pages/WaterWalking/WaterWalking";
@@ -25,7 +23,7 @@ export default async function Page({ params }) {
     return notFound(); // ← Pas de fetch si slug invalide
   }
 
-  const data = await fetchStrapi(`${slug}/optimized`, 300);
+  const data = (await fetchStrapi(`${slug}/optimized`, 300)) || {};
   return <PageComponent data={data} />;
 }
 

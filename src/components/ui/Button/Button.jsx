@@ -1,12 +1,12 @@
 "use client";
 
-export default function Button({ children, disabled, margin, onClick, sm }) {
+export default function Button({ children, disabled, onClick, sm }) {
   return (
     <button
       onClick={onClick}
       type="submit"
       disabled={disabled}
-      className={`btn ${margin} disabled:cursor-not-allowed ${sm && "text-sm"}`}
+      className={`btn  ${sm && "text-sm"}`}
     >
       {children}
     </button>

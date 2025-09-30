@@ -19,7 +19,7 @@ export default async function ClubPage({ data }) {
           </AnimatedTitle>
 
           {/* Contenu */}
-          <div className="prose max-w-none prose-p:mb-2">
+          <div className="prose max-w-none">
             <BlocksRenderer content={data?.contenu} />
           </div>
         </section>

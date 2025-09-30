@@ -1,10 +1,10 @@
-// app/infos/page.js (SANS "use client")
 import Link from "next/link";
 import Card from "@/components/ui/Card/Card";
-import PaginationControls from "@/components/ui/Pagination/PaginationControls";
-import ItemsPerPageSelector from "@/components/ui/Pagination/ItemsPerPageSelector";
+import PaginationControls from "@/components/Utils/Pagination/PaginationControls";
+import ItemsPerPageSelector from "@/components/Utils/Pagination/ItemsPerPageSelector";
 import { fetchStrapi } from "@/utils/fetchStrapi";
-import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { formatDate } from "@/utils/formatDate";
+import BlocksRendererWrapper from "@/components/Utils/BlockRendererWrapper/BlocksRendererWrapper";
 
 /**
  * Fonction utilitaire pour récupérer les informations depuis l'API Strapi
@@ -18,7 +18,6 @@ async function getInfos(page = 1, limit = 5) {
   try {
     // Construction de l'URL de l'API avec paramètres de pagination
     const data = await fetchStrapi(`infos?page=${page}&limit=${limit}`, 300);
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Erreur lors de la récupération des infos:", error);
@@ -42,13 +41,6 @@ async function getInfos(page = 1, limit = 5) {
  * @param {string} dateString - Date ISO à formater
  * @returns {string} Date formatée (ex: "15 septembre 2023")
  */
-function formatDate(dateString) {
-  return new Date(dateString).toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "numeric",
-    year: "2-digit",
-  });
-}
 
 /**
  * Composant Server principal pour la page des informations
@@ -57,9 +49,10 @@ function formatDate(dateString) {
  * @param {Object} props.searchParams - Paramètres URL (page, limit)
  */
 export default async function InfosPage({ searchParams }) {
+  const resolvedSearchParams = await searchParams;
   // Extraction et validation des paramètres URL
-  const page = Number(searchParams?.page) || 1;
-  const limit = Number(searchParams?.limit) || 5;
+  const page = Number(resolvedSearchParams?.page) || 1;
+  const limit = Number(resolvedSearchParams?.limit) || 5;
 
   // Validation des paramètres pour éviter les erreurs (Sécurité!!)
   const validatedPage = Math.max(1, page);
@@ -70,6 +63,16 @@ export default async function InfosPage({ searchParams }) {
 
   // Extraction des métadonnées de pagination
   const { page: currentPage, pageCount: totalPages } = meta.pagination;
+
+  // Calculer la haute de la section en fonction du nombre d'articles par pages et du nombre de page (UX)
+  const calculateSectionSize = (limit, total) => {
+    const sectionSizes = { 1: "240", 5: "927", 10: "1690" };
+    // S'il n'y a qu'une page, la section s'adapte au contenu, sinon elle prend la hauteur du nombre maximum d'articles
+    const sectionSize = total <= 1 ? "240" : sectionSizes[limit];
+    return sectionSize;
+  };
+
+  const sectionSize = calculateSectionSize(validatedLimit, totalPages);
 
   return (
     <Card>
@@ -85,7 +88,7 @@ export default async function InfosPage({ searchParams }) {
       </div>
 
       {/* Contenu principal - rendu côté serveur pour SEO */}
-      <section className="min-h-96 section">
+      <section style={{ minHeight: `${sectionSize}px` }} className={`section`}>
         {infos.length > 0 ? (
           // Liste des articles
           <div className="space-y-4">
@@ -107,7 +110,7 @@ export default async function InfosPage({ searchParams }) {
                         >
                           {formatDate(info.updatedAt)}
                         </time>
-                        <h2 className="text-blue3 font-normal group-hover:font-bold transition-colors line-clamp-2 whitespace-normal leading-tight">
+                        <h2 className="text-blue3 font-normal group-hover:text-blue2 transition-all line-clamp-2 whitespace-normal leading-tight">
                           {info.titre}
                         </h2>
                       </div>
@@ -115,7 +118,10 @@ export default async function InfosPage({ searchParams }) {
                       {/* Extrait de l'article */}
                       {info.contenu && (
                         <div className="text-gray-700 leading-relaxed mb-4 line-clamp-1 prose max-w-none">
-                          <BlocksRenderer content={info.contenu} />
+                          <BlocksRendererWrapper
+                            noLinks
+                            content={info.contenu}
+                          />
                         </div>
                       )}
 

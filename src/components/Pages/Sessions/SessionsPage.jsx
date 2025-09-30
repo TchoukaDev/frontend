@@ -1,5 +1,5 @@
 // Imports des composants et utilitaires nécessaires
-import PdfThumbnail from "@/components/PdfThumbnail/PdfThumbnail";
+import PdfThumbnail from "@/components/Utils/PdfThumbnail/PdfThumbnail";
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
 

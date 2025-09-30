@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
-import Button from "../Button/Button";
 
 /**
  * Composant de pagination avec navigation fluide
@@ -52,19 +51,16 @@ export default function PaginationControls({
     setPendingPage(newPage);
 
     // startTransition enrobe les changements d'état qui peuvent causer un re-render
-    // Cela permet à React de différer la mise à jour si nécessaire pour garder l'UI réactive
     startTransition(() => {
       // Construction de l'URL avec les paramètres de pagination
-      const params = new URLSearchParams();
+      const params = new URLSearchParams(window.location.search);
       params.set("page", newPage.toString());
-
-      // N'ajouter le paramètre limit que s'il n'est pas la valeur par défaut (5)
-      // Cela garde l'URL plus propre
-
       params.set("limit", itemsPerPage.toString());
 
-      // Navigation vers la nouvelle URL (va déclencher un re-render du Server Component)
-      router.push(`/infos?${params.toString()}`);
+      // ⚡ Remplacer l'URL dans le navigateur **sans recharger la page**
+      router.replace(`${window.location.pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     });
   };
 
@@ -193,7 +189,7 @@ export default function PaginationControls({
                     isCurrentPage
                       ? "bg-blue3 text-white font-semibold shadow-md "
                       : " text-blue3 hover:font-semibold cursor-pointer"
-                  } disabled:opacity-50 flex items-center justify-center ]`}
+                  } disabled:cursor-default flex items-center justify-center ]`}
                   aria-label={`Aller à la page ${pageNum}`}
                   // Indication ARIA pour la page courante
                   aria-current={isCurrentPage ? "page" : undefined}
@@ -238,15 +234,18 @@ export default function PaginationControls({
       </div>
 
       {/* Section d'informations sur la pagination */}
-      <div className="text-center mt-4 text-xs text-gray-600">
+      <div className="flex justify-center gap-2 items-center mt-4 text-xs text-gray-600">
         {/* Affichage de la position actuelle */}
-        Page {currentPage} sur {totalPages}
+        <div>
+          {" "}
+          Page {currentPage} sur {totalPages}
+        </div>
         {/* Indicateur de chargement global avec le ClipLoader que vous avez choisi */}
         {isPending && (
-          <span className="ml-2 text-blue-600">
+          <div className="text-blue3">
             {" "}
-            <ClipLoader size={20} color="blue2" />
-          </span>
+            <ClipLoader size={20} color="blue3" />
+          </div>
         )}
       </div>
     </nav>

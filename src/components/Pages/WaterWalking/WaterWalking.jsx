@@ -3,7 +3,6 @@ import Card from "@/components/ui/Card/Card";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
 export default async function WaterWalkingPage({ data }) {
-  console.log(data);
   const sections = data.sections;
 
   return (

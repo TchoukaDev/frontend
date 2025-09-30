@@ -3,6 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
+import { ClipLoader } from "react-spinners";
 
 /**
  * Client Component pour sélectionner le nombre d'articles par page
@@ -49,7 +50,9 @@ export default function ItemsPerPageSelector({ currentLimit, currentPage }) {
       params.set("limit", newLimit.toString());
 
       // Navigation avec nouveaux paramètres
-      router.push(`/infos?${params.toString()}`);
+      router.replace(`${window.location.pathname}?${params.toString()}`, {
+        scroll: false,
+      });
 
       // Scroll vers le haut car on change potentiellement beaucoup de contenu
     });
@@ -70,7 +73,7 @@ export default function ItemsPerPageSelector({ currentLimit, currentPage }) {
           value={pendingLimit || currentLimit}
           onChange={(e) => handleLimitChange(parseInt(e.target.value))}
           disabled={isPending}
-          className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed min-w-[60px] appearance-none bg-white"
+          className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed min-w-[60px] appearance-none bg-sand"
           aria-label="Sélectionner le nombre d'articles par page"
         >
           {limitOptions.map((option) => (
@@ -83,19 +86,14 @@ export default function ItemsPerPageSelector({ currentLimit, currentPage }) {
         {/* Icône de chargement ou flèche */}
         <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
           {isPending ? (
-            <span className="animate-spin text-blue-600">⏳</span>
+            <div className="flex items-center text-blue3">
+              <ClipLoader size={20} color="blue3" />
+            </div>
           ) : (
             <span className="text-gray-400">▼</span>
           )}
         </div>
       </div>
-
-      {/* Indicateur de changement en cours */}
-      {isPending && (
-        <span className=" flex items-center gap-1">
-          <span className="animate-spin">⏳</span>
-        </span>
-      )}
     </div>
   );
 }

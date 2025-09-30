@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Delius&display=swap");
 @import "tailwindcss";
-
 @plugin "@tailwindcss/typography";
+/* Pour config typography */
+@config "./tailwind.config.js";
 
 @theme {
   --color-sand: #f7eedd;
@@ -18,7 +19,7 @@
 
 @layer components {
   .btn {
-    @apply bg-blue3 p-3 text-sand  border border-blue2   hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-not-allowed;
+    @apply bg-blue3 p-3 text-sand  border border-blue2   hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-default disabled:opacity-40;
   }
   header {
     @apply flex flex-col lg:flex-row justify-center lg:justify-around gap-8 lg:gap-0  items-center bg-gradient-to-br from-blue3 to-blue1 text-sand p-12;
@@ -36,7 +37,7 @@
     @apply hover:text-blue3 hover:underline transition-all duration-200;
   }
   h1 {
-    @apply flex justify-center items-center mb-15 bg-sand p-5 text-3xl font-title rounded-full border md:max-w-1/2 mx-auto border-blue3 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)];
+    @apply flex justify-center items-center text-center mb-15 bg-sand p-5 text-3xl font-title rounded-full border md:max-w-1/2 mx-auto border-blue3 shadow-[3px_3px_5px_3px_rgba(0,141,218,0.75)];
   }
   h2 {
     @apply text-sand font-semibold underline text-lg  whitespace-nowrap;

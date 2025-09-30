@@ -4,7 +4,7 @@ import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
 export default async function ClubPage({ data = {} }) {
-  console.logo(data);
+  console.log(data);
   const animateurs = data.animateurs || [];
   console.log(animateurs);
   return (

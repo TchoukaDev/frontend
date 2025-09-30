@@ -18,7 +18,7 @@ async function getInfos(page = 1, limit = 5) {
   try {
     // Construction de l'URL de l'API avec paramètres de pagination
     const data = await fetchStrapi(`infos?page=${page}&limit=${limit}`, 300);
-    return data;
+    return data || [];
   } catch (error) {
     console.error("Erreur lors de la récupération des infos:", error);
     // Retourne une structure vide en cas d'erreur

@@ -11,12 +11,12 @@ const Carousel = ({ images = [], strapiUrl }) => {
 
   const nextSlide = () => {
     setDirection(1);
-    setIndex((prev) => (prev + 1) % images?.length);
+    setIndex((prev) => (prev + 1) % images.length);
   };
 
   const prevSlide = () => {
     setDirection(-1);
-    setIndex((prev) => (prev - 1 + images?.length) % images?.length);
+    setIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const variants = {
@@ -36,7 +36,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
 
     const timeout = setTimeout(() => {
       setDirection(1);
-      setIndex((prev) => (prev + 1) % images?.length);
+      setIndex((prev) => (prev + 1) % images.length);
     }, 5000);
 
     return () => clearTimeout(timeout); // nettoyage
@@ -58,13 +58,13 @@ const Carousel = ({ images = [], strapiUrl }) => {
               transition={{ duration: 0.5 }}
               className="absolute w-full h-full"
             >
-              {images?.length < 1 ? (
+              {images.length < 1 ? (
                 <div className="font-semibold flex justify-center items-center h-full">
                   Aucune image n'a été publiée pour le moment
                 </div>
               ) : (
                 <Image
-                  src={`${strapiUrl}${images[index]?.url}`}
+                  src={`${strapiUrl}${images[index].url}`}
                   alt={`Slide ${index + 1}`}
                   fill
                   unoptimized
@@ -98,7 +98,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
 
         {/* Indicateurs */}
         <div className="absolute bottom-4 w-full flex justify-center space-x-2">
-          {images?.map((_, i) => (
+          {images.map((_, i) => (
             <button
               key={i}
               onClick={() => {
@@ -115,15 +115,15 @@ const Carousel = ({ images = [], strapiUrl }) => {
         </div>
       </div>
       <div className="flex gap-20 flex-wrap items-center justify-center">
-        {images?.map((image, i) => (
+        {images.map((image, i) => (
           <Image
             onClick={() => {
               setDirection(i > index ? 1 : -1);
               setIndex(i);
             }}
-            key={image?.id}
+            key={image.id}
             src={`${strapiUrl}${image.url}`}
-            alt={image?.alternativeText}
+            alt={image.alternativeText}
             width={100}
             height={100}
             unoptimized

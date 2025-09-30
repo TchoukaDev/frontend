@@ -10,9 +10,9 @@ import { formatDate } from "@/utils/formatDate";
 export default async function Info({ params }) {
   const { slug } = await params;
   const response = await fetchStrapi(`infos/${slug}`, 300);
-  const data = response.data;
-  const documents = data.documents;
-  const images = data.images;
+  const data = response.data || {};
+  const documents = data.documents || [];
+  const images = data.images || [];
 
   // Dans votre composant
 
@@ -39,7 +39,7 @@ export default async function Info({ params }) {
         <div className="prose max-w-none my-5">
           <BlocksRendererWrapper content={data.contenu} />
         </div>
-        {documents?.map((doc) => (
+        {documents.map((doc) => (
           <div
             key={doc.id}
             className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
@@ -54,7 +54,7 @@ export default async function Info({ params }) {
             </a>
           </div>
         ))}
-        {images?.map((image) => (
+        {images.map((image) => (
           <div
             key={image.id}
             className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"

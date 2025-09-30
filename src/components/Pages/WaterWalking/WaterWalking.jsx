@@ -2,14 +2,14 @@ import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
-export default async function WaterWalkingPage({ data }) {
-  const sections = data?.sections;
+export default async function WaterWalkingPage({ data = {} }) {
+  const sections = data.sections || [];
 
   return (
     <Card>
       <h1>{data.titreprincipal}</h1>
       <div className="space-y-10">
-        {sections?.map(
+        {sections.map(
           (
             section,
             index, // ← Ajouter index

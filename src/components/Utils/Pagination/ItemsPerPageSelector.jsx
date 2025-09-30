@@ -13,7 +13,7 @@ import { ClipLoader } from "react-spinners";
  * @param {number} props.currentLimit - Limite actuelle d'articles par page
  * @param {number} props.currentPage - Page actuelle (pour construire l'URL)
  */
-export default function ItemsPerPageSelector({ currentLimit, currentPage }) {
+export default function ItemsPerPageSelector({ currentLimit, e }) {
   const router = useRouter();
 
   // Hook pour gérer les transitions

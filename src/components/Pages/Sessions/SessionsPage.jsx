@@ -3,12 +3,12 @@ import PdfThumbnail from "@/components/Utils/PdfThumbnail/PdfThumbnail";
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
 
-export default async function SessionsPage({ data }) {
+export default async function SessionsPage({ data = {} }) {
   const sessions = data;
 
   // Extraction des tableaux de séances et des documents PDF
-  const tableaux = sessions?.tableau;
-  const docs = sessions?.pdf;
+  const tableaux = sessions.tableau || [];
+  const docs = sessions.pdf || [];
 
   // Définition des jours de la semaine en minuscules
   // Utilisés comme base pour construire les clés des champs du tableau
@@ -52,7 +52,7 @@ export default async function SessionsPage({ data }) {
             </AnimatedTitle>
 
             {/* Boucle sur chaque tableau de séances */}
-            {tableaux?.map((tableau) => (
+            {tableaux.map((tableau) => (
               <div className="space-y-6 text-black" key={tableau.id}>
                 {/* Dates de validité du tableau */}
                 <p className="text-center underline prose max-w-none">
@@ -135,7 +135,7 @@ export default async function SessionsPage({ data }) {
           {/* Container pour les PDF avec espacement important */}
           <div className="space-y-20">
             {/* Boucle sur chaque document PDF */}
-            {docs?.map((doc) => (
+            {docs.map((doc) => (
               <div key={doc.id}>
                 {/* Container flex centré pour titre et miniature */}
                 <div className="flex flex-col justify-center items-center gap-8">

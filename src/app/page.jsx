@@ -3,7 +3,7 @@ import { FaFacebook } from "react-icons/fa";
 
 export default function Home() {
   const date = new Date();
-  const dateFr = date.toLocaleString(navigator.language, {
+  const dateFr = date.toLocaleString("fr-Fr", {
     weekday: "short",
     year: "numeric",
     month: "short",

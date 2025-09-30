@@ -4,7 +4,7 @@ import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
 export default async function ClubPage({ data = {} }) {
-  const animateurs = Array.isArray(data?.animateurs) ? data.animateurs : [];
+  const animateurs = data.animateurs || [];
 
   return (
     <Card>
@@ -30,7 +30,7 @@ export default async function ClubPage({ data = {} }) {
 
           {/* Photos */}
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
-            {/* {animateurs?.map((anim) => (
+            {animateurs?.map((anim) => (
               <div
                 key={anim.id}
                 className="flex flex-col justify-between items-center gap-2"
@@ -47,7 +47,7 @@ export default async function ClubPage({ data = {} }) {
                   {anim.file.caption}
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
         </section>
       </div>

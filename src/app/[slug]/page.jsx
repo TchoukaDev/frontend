@@ -23,16 +23,15 @@ export default async function Page({ params }) {
     return notFound(); // ← Pas de fetch si slug invalide
   }
 
-  // ✅ Extraction sécurisée + valeurs par défaut
+  const response = (await fetchStrapi(`${slug}/optimized`, 300)) || {};
   const data = {
     titreprincipal: "Page en construction",
     titre1: "",
     titre2: "",
     contenu: null,
     animateurs: [], // ✅ TOUJOURS un array !
-    ...response?.data, // Étendre avec les vraies données si disponibles
+    ...response?.data?.attributes, // Étendre avec les vraies données si disponibles
   };
-
   return <PageComponent data={data} />;
 }
 

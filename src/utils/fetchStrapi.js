@@ -7,13 +7,13 @@ export async function fetchStrapi(endpoint, cache) {
 
     if (!response.ok) {
       console.log(`Strapi ${endpoint}: ${response.status}`);
-      return { data: {} }; // ✅ Structure Strapi vide
+      return {}; // ✅ Structure Strapi vide
     }
 
     const data = await response.json();
     return data || { data: {} };
   } catch (error) {
     console.log(`Fetch error: ${error.message}`);
-    return { data: {} }; // ✅ Structure Strapi vide
+    return {}; // ✅ Structure Strapi vide
   }
 }

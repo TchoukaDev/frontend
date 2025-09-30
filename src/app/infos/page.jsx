@@ -92,7 +92,7 @@ export default async function InfosPage({ searchParams }) {
         {infos.length > 0 ? (
           // Liste des articles
           <div className="space-y-4">
-            {infos.map((info) => (
+            {infos?.map((info) => (
               <Link
                 key={info.id}
                 href={`/infos/${info.slug}`}

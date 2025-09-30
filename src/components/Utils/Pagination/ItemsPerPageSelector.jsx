@@ -76,7 +76,7 @@ export default function ItemsPerPageSelector({ currentLimit, currentPage }) {
           className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed min-w-[60px] appearance-none bg-sand"
           aria-label="Sélectionner le nombre d'articles par page"
         >
-          {limitOptions.map((option) => (
+          {limitOptions?.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

@@ -174,7 +174,7 @@ export default function PaginationControls({
             )}
 
             {/* Boucle sur les numéros de pages principaux calculés */}
-            {pageNumbers.map((pageNum) => {
+            {pageNumbers?.map((pageNum) => {
               // Détermine si ce numéro correspond à la page actuelle
               const isCurrentPage = pageNum === currentPage;
 

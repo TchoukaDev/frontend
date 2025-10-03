@@ -21,7 +21,7 @@ export default function SignupForm() {
     handleSubmit,
     reset,
     formState: { errors: clientErrors },
-  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onChange" });
+  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onBlur" });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -56,6 +56,7 @@ export default function SignupForm() {
     >
       {/* Informations personnelles */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4">
+        {/* Prénom */}{" "}
         <div className="text-center md:text-start">
           <label htmlFor="firstname" className="label">
             Prénom
@@ -81,7 +82,7 @@ export default function SignupForm() {
             <p className="formError">{serverState.fieldErrors.firstname}</p>
           )}
         </div>
-
+        {/* Nom de famille */}
         <div className="text-center md:text-start">
           <label htmlFor="name" className="label">
             Nom de famille
@@ -107,6 +108,7 @@ export default function SignupForm() {
 
       {/* Contact */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4">
+        {/* Adresse email */}
         <div className="text-center md:text-start">
           <label htmlFor="email" className="label">
             Adresse mail
@@ -129,6 +131,7 @@ export default function SignupForm() {
           )}
         </div>
 
+        {/* Téléphone */}
         <div className="text-center md:text-start">
           <label htmlFor="telephone" className="label">
             Téléphone
@@ -176,6 +179,7 @@ export default function SignupForm() {
           )}
         </div>
 
+        {/* Confirmation du mot de passe */}
         <div className="text-center md:text-start">
           <label htmlFor="password2" className="label">
             Confirmer le mot de passe
@@ -206,9 +210,12 @@ export default function SignupForm() {
       </div>
 
       {/* Messages de retour serveur */}
+
+      {/* Inscription réussie */}
       {serverState?.success && (
         <div className="bg-green-100 border border-green-400 text-green-700 text-center px-4 py-3 rounded">
-          <p className="mb-3">{serverState.message} </p>
+          <p className="mb-3">{serverState.success.message} </p>
+          {/* Bouton de connexion après succès */}
           <Button
             onClick={(e) => {
               e.preventDefault();
@@ -223,6 +230,7 @@ export default function SignupForm() {
         </div>
       )}
 
+      {/* Erreur serveur générale */}
       {serverState?.error && !serverState?.fieldErrors && (
         <div className="bg-red-100 border border-red-400 text-red-700 text-center px-4 py-3 rounded">
           {serverState.error}

@@ -1,251 +1,239 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useTransition, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 import { ClipLoader } from "react-spinners";
 
 /**
- * Composant de pagination avec navigation fluide
- * Permet de naviguer entre les pages d'articles avec des contrôles interactifs
+ * PaginationControls
  *
- * @param {number} currentPage - La page actuellement affichée (commence à 1)
- * @param {number} totalPages - Le nombre total de pages disponibles
- * @param {number} itemsPerPage - Le nombre d'articles affichés par page
+ * Composant de pagination optimisé avec <Link> Next.js :
+ * - Prefetch automatique au survol
+ * - Navigation SPA sans rechargement
+ * - scroll={false} pour préserver la position scroll
+ * - Spinner global pendant la transition
+ *
+ * Props :
+ * @param {number} currentPage   – page active (1-based)
+ * @param {number} totalPages    – nombre total de pages
+ * @param {number} itemsPerPage  – nb. d’éléments par page (pour l’URL)
  */
 export default function PaginationControls({
   currentPage,
   totalPages,
   itemsPerPage,
 }) {
-  const router = useRouter();
+  // Hooks Next.js pour lire l’URL et les params
+  const pathname = usePathname(); // ex: "/infos"
+  const searchParams = useSearchParams(); // URLSearchParams instance
 
-  // Hook React pour gérer les transitions avec état de chargement automatique
+  // useTransition pour détecter quand une navigation est en cours
   const [isPending, startTransition] = useTransition();
 
-  // État local pour savoir quelle page spécifique est en cours de chargement
-  const [pendingPage, setPendingPage] = useState(null);
-
   /**
-   * Quand isPending passe à false (fin de transition), on remet pendingPage à null
-   * Cela évite que les spinners restent affichés indéfiniment
+   * Construit l’URL de pagination pour une page donnée.
+   * Préserve tous les autres params de l’URL.
    */
-  useEffect(() => {
-    if (!isPending) {
-      setPendingPage(null);
-    }
-  }, [isPending]);
-
-  /**
-   * Fonction principale pour changer de page
-   * Gère la validation, l'état de chargement et la navigation
-   *
-   * @param {number} newPage - Le numéro de la nouvelle page à charger
-   */
-  const handlePageChange = (newPage) => {
-    // Validation : éviter les pages invalides et les clics sur la page courante
-    if (newPage < 1 || newPage > totalPages || newPage === currentPage) {
-      return;
-    }
-
-    // On mémorise quelle page va être chargée pour afficher le bon spinner
-    setPendingPage(newPage);
-
-    // startTransition enrobe les changements d'état qui peuvent causer un re-render
-    startTransition(() => {
-      // Construction de l'URL avec les paramètres de pagination
-      const params = new URLSearchParams(window.location.search);
-      params.set("page", newPage.toString());
-      params.set("limit", itemsPerPage.toString());
-
-      // ⚡ Remplacer l'URL dans le navigateur **sans recharger la page**
-      router.replace(`${window.location.pathname}?${params.toString()}`, {
-        scroll: false,
-      });
-    });
+  const buildPageUrl = (pageNum) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", pageNum.toString());
+    params.set("limit", itemsPerPage.toString());
+    return `${pathname}?${params.toString()}`;
   };
 
   /**
-   * Détermine quels numéros de pages afficher dans la pagination
-   * Logique complexe pour gérer l'affichage de 5 pages maximum avec pagination intelligente
-   *
-   * @returns {Array<number>} Tableau des numéros de pages à afficher
+   * Calcule les numéros de pages à afficher (max 3 boutons dynamiques).
+   * - Si totalPages ≤ 3 : affiche [1…totalPages]
+   * - Si currentPage ≤ 2 : affiche [1,2,3]
+   * - Si currentPage ≥ totalPages-1 : affiche [last-2,last-1,last]
+   * - Sinon : affiche [currentPage-1, currentPage, currentPage+1]
    */
   const getPageNumbers = () => {
-    const maxPages = 3; // Maximum de boutons de pages à afficher
+    const maxButtons = 3;
 
-    // Si le total des pages est inférieur ou égal à 3, afficher toutes les pages
-    if (totalPages <= maxPages) {
+    // cas 1 : peu de pages → toutes
+    if (totalPages <= maxButtons) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
-
-    // Si on est dans les 2 premières pages, afficher 1,2,3,4,5
+    // cas 2 : début
     if (currentPage <= 2) {
       return [1, 2, 3];
     }
-
-    // Si on est dans les 3 dernières pages, afficher les 3 dernières
+    // cas 3 : fin
     if (currentPage >= totalPages - 1) {
-      return Array.from({ length: 3 }, (_, i) => totalPages - 2 + i);
+      return [totalPages - 2, totalPages - 1, totalPages];
     }
-
-    // Au milieu : afficher la page courante ± 2 pages
-    return Array.from({ length: 3 }, (_, i) => currentPage - 1 + i);
+    // cas 4 : milieu
+    return [currentPage - 1, currentPage, currentPage + 1];
   };
 
   /**
-   * Détermine si l'ellipse de début (avant les numéros) doit être affichée
-   * L'ellipse s'affiche quand il y a des pages non visibles au début
-   *
-   * @returns {boolean} true si l'ellipse de début doit être affichée
+   * Doit-on afficher "…" avant les numéros ?
+   * Vrai si on a sauté la page 1 (page 1 non dans getPageNumbers).
    */
   const shouldShowStartEllipsis = () => {
-    const pageNumbers = getPageNumbers();
-    return (
-      totalPages > 3 && // Il faut plus de 5 pages au total
-      currentPage > 2 && // On doit être après la page 3
-      !pageNumbers.includes(1) // La page 1 ne doit pas déjà être dans la liste
-    );
+    const nums = getPageNumbers();
+    return totalPages > 3 && currentPage > 2 && !nums.includes(1);
   };
 
   /**
-   * Détermine si l'ellipse de fin (après les numéros) doit être affichée
-   * L'ellipse s'affiche quand il y a des pages non visibles à la fin
-   *
-   * @returns {boolean} true si l'ellipse de fin doit être affichée
+   * Doit-on afficher "…" après les numéros ?
+   * Vrai si on a sauté la dernière page.
    */
   const shouldShowEndEllipsis = () => {
-    const pageNumbers = getPageNumbers();
+    const nums = getPageNumbers();
     return (
-      totalPages > 3 && // Il faut plus de 5 pages au total
-      currentPage < totalPages - 1 && // On doit être avant l'avant-dernière page
-      !pageNumbers.includes(totalPages) // La dernière page ne doit pas déjà être dans la liste
+      totalPages > 3 &&
+      currentPage < totalPages - 1 &&
+      !nums.includes(totalPages)
     );
   };
 
-  /**
-   * Vérifie si une page spécifique est en cours de chargement
-   * Utilisé pour afficher les spinners sur les bons boutons
-   *
-   * @param {number} pageNum - Le numéro de page à vérifier
-   * @returns {boolean} true si cette page est en cours de chargement
-   */
-
-  // Récupération de la liste des numéros de pages à afficher
+  // Liste des numéros dynamiques à afficher
   const pageNumbers = getPageNumbers();
 
   return (
-    // Élément nav sémantique avec ARIA pour l'accessibilité
     <nav
       className="mt-8 pt-6 border-t border-gray-200"
       aria-label="Navigation de pagination"
+      role="navigation"
     >
-      {/* Conteneur principal centré */}
       <div className="flex justify-center items-center">
-        {/* Conteneur des contrôles de pagination */}
         <div className="flex items-center gap-2">
-          {/* Bouton page précédente */}
-          <button
-            className="btn p-2"
-            onClick={() => handlePageChange(currentPage - 1)}
-            // Désactivé si on est sur la première page ou pendant le chargement
-            disabled={currentPage === 1 || isPending}
+          {/* ⬅️ BOUTON « Précédent » */}
+          <Link
+            href={buildPageUrl(currentPage - 1)}
+            scroll={false} // ne pas scroll en haut
             aria-label="Page précédente"
+            aria-disabled={currentPage === 1}
+            className={`btn p-2 transition-opacity ${
+              currentPage === 1 || isPending
+                ? "pointer-events-none opacity-40 cursor-default"
+                : "hover:bg-blue3/80"
+            }`}
+            onClick={(e) => {
+              // Empêche la nav si déjà à la page 1
+              if (currentPage === 1) {
+                e.preventDefault();
+              } else {
+                // Démarre la transition pour afficher le spinner global
+                startTransition(() => {});
+              }
+            }}
           >
             Précédent
-          </button>
+          </Link>
 
-          {/* Conteneur des numéros de pages avec ellipses */}
+          {/* NUMÉROS DE PAGES + ELLIPSES */}
           <div className="flex items-center gap-1 mx-4">
-            {/* Section ellipse de début + bouton page 1 */}
+            {/* Ellipse début */}
             {shouldShowStartEllipsis() && (
               <>
-                {/* Bouton pour aller directement à la page 1 */}
-                <button
-                  onClick={() => handlePageChange(1)}
-                  disabled={isPending}
-                  className=" hover:cursor-pointer hover:font-semibold text-blue3 transition-all "
+                <Link
+                  href={buildPageUrl(1)}
+                  scroll={false}
                   aria-label="Aller à la page 1"
+                  className="px-3 py-2 rounded-lg hover:text-blue-700 text-blue3 transition-all"
+                  onClick={() => startTransition(() => {})}
                 >
-                  {1}
-                </button>
-                {/* Ellipse visuelle pour indiquer des pages manquantes */}
-                <span className="px-2 text-blue3">…</span>
+                  1
+                </Link>
+                <span
+                  className="px-2 text-blue3 select-none"
+                  aria-hidden="true"
+                >
+                  …
+                </span>
               </>
             )}
 
-            {/* Boucle sur les numéros de pages principaux calculés */}
-            {pageNumbers?.map((pageNum) => {
-              // Détermine si ce numéro correspond à la page actuelle
-              const isCurrentPage = pageNum === currentPage;
-
-              return (
-                <button
+            {/* Boutons pages dynamiques */}
+            {pageNumbers.map((pageNum) => {
+              const isCurrent = pageNum === currentPage;
+              return isCurrent ? (
+                // Page active : non cliquable
+                <span
                   key={pageNum}
-                  onClick={() => handlePageChange(pageNum)}
-                  // Désactivé pendant le chargement ou si c'est la page courante
-                  disabled={isPending || isCurrentPage}
-                  // Styles conditionnels : page actuelle en bleu, autres avec bordure
-                  className={`px-3 py-2 rounded-lg transition-colors ${
-                    isCurrentPage
-                      ? "bg-blue3 text-white font-semibold shadow-md "
-                      : " text-blue3 hover:font-semibold cursor-pointer"
-                  } disabled:cursor-default flex items-center justify-center ]`}
-                  aria-label={`Aller à la page ${pageNum}`}
-                  // Indication ARIA pour la page courante
-                  aria-current={isCurrentPage ? "page" : undefined}
+                  className="px-3 py-2 rounded-lg bg-blue3 text-white font-semibold shadow-md cursor-default select-none"
+                  aria-current="page"
+                  aria-label={`Page ${pageNum}`}
                 >
-                  {/* Affichage simple du numéro */}
                   {pageNum}
-                </button>
+                </span>
+              ) : (
+                // Autres pages : Link cliquable
+                <Link
+                  key={pageNum}
+                  href={buildPageUrl(pageNum)}
+                  scroll={false}
+                  aria-label={`Aller à la page ${pageNum}`}
+                  className="px-3 py-2 rounded-lg text-blue3 hover:text-blue-700 cursor-pointer transition-all"
+                  onClick={() => startTransition(() => {})}
+                >
+                  {pageNum}
+                </Link>
               );
             })}
 
-            {/* Section ellipse de fin + bouton dernière page */}
+            {/* Ellipse fin */}
             {shouldShowEndEllipsis() && (
               <>
-                {/* Ellipse visuelle pour indiquer des pages manquantes */}
-                <span className="px-2 text-blue3">…</span>
-                {/* Bouton pour aller directement à la dernière page */}
-                <button
-                  onClick={() => handlePageChange(totalPages)}
-                  disabled={isPending}
-                  className="hover:cursor-pointer hover:font-semibold text-blue3 transition-all "
-                  aria-label={`Aller à la page ${totalPages}`}
+                <span
+                  className="px-2 text-blue3 select-none"
+                  aria-hidden="true"
                 >
-                  {/* Pas de spinner ici car vous l'avez retiré */}
+                  …
+                </span>
+                <Link
+                  href={buildPageUrl(totalPages)}
+                  scroll={false}
+                  aria-label={`Aller à la page ${totalPages}`}
+                  className="px-3 py-2 rounded-lg hover:text-blue-700 text-blue3 transition-all"
+                  onClick={() => startTransition(() => {})}
+                >
                   {totalPages}
-                </button>
+                </Link>
               </>
             )}
           </div>
 
-          {/* Bouton page suivante */}
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            // Désactivé si on est sur la dernière page ou pendant le chargement
-            disabled={currentPage === totalPages || isPending}
-            className="btn p-2"
+          {/* ➡️ BOUTON « Suivant » */}
+          <Link
+            href={buildPageUrl(currentPage + 1)}
+            scroll={false}
             aria-label="Page suivante"
+            aria-disabled={currentPage === totalPages}
+            className={`btn p-2 transition-opacity ${
+              currentPage === totalPages || isPending
+                ? "pointer-events-none opacity-40 cursor-default"
+                : "hover:bg-blue3/80"
+            }`}
+            onClick={(e) => {
+              if (currentPage === totalPages) {
+                e.preventDefault();
+              } else {
+                startTransition(() => {});
+              }
+            }}
           >
-            {/* Texte simple sans spinner car vous l'avez retiré */}
             Suivant
-          </button>
+          </Link>
         </div>
       </div>
 
-      {/* Section d'informations sur la pagination */}
+      {/* INFORMATION ET SPINNER GLOBAL */}
       <div className="flex justify-center gap-2 items-center mt-4 text-xs text-gray-600">
-        {/* Affichage de la position actuelle */}
-        <div>
-          {" "}
+        {/* Texte de position */}
+        <span>
           Page {currentPage} sur {totalPages}
-        </div>
-        {/* Indicateur de chargement global avec le ClipLoader que vous avez choisi */}
+        </span>
+        {/* Spinner affiché dès qu’une transition est en cours */}
         {isPending && (
-          <div className="text-blue3">
-            {" "}
-            <ClipLoader size={20} color="blue3" />
-          </div>
+          <span className="text-blue3 flex items-center" role="status">
+            <ClipLoader size={20} color="#3b82f6" />
+            <span className="sr-only">Chargement en cours...</span>
+          </span>
         )}
       </div>
     </nav>

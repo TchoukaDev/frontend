@@ -1,73 +1,72 @@
+// components/LoginForm.jsx
 "use client";
 
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/utils/validation";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button/Button";
+import { ClipLoader } from "react-spinners";
 
 export default function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const [isPending, setIsPending] = useState(false);
+  const [serverError, setServerError] = useState(null);
   const emailRef = useRef();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
-    formState: { errors: clientErrors, isValid },
+    reset,
+    formState: { errors: clientErrors },
   } = useForm({
-    resolver: zodResolver(loginSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       autoLogin: true,
     },
   });
 
-  const emailRegister = register("email");
+  const emailRegister = register("email", {
+    required: "Veuillez saisir votre email",
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      message: "Veuillez saisir une adresse email valide",
+    },
+  });
 
+  // Soumission du formulaire
   const onSubmit = async (data) => {
-    setIsLoading(true);
-    setError("");
+    setIsPending(true);
+    setServerError(null);
 
     try {
-      // const result = await signIn("credentials", {
-      //   email: data.email,
-      //   password: data.password,
-      //   redirect: false, // ✅ Important !
-      // });
-      // if (result?.error) {
-      //   // Gestion des erreurs NextAuth
-      //   switch (result.error) {
-      //     case "CredentialsSignin":
-      //       setError("Email ou mot de passe incorrect");
-      //       break;
-      //     case "AccessDenied":
-      //       setError("Accès refusé");
-      //       break;
-      //     default:
-      //       setError("Une erreur s'est produite lors de la connexion");
-      //   }
-      // } else if (result?.ok) {
-      //   // Succès - redirection ou action
-      //   const session = await getSession();
-      //   console.log("Connecté:", session?.user);
-      //   // Redirection basée sur le rôle ou préférences
-      //   router.push("/");
-      // }
+      // Appel à NextAuth
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false, // Important : on gère la redirection manuellement
+      });
+
+      if (result?.error) {
+        // Erreur de connexion
+        setServerError("Email ou mot de passe incorrect");
+        setIsPending(false);
+      } else {
+        // Succès !
+        reset();
+        router.push("/"); // Change selon ta page de destination
+        router.refresh(); // Force le rafraîchissement de la session
+      }
     } catch (error) {
-      console.error("Erreur de connexion:", error);
-      setError("Une erreur technique s'est produite");
-    } finally {
-      setIsLoading(false);
+      console.error("Erreur:", error);
+      setServerError("Une erreur s'est produite");
+      setIsPending(false);
     }
   };
 
+  // Focus au montage
   useEffect(() => {
-    if (emailRef.current) {
-      emailRef.current.focus();
-    }
+    emailRef.current?.focus();
   }, []);
 
   return (
@@ -92,7 +91,6 @@ export default function LoginForm() {
             id="email"
             placeholder="Email"
             autoComplete="email"
-            required
           />
           {clientErrors.email && (
             <p className="formError">{clientErrors.email.message}</p>
@@ -107,11 +105,16 @@ export default function LoginForm() {
           <input
             className="input"
             type="password"
-            {...register("password")}
+            {...register("password", {
+              required: "Veuillez saisir votre mot de passe",
+              minLength: {
+                value: 6,
+                message: "Minimum 6 caractères requis",
+              },
+            })}
             id="password"
             placeholder="Mot de passe"
             autoComplete="current-password"
-            required
           />
           {clientErrors.password && (
             <p className="formError">{clientErrors.password.message}</p>
@@ -119,37 +122,18 @@ export default function LoginForm() {
         </div>
       </div>
 
-      {/* Erreur générale */}
-      {error && (
+      {/* Erreur serveur */}
+      {serverError && (
         <div className="bg-red-100 border border-red-400 text-red-700 text-center px-4 py-3 rounded">
-          <p>{error}</p>
+          <p>{serverError}</p>
         </div>
       )}
 
       <div className="text-center my-3">
-        <Button type="submit" disabled={isLoading || !isValid}>
-          {isLoading ? (
-            <span className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              Connexion...
+        <Button type="submit" disabled={isPending}>
+          {isPending ? (
+            <span className="flex items-center text-sand justify-center gap-2">
+              Connexion... <ClipLoader size={20} />
             </span>
           ) : (
             "Se connecter"

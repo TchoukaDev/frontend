@@ -3,6 +3,7 @@
 import Button from "@/components/ui/Button/Button";
 import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
 import { Menu, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -11,7 +12,8 @@ export default function Navbar() {
   // Variables
   const Path = usePathname();
   const routeur = useRouter();
-
+  const { data: session } = useSession();
+  console.log(session?.user);
   // State
   // Gère ouverture et fermeture navbar responsive
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,10 +44,10 @@ export default function Navbar() {
     setIsMenuOpen(false);
   };
 
-  // const logOut = async () => {
-  //   await signOut({ redirect: false });
-  //   routeur.refresh();
-  // };
+  const logOut = async () => {
+    await signOut({ redirect: false });
+    routeur.refresh();
+  };
 
   return (
     <nav
@@ -89,17 +91,18 @@ export default function Navbar() {
               aria-label="Toggle menu"
             />
           )}
+
+          {/* Bouton connexion/deconnexion */}
           <div className="absolute right-10">
-            {/* {!session?.user ? ( */}
-            {/* Bouton de connexion */}
-            <Button sm onClick={() => routeur.push("/login")}>
-              Connexion
-            </Button>
-            {/* ) : (
+            {!session?.user ? (
+              <Button sm onClick={() => routeur.push("/login")}>
+                Connexion
+              </Button>
+            ) : (
               <Button sm onClick={logOut}>
                 Se déconnecter
               </Button>
-            )} */}
+            )}
           </div>
         </div>
 

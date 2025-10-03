@@ -1,65 +1,79 @@
-// app/infos/components/ItemsPerPageSelector.js
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 import { ClipLoader } from "react-spinners";
 
 /**
- * Client Component pour sélectionner le nombre d'articles par page
- * Gère le changement de limite avec remise à zéro de la pagination
+ * ItemsPerPageSelector
  *
- * @param {Object} props
- * @param {number} props.currentLimit - Limite actuelle d'articles par page
- * @param {number} props.currentPage - Page actuelle (pour construire l'URL)
+ * Composant pour changer le nombre d'articles affichés par page.
+ * Réinitialise automatiquement à la page 1 lors du changement.
+ *
+ * Props :
+ * @param {number} currentLimit – limite actuelle d'éléments/page
  */
-export default function ItemsPerPageSelector({ currentLimit, e }) {
+export default function ItemsPerPageSelector({ currentLimit }) {
+  // Hooks Next.js pour navigation et lecture d'URL
   const router = useRouter();
+  const pathname = usePathname(); // ex: "/infos"
+  const searchParams = useSearchParams(); // URLSearchParams instance
 
-  // Hook pour gérer les transitions
+  // useTransition pour afficher un spinner pendant le changement
   const [isPending, startTransition] = useTransition();
-  const [pendingLimit, setPendingLimit] = useState(null);
 
-  // Options disponibles pour le nombre d'articles par page
+  // Options disponibles dans le select
   const limitOptions = [
     { value: 1, label: "1" },
     { value: 5, label: "5" },
     { value: 10, label: "10" },
+    { value: 20, label: "20" },
   ];
 
   /**
-   * Gère le changement du nombre d'articles par page
-   * Remet automatiquement à la page 1 pour éviter les pages vides
+   * Construit l'URL pour la nouvelle limite.
+   * Préserve les autres params (ex: search, filters) sauf page (remis à 1).
    *
-   * @param {number} newLimit - Nouvelle limite d'articles par page
+   * @param {number} newLimit – nouvelle limite d'éléments
+   * @returns {string} URL complète avec les nouveaux params
    */
-  const handleLimitChange = (newLimit) => {
-    // Évite les appels inutiles
+  const buildLimitUrl = (newLimit) => {
+    // Clone les params existants
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Reset à page 1 (évite d'arriver sur une page vide)
+    params.set("page", "1");
+
+    // Mise à jour de la limite
+    params.set("limit", newLimit.toString());
+
+    return `${pathname}?${params.toString()}`;
+  };
+
+  /**
+   * Gère le changement de limite via le <select>.
+   * Lance une transition pour afficher le spinner.
+   *
+   * @param {Event} e – événement du select
+   */
+  const handleLimitChange = (e) => {
+    const newLimit = parseInt(e.target.value);
+
+    // Évite les appels inutiles si même valeur
     if (newLimit === currentLimit) return;
 
-    // État de chargement optimiste
-    setPendingLimit(newLimit);
-
+    // Démarre la transition (isPending = true)
     startTransition(() => {
-      // Construction de l'URL - toujours remettre à la page 1
-      const params = new URLSearchParams();
-      params.set("page", "1"); // Reset à la page 1
-
-      // N'ajouter le paramètre limit que s'il n'est pas la valeur par défaut
-
-      params.set("limit", newLimit.toString());
-
-      // Navigation avec nouveaux paramètres
-      router.replace(`${window.location.pathname}?${params.toString()}`, {
-        scroll: false,
+      // Navigation avec la nouvelle URL
+      router.replace(buildLimitUrl(newLimit), {
+        scroll: false, // ne pas scroller en haut
       });
-
-      // Scroll vers le haut car on change potentiellement beaucoup de contenu
     });
   };
 
   return (
     <div className="flex items-center gap-3">
+      {/* Label accessible */}
       <label
         htmlFor="itemsPerPage"
         className="text-sm font-medium text-gray-700"
@@ -67,30 +81,44 @@ export default function ItemsPerPageSelector({ currentLimit, e }) {
         Articles par page :
       </label>
 
+      {/* Container du select avec position relative pour le spinner */}
       <div className="relative">
         <select
           id="itemsPerPage"
-          value={pendingLimit || currentLimit}
-          onChange={(e) => handleLimitChange(parseInt(e.target.value))}
-          disabled={isPending}
-          className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed min-w-[60px] appearance-none bg-sand"
+          value={currentLimit}
+          onChange={handleLimitChange}
+          disabled={isPending} // désactive pendant le chargement
+          className="border border-gray-300 rounded-md px-3 py-1 pr-8 text-sm 
+                     focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                     disabled:opacity-50 disabled:cursor-not-allowed 
+                     cursor-pointer min-w-[70px] appearance-none bg-sand"
           aria-label="Sélectionner le nombre d'articles par page"
         >
-          {limitOptions?.map((option) => (
+          {limitOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
 
-        {/* Icône de chargement ou flèche */}
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+        {/* Icône dynamique : spinner pendant chargement, s flèche */}
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
           {isPending ? (
-            <div className="flex items-center text-blue3">
-              <ClipLoader size={20} color="blue3" />
-            </div>
+            <ClipLoader size={16} color="#3b82f6" />
           ) : (
-            <span className="text-gray-400">▼</span>
+            <svg
+              className="w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           )}
         </div>
       </div>

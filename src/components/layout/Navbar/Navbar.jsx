@@ -3,7 +3,6 @@
 import Button from "@/components/ui/Button/Button";
 import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
 import { Menu, X } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -23,8 +22,6 @@ export default function Navbar() {
 
   // Détecter le clic en dehors de la navbar pour la fermer
   useHandleClickOutside(navbarRef, () => setIsMenuOpen(false));
-  // Session
-  const { data: session } = useSession();
 
   const links = [
     ["Accueil", "/"],
@@ -45,10 +42,10 @@ export default function Navbar() {
     setIsMenuOpen(false);
   };
 
-  const logOut = async () => {
-    await signOut({ redirect: false });
-    routeur.refresh();
-  };
+  // const logOut = async () => {
+  //   await signOut({ redirect: false });
+  //   routeur.refresh();
+  // };
 
   return (
     <nav
@@ -60,7 +57,7 @@ export default function Navbar() {
           {/* Menu desktop - caché sur mobile */}
           <ul className="hidden lg:flex space-x-9">
             {links.map((link) => {
-              if (link[2] === "protected" && !session?.user) return null;
+              // if (link[2] === "protected" && !session?.user) return null;
 
               return (
                 <li key={link[0]}>
@@ -93,16 +90,16 @@ export default function Navbar() {
             />
           )}
           <div className="absolute right-10">
-            {!session?.user ? (
-              /* Bouton de connexion */
-              <Button sm onClick={() => routeur.push("/login")}>
-                Connexion
-              </Button>
-            ) : (
+            {/* {!session?.user ? ( */}
+            {/* Bouton de connexion */}
+            <Button sm onClick={() => routeur.push("/login")}>
+              Connexion
+            </Button>
+            {/* ) : (
               <Button sm onClick={logOut}>
                 Se déconnecter
               </Button>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -113,7 +110,7 @@ export default function Navbar() {
           }`}
         >
           {links.map((link) => {
-            if (link[2] === "protected" && !session?.user) return null;
+            // if (link[2] === "protected" && !session?.user) return null;
 
             return (
               <li key={link[0]} className="py-2">

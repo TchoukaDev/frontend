@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/utils/validation";
-import { signIn, getSession } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button/Button";
@@ -33,32 +32,30 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false, // ✅ Important !
-      });
-
-      if (result?.error) {
-        // Gestion des erreurs NextAuth
-        switch (result.error) {
-          case "CredentialsSignin":
-            setError("Email ou mot de passe incorrect");
-            break;
-          case "AccessDenied":
-            setError("Accès refusé");
-            break;
-          default:
-            setError("Une erreur s'est produite lors de la connexion");
-        }
-      } else if (result?.ok) {
-        // Succès - redirection ou action
-        const session = await getSession();
-        console.log("Connecté:", session?.user);
-
-        // Redirection basée sur le rôle ou préférences
-        router.push("/");
-      }
+      // const result = await signIn("credentials", {
+      //   email: data.email,
+      //   password: data.password,
+      //   redirect: false, // ✅ Important !
+      // });
+      // if (result?.error) {
+      //   // Gestion des erreurs NextAuth
+      //   switch (result.error) {
+      //     case "CredentialsSignin":
+      //       setError("Email ou mot de passe incorrect");
+      //       break;
+      //     case "AccessDenied":
+      //       setError("Accès refusé");
+      //       break;
+      //     default:
+      //       setError("Une erreur s'est produite lors de la connexion");
+      //   }
+      // } else if (result?.ok) {
+      //   // Succès - redirection ou action
+      //   const session = await getSession();
+      //   console.log("Connecté:", session?.user);
+      //   // Redirection basée sur le rôle ou préférences
+      //   router.push("/");
+      // }
     } catch (error) {
       console.error("Erreur de connexion:", error);
       setError("Une erreur technique s'est produite");

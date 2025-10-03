@@ -1,8 +1,7 @@
 "use server";
 
-import { getCollection } from "@/libs/mongodb";
+import { strapiClient } from "@/libs/strapiClient";
 import { signUpSchema } from "@/utils/validation";
-import bcrypt from "bcrypt";
 
 export const createUser = async (prevState, formData) => {
   const standardError = "Veuillez corriger les champs dans le formulaire";
@@ -49,13 +48,9 @@ export const createUser = async (prevState, formData) => {
       };
     }
     const validatedData = validationResult.data;
-    // Récupère la collection une seule fois
-    const usersCollection = await getCollection("users");
 
     // Vérifie si l'email existe
-    const existingUser = await usersCollection.findOne({
-      email: validatedData.email,
-    });
+    const existingUser = await strapiClient.emailExists(validatedData.email);
     if (existingUser) {
       return {
         success: false,
@@ -65,9 +60,9 @@ export const createUser = async (prevState, formData) => {
     }
 
     // Vérifie si le téléphone existe
-    const existingPhone = await usersCollection.findOne({
-      telephone: validatedData.telephone,
-    });
+    const existingPhone = await strapiClient.phoneExists(
+      validatedData.telephone,
+    );
     if (existingPhone) {
       return {
         success: false,
@@ -75,8 +70,8 @@ export const createUser = async (prevState, formData) => {
         fieldErrors: { telephone: "Ce numéro de téléphone est déjà utilisé." },
       };
     }
-    // Sécuriser le mot de passe
-    const hashedPassword = await bcrypt.hash(validatedData.password, 12);
+
+    // Le mot de passe est haché automatiquement par Strapi
 
     //   Formatter l'objet user
     const newUser = {
@@ -84,14 +79,11 @@ export const createUser = async (prevState, formData) => {
       name: validatedData.name,
       email: validatedData.email,
       telephone: validatedData.telephone,
-      password: hashedPassword,
-      isAdmin: 0,
-      isBlocked: 0,
-      createdAt: new Date(),
+      password: validatedData.password,
     };
 
     //   Ajouter l'utilisateur
-    await usersCollection.insertOne(newUser);
+    await strapiClient.register(newUser);
 
     //   Success
     return {
@@ -100,8 +92,28 @@ export const createUser = async (prevState, formData) => {
         "Votre compte a bien été créé. Vous pouvez maintenant vous connecter.",
     };
   } catch (e) {
-    console.error("Erreur serveur:", e.message);
-    // On ne throw pas, on renvoie un objet compréhensible côté client
+    console.error("Erreur serveur:", e);
+
+    // Gestion des erreurs Strapi
+    const errorMessage = e.message || "";
+
+    if (errorMessage.includes("email") || errorMessage.includes("Email")) {
+      return {
+        success: false,
+        error: standardError,
+        fieldErrors: { email: "Cet email est déjà utilisé" },
+      };
+    }
+
+    if (errorMessage.includes("telephone") || errorMessage.includes("phone")) {
+      return {
+        success: false,
+        error: standardError,
+        fieldErrors: { telephone: "Ce numéro est déjà utilisé" },
+      };
+    }
+
+    // Erreur générique
     return {
       success: false,
       error:

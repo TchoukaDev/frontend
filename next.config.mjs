@@ -19,6 +19,7 @@ const nextConfig = {
         pathname: "/img/wn/**",
       },
     ],
+    qualities: [50, 75, 80, 85, 90, 100],
   },
 };
 export default nextConfig;

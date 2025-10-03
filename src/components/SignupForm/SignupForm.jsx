@@ -38,7 +38,7 @@ export default function SignupForm() {
 
   // reset du formulaire
   useEffect(() => {
-    if (serverState?.succes && !isPending) {
+    if (serverState?.success && !isPending) {
       reset();
     }
   }, [serverState, isPending, reset]);
@@ -208,7 +208,7 @@ export default function SignupForm() {
       {/* Messages de retour serveur */}
       {serverState?.success && (
         <div className="bg-green-100 border border-green-400 text-green-700 text-center px-4 py-3 rounded">
-          {serverState.message}{" "}
+          <p className="mb-3">{serverState.message} </p>
           <Button
             onClick={(e) => {
               e.preventDefault();

@@ -38,7 +38,7 @@ export default async function ClubPage({ data = {} }) {
                   <Image
                     width={80}
                     height={80}
-                    src={`${process.env.STRAPI_API}${anim.file?.url}`}
+                    src={`${process.env.STRAPI_API_URL}${anim.file?.url}`}
                     className="object-cover"
                     alt={anim.file?.alternativeText}
                   />

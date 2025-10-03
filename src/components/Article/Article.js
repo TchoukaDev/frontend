@@ -15,7 +15,7 @@ export default function Publication({ data }) {
           <div className="flex justify-center items-center">
             {article.image && (
               <Image
-                src={`${process.env.STRAPI_API}${article.image.url}`}
+                src={`${process.env.STRAPI_API_URL}${article.image.url}`}
                 width={300}
                 height={300}
                 className="object-contain"
@@ -26,7 +26,7 @@ export default function Publication({ data }) {
           <div>
             {article?.document && (
               <a
-                href={`${process.env.STRAPI_API}${article.document.url}`}
+                href={`${process.env.STRAPI_API_URL}${article.document.url}`}
                 target="_blank"
               >
                 <FileText />

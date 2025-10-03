@@ -3,7 +3,7 @@ import Carousel from "@/components/ui/Carousel/Carousel";
 
 export default async function GalleryPage({ data = {} }) {
   const photos = data?.photos || [];
-  const strapiUrl = process.env.STRAPI_API;
+  const strapiUrl = process.env.STRAPI_API_URL;
 
   return (
     <Card>

@@ -48,7 +48,7 @@
 }
 
 body {
-  @apply flex flex-col font-main bg-fixed bg-no-repeat bg-cover min-h-screen w-full bg-[url(/images/fond.jpg)];
+  @apply flex flex-col font-main min-h-screen w-full;
 }
 @utility custom-gradient {
   @apply bg-gradient-to-br from-blue3 to-blue1;

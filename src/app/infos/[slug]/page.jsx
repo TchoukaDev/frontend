@@ -45,7 +45,7 @@ export default async function Info({ params }) {
           >
             <a
               className="flex flex-col items-center w-fit justify-center"
-              href={`${process.env.STRAPI_API}${doc.url}`}
+              href={`${process.env.STRAPI_API_URL}${doc.url}`}
               target="_blank"
             >
               <FileInput />
@@ -59,7 +59,7 @@ export default async function Info({ params }) {
             className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
           >
             <Image
-              src={`${process.env.STRAPI_API}${image.url}`}
+              src={`${process.env.STRAPI_API_URL}${image.url}`}
               alt={image.alternativeText}
               width={300}
               height={200}

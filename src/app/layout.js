@@ -3,8 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar/Navbar";
 import QueryProvider from "@/components/Providers/QueryClientProvider/QueryClientProvider";
 import Footer from "@/components/layout/Footer/Footer";
-
-import AuthProvider from "@/providers/AuthProvider/AuthProvider";
+import BackgroundImage from "@/components/ui/BackgroundImage/BackgroundImage";
 
 export const metadata = {
   title: "Les randonneurs des sables",
@@ -15,14 +14,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
-        <AuthProvider>
-          <QueryProvider>
-            <Header />
-            <Navbar />
-            {children}
-            <Footer />
-          </QueryProvider>
-        </AuthProvider>
+        <QueryProvider>
+          <BackgroundImage />
+          <Header />
+          <Navbar />
+          {children}
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );

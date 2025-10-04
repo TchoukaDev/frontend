@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 const Carousel = ({ images = [] }) => {
   // État pour savoir quelle image est affichée actuellement
@@ -63,7 +64,7 @@ const Carousel = ({ images = [] }) => {
     // Précharge ces images dans le navigateur
     [nextIndex, prevIndex].forEach((i) => {
       const img = new window.Image();
-      img.src = `${images[i].url}`;
+      img.src = `${getImageUrl(images[i])}`;
     });
   }, [index, images]);
 
@@ -91,7 +92,7 @@ const Carousel = ({ images = [] }) => {
                 </div>
               ) : (
                 <Image
-                  src={`${images[index].url}`}
+                  src={`${getImageUrl(images[index])}`}
                   alt={images[index].alternativeText || `Slide ${index + 1}`}
                   fill // Prend tout l'espace du parent
                   className="object-cover" // Remplit sans déformer
@@ -156,10 +157,10 @@ const Carousel = ({ images = [] }) => {
             onMouseEnter={() => {
               // Précharge l'image en grand quand on survole la miniature
               const img = new window.Image();
-              img.src = `${image.url}`;
+              img.src = `${getImageUrl(image)}`;
             }}
             key={image.id}
-            src={`${image.url}`}
+            src={`${getImageUrl(image)}`}
             alt={image.alternativeText || `Miniature ${i + 1}`}
             width={100}
             height={100}

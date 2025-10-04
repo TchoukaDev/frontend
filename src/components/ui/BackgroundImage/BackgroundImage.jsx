@@ -7,7 +7,7 @@ export default async function BackgroundImage() {
   return (
     <div className="inset-0 fixed -z-50 ">
       <Image
-        src={`${image?.url}` || "/images/fond.jpg"}
+        src={`${getImageUrl(image)}` || "/images/fond.jpg"}
         className="object-cover"
         alt={`${image.alternativeText}` || "Background Image"}
         fill

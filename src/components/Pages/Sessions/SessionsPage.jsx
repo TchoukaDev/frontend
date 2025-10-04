@@ -5,10 +5,10 @@ import Card from "@/components/ui/Card/Card";
 
 export default async function SessionsPage({ data = {} }) {
   const sessions = data;
-  console.log(data);
+
   // Extraction des tableaux de séances et des documents PDF
-  const tableaux = sessions.tableau || [];
-  const docs = sessions.pdf || [];
+  const tableaux = sessions?.tableau || [];
+  const docs = sessions?.pdf || [];
 
   // Définition des jours de la semaine en minuscules
   // Utilisés comme base pour construire les clés des champs du tableau
@@ -48,15 +48,15 @@ export default async function SessionsPage({ data = {} }) {
           <div className="space-y-12">
             {/* Titre animé de la section */}
             <AnimatedTitle as="h2" odd>
-              {sessions.titre1}
+              {sessions?.titre1}
             </AnimatedTitle>
 
             {/* Boucle sur chaque tableau de séances */}
-            {tableaux.map((tableau) => (
-              <div className="space-y-6 text-black" key={tableau.id}>
+            {tableaux?.map((tableau) => (
+              <div className="space-y-6 text-black" key={tableau?.id}>
                 {/* Dates de validité du tableau */}
                 <p className="text-center underline prose max-w-none">
-                  {tableau.dates}
+                  {tableau?.dates}
                 </p>
 
                 {/* Container responsive pour le tableau */}
@@ -116,9 +116,9 @@ export default async function SessionsPage({ data = {} }) {
                   </div>
 
                   {/* Commentaire optionnel sous le tableau */}
-                  {tableau.commentaire && (
+                  {tableau?.commentaire && (
                     <p className="text-center font-semibold prose max-w-none mt-4 px-2 text-sm sm:text-base">
-                      {tableau.commentaire}
+                      {tableau?.commentaire}
                     </p>
                   )}
                 </div>
@@ -130,22 +130,22 @@ export default async function SessionsPage({ data = {} }) {
         {/* Section 2 : Documents PDF */}
         <section className="section">
           {/* Titre animé de la section documents */}
-          <AnimatedTitle as="h2">{sessions.titre2}</AnimatedTitle>
+          <AnimatedTitle as="h2">{sessions?.titre2}</AnimatedTitle>
 
           {/* Container pour les PDF avec espacement important */}
           <div className="space-y-20">
             {/* Boucle sur chaque document PDF */}
-            {docs.map((doc) => (
-              <div key={doc.id}>
+            {docs?.map((doc) => (
+              <div key={doc?.id}>
                 {/* Container flex centré pour titre et miniature */}
                 <div className="flex flex-col justify-center items-center gap-8">
                   {/* Titre du document */}
                   <p className="prose max-w-none font-semibold text-center">
-                    {doc.titre}
+                    {doc?.titre}
                   </p>
 
                   {/* Composant miniature PDF avec URL complète */}
-                  <PdfThumbnail url={`${doc.pdf.url}`} />
+                  <PdfThumbnail url={`${doc?.pdf?.url}`} />
                 </div>
               </div>
             ))}

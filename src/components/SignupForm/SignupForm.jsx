@@ -214,7 +214,7 @@ export default function SignupForm() {
       {/* Inscription réussie */}
       {serverState?.success && (
         <div className="bg-green-100 border border-green-400 text-green-700 text-center px-4 py-3 rounded">
-          <p className="mb-3">{serverState.success.message} </p>
+          <p className="mb-3">{serverState.message} </p>
           {/* Bouton de connexion après succès */}
           <Button
             onClick={(e) => {

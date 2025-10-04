@@ -31,12 +31,12 @@ export default function Navbar() {
     ["Séances", "/seances"],
     ["Informations", "/infos"],
     ["Compétitions", "/competitions", "isAuthenticated"],
-    [
-      "Section animateurs",
-      "/section-animateurs",
-      "isAuthenticated",
-      "isAnimator",
-    ],
+    // [
+    //   "Section animateurs",
+    //   "/section-animateurs",
+    //   "isAuthenticated",
+    //   "isAnimator",
+    // ],
     ["Galerie", "/galerie/"],
   ];
 

@@ -18,6 +18,11 @@ const nextConfig = {
         hostname: "openweathermap.org",
         pathname: "/img/wn/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
     qualities: [50, 75, 80, 85, 90, 100],
   },

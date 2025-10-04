@@ -40,34 +40,34 @@ export default async function Article({ params, endpoint }) {
           </div>
         </div>
         <h1 className="text-2xl text-blue3 border-0 font-main italic justify-start max-w-full shadow-none my-5 underline">
-          {data.titre}
+          {data?.titre}
         </h1>{" "}
         <div className="prose max-w-none my-5">
           <BlocksRendererWrapper content={data?.contenu || []} />
         </div>
         {documents.map((doc) => (
           <div
-            key={doc.id}
+            key={doc?.id}
             className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
           >
             <a
               className="flex flex-col items-center w-fit justify-center"
-              href={`${process.env.STRAPI_API_URL}${doc.url}`}
+              href={`${process.env.STRAPI_API_URL}${doc?.url}`}
               target="_blank"
             >
               <FileInput />
-              {doc.name}
+              {doc?.name}
             </a>
           </div>
         ))}
         {images.map((image) => (
           <div
-            key={image.id}
+            key={image?.id}
             className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
           >
             <Image
-              src={`${process.env.STRAPI_API_URL}${image.url}`}
-              alt={image.alternativeText}
+              src={`${process.env.STRAPI_API_URL}${image?.url}`}
+              alt={image?.alternativeText}
               width={300}
               height={200}
               className="rounded shadow-md"

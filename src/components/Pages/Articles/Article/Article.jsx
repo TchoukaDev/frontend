@@ -11,7 +11,7 @@ export default async function Article({ params, endpoint }) {
   const { slug } = await params;
 
   const response = await fetchStrapi(`${endpoint}/${slug}`, 300);
-  const data = response?.data;
+  const data = response?.data || {};
 
   if (!data) {
     notFound();

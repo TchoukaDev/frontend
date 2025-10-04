@@ -4,7 +4,6 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function CompetitionsPage({ searchParams }) {
   const session = await getServerSession(authOptions);
-  console.log(session);
   return (
     <ArticlesPage
       endpoint="competitions"

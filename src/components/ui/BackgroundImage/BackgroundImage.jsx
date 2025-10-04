@@ -1,4 +1,5 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
+import { getImageUrl } from "@/utils/getImageUrl";
 import Image from "next/image";
 
 export default async function BackgroundImage() {

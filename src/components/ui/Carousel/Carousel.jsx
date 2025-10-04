@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const Carousel = ({ images = [], strapiUrl }) => {
+const Carousel = ({ images = [] }) => {
   // État pour savoir quelle image est affichée actuellement
   const [index, setIndex] = useState(0);
 
@@ -63,9 +63,9 @@ const Carousel = ({ images = [], strapiUrl }) => {
     // Précharge ces images dans le navigateur
     [nextIndex, prevIndex].forEach((i) => {
       const img = new window.Image();
-      img.src = `${strapiUrl}${images[i].url}`;
+      img.src = `${images[i].url}`;
     });
-  }, [index, images, strapiUrl]);
+  }, [index, images]);
 
   return (
     <div className="space-y-20">
@@ -91,7 +91,7 @@ const Carousel = ({ images = [], strapiUrl }) => {
                 </div>
               ) : (
                 <Image
-                  src={`${strapiUrl}${images[index].url}`}
+                  src={`${images[index].url}`}
                   alt={images[index].alternativeText || `Slide ${index + 1}`}
                   fill // Prend tout l'espace du parent
                   className="object-cover" // Remplit sans déformer
@@ -156,10 +156,10 @@ const Carousel = ({ images = [], strapiUrl }) => {
             onMouseEnter={() => {
               // Précharge l'image en grand quand on survole la miniature
               const img = new window.Image();
-              img.src = `${strapiUrl}${image.url}`;
+              img.src = `${image.url}`;
             }}
             key={image.id}
-            src={`${strapiUrl}${image.url}`}
+            src={`${image.url}`}
             alt={image.alternativeText || `Miniature ${i + 1}`}
             width={100}
             height={100}

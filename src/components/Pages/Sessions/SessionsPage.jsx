@@ -145,9 +145,7 @@ export default async function SessionsPage({ data = {} }) {
                   </p>
 
                   {/* Composant miniature PDF avec URL complète */}
-                  <PdfThumbnail
-                    url={`${process.env.STRAPI_API_URL}${doc.pdf.url}`}
-                  />
+                  <PdfThumbnail url={`${doc.pdf.url}`} />
                 </div>
               </div>
             ))}

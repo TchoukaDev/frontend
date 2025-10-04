@@ -53,7 +53,7 @@ export default async function Article({ params, endpoint }) {
             >
               <a
                 className="flex flex-col items-center w-fit justify-center"
-                href={`${process.env.STRAPI_API_URL}${doc?.url}`}
+                href={`${doc?.url}`}
                 target="_blank"
               >
                 <FileInput />
@@ -68,7 +68,7 @@ export default async function Article({ params, endpoint }) {
               className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
             >
               <Image
-                src={`${process.env.STRAPI_API_URL}${image?.url}`}
+                src={`${image?.url}`}
                 alt={image?.alternativeText}
                 width={300}
                 height={200}
@@ -166,15 +166,13 @@ export async function generateMetadata({ params, endpoint }) {
       title: data.titre,
 
       // 🖼️ IMAGES DE PRÉVISUALISATION
-      images: data.images?.[0]
-        ? [`${process.env.STRAPI_API_URL}${data.images[0].url}`]
-        : [],
+      images: data.images?.[0] ? [`${data.images[0].url}`] : [],
 
       // ⬇️ Décortiquons :
 
       // data.images?.[0]              → Première image si elle existe
       // Si elle existe :
-      //   [`${process.env.STRAPI_API_URL}${data.images[0].url}`]
+      //   [`${data.images[0].url}`]
       //   → Tableau contenant l'URL complète
       //   Exemple : ["https://strapi.com/uploads/photo_123.jpg"]
       // Sinon :

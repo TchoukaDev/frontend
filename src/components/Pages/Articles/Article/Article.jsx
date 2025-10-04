@@ -45,7 +45,7 @@ export default async function Article({ params, endpoint }) {
         <div className="prose max-w-none my-5">
           <BlocksRendererWrapper content={data?.contenu || []} />
         </div>
-        {documents.map((doc) => (
+        {documents?.map((doc) => (
           <div
             key={doc?.id}
             className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
@@ -60,7 +60,7 @@ export default async function Article({ params, endpoint }) {
             </a>
           </div>
         ))}
-        {images.map((image) => (
+        {images?.map((image) => (
           <div
             key={image?.id}
             className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"

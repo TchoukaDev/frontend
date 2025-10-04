@@ -45,35 +45,37 @@ export default async function Article({ params, endpoint }) {
         <div className="prose max-w-none my-5">
           <BlocksRendererWrapper content={data?.contenu || []} />
         </div>
-        {documents?.map((doc) => (
-          <div
-            key={doc?.id}
-            className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
-          >
-            <a
-              className="flex flex-col items-center w-fit justify-center"
-              href={`${process.env.STRAPI_API_URL}${doc?.url}`}
-              target="_blank"
+        {documents.length > 0 &&
+          documents?.map((doc) => (
+            <div
+              key={doc?.id}
+              className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
             >
-              <FileInput />
-              {doc?.name}
-            </a>
-          </div>
-        ))}
-        {images?.map((image) => (
-          <div
-            key={image?.id}
-            className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
-          >
-            <Image
-              src={`${process.env.STRAPI_API_URL}${image?.url}`}
-              alt={image?.alternativeText}
-              width={300}
-              height={200}
-              className="rounded shadow-md"
-            />
-          </div>
-        ))}
+              <a
+                className="flex flex-col items-center w-fit justify-center"
+                href={`${process.env.STRAPI_API_URL}${doc?.url}`}
+                target="_blank"
+              >
+                <FileInput />
+                {doc?.name}
+              </a>
+            </div>
+          ))}
+        {image.length &&
+          images?.map((image) => (
+            <div
+              key={image?.id}
+              className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
+            >
+              <Image
+                src={`${process.env.STRAPI_API_URL}${image?.url}`}
+                alt={image?.alternativeText}
+                width={300}
+                height={200}
+                className="rounded shadow-md"
+              />
+            </div>
+          ))}
       </section>
     </Card>
   );
@@ -81,7 +83,7 @@ export default async function Article({ params, endpoint }) {
 
 export const revalidate = 300;
 
-export async function generateStaticParams(endpoint) {
+export async function generateStaticParams({ endpoint }) {
   try {
     const data = await fetchStrapi(
       `${endpoint}?pagination[limit]=50&sort=updatedAt:desc`,

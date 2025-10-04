@@ -61,7 +61,7 @@ export default async function Article({ params, endpoint }) {
               </a>
             </div>
           ))}
-        {image.length &&
+        {images.length &&
           images?.map((image) => (
             <div
               key={image?.id}

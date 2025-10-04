@@ -136,7 +136,7 @@ export async function generateMetadata({ params, endpoint }) {
   return {
     // 📌 TITRE DE LA PAGE
     // Apparaît dans l'onglet du navigateur et dans les résultats Google
-    title: data.titre || "Article",
+    title: data?.titre || "Article",
 
     // 📝 DESCRIPTION
     // Apparaît sous le titre dans les résultats de recherche Google
@@ -167,7 +167,7 @@ export async function generateMetadata({ params, endpoint }) {
 
       // 🖼️ IMAGES DE PRÉVISUALISATION
       images: data.images?.[0]
-        ? [`${process.env.STRAPI_API_URL}${data.images[0].url}`]
+        ? [`${process.env.STRAPI_API_URL}${data.images[0]?.url}`]
         : [],
 
       // ⬇️ Décortiquons :

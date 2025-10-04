@@ -20,7 +20,7 @@ export default function LoginForm() {
     reset,
     formState: { errors: clientErrors },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       autoLogin: true,
     },

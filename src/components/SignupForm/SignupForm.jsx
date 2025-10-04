@@ -21,7 +21,7 @@ export default function SignupForm() {
     handleSubmit,
     reset,
     formState: { errors: clientErrors },
-  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onBlur" });
+  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onChange" });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();

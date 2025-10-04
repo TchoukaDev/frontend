@@ -2,6 +2,7 @@ export async function fetchStrapi(endpoint, cache) {
   try {
     const response = await fetch(
       `${process.env.STRAPI_API_URL}/api/${endpoint}`,
+      { headers: { Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}` } },
       {
         next: { revalidate: cache },
       },
@@ -9,7 +10,7 @@ export async function fetchStrapi(endpoint, cache) {
 
     if (!response.ok) {
       console.error(response.status, response.statusText);
-      return {}; // ✅ Changez juste ça : return null au lieu de throw
+      return {};
     }
 
     const data = await response.json();

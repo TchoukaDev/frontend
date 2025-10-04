@@ -13,7 +13,6 @@ export default function Navbar() {
   const Path = usePathname();
   const routeur = useRouter();
   const { data: session } = useSession();
-  console.log(session?.user);
   // State
   // Gère ouverture et fermeture navbar responsive
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +30,13 @@ export default function Navbar() {
     ["Marche aquatique", "/marche-aquatique"],
     ["Séances", "/seances"],
     ["Informations", "/infos"],
-    ["Compétitions", "/competitions", "protected"],
+    ["Compétitions", "/competitions", "isAuthenticated"],
+    [
+      "Section animateurs",
+      "/section-animateurs",
+      "isAuthenticated",
+      "isAnimator",
+    ],
     ["Galerie", "/galerie/"],
   ];
 
@@ -59,7 +64,7 @@ export default function Navbar() {
           {/* Menu desktop - caché sur mobile */}
           <ul className="hidden lg:flex space-x-9">
             {links.map((link) => {
-              // if (link[2] === "protected" && !session?.user) return null;
+              if (link[2] === "isAuthenticated" && !session?.user) return null;
 
               return (
                 <li key={link[0]}>
@@ -113,7 +118,7 @@ export default function Navbar() {
           }`}
         >
           {links.map((link) => {
-            // if (link[2] === "protected" && !session?.user) return null;
+            if (link[2] === "isAuthenticated" && !session?.user) return null;
 
             return (
               <li key={link[0]} className="py-2">

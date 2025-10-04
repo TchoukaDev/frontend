@@ -11,7 +11,6 @@ const pageComponents = {
   club: ClubPage,
   "marche-aquatique": WaterWalkingPage,
   seances: SessionsPage,
-  // competitions: CompetitionsPage,
   galerie: GalleryPage,
 };
 export default async function Page({ params }) {

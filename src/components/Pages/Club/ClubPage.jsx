@@ -1,6 +1,5 @@
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
-import { getImageUrl } from "@/utils/getImageUrl";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
@@ -39,7 +38,7 @@ export default async function ClubPage({ data = {} }) {
                   <Image
                     width={80}
                     height={80}
-                    src={getImageUrl(anim?.file)}
+                    src={anim?.file?.url}
                     className="object-cover"
                     alt={anim.file?.alternativeText}
                   />

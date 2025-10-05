@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
 import { notFound } from "next/navigation";
-import { getImageUrl } from "@/utils/getImageUrl";
 
 export default async function Article({ params, endpoint }) {
   const { slug } = await params;
@@ -69,7 +68,7 @@ export default async function Article({ params, endpoint }) {
               className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
             >
               <Image
-                src={getImageUrl(image)}
+                src={image?.url}
                 alt={image?.alternativeText}
                 width={300}
                 height={200}
@@ -167,13 +166,13 @@ export async function generateMetadata({ params, endpoint }) {
       title: data.titre,
 
       // 🖼️ IMAGES DE PRÉVISUALISATION
-      images: data.images?.[0] ? [`${getImageUrl(data.images[0])}`] : [],
+      images: data.images?.[0] ? [`${data?.images[0]?.url}`] : [],
 
       // ⬇️ Décortiquons :
 
       // data.images?.[0]              → Première image si elle existe
       // Si elle existe :
-      //   [`${getImageUrl(data.images[0])}`]
+      //   [`${data.images[0].url}`]
       //   → Tableau contenant l'URL complète
       //   Exemple : ["https://strapi.com/uploads/photo_123.jpg"]
       // Sinon :

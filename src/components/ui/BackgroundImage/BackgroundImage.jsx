@@ -1,5 +1,4 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
-import { getImageUrl } from "@/utils/getImageUrl";
 import Image from "next/image";
 
 export default async function BackgroundImage() {
@@ -8,7 +7,7 @@ export default async function BackgroundImage() {
   return (
     <div className="inset-0 fixed -z-50 ">
       <Image
-        src={`${getImageUrl(image)}` || "/images/fond.jpg"}
+        src={`${image?.url}` || "/images/fond.jpg"}
         className="object-cover"
         alt={`${image.alternativeText}` || "Background Image"}
         fill

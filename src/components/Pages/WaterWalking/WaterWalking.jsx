@@ -14,14 +14,14 @@ export default async function WaterWalkingPage({ data = {} }) {
             section,
             index, // ← Ajouter index
           ) => (
-            <section key={section.id} className="section">
+            <section key={section?.id} className="section">
               <AnimatedTitle odd={index % 2 === 0}>
                 {" "}
                 {/* ← Passer odd */}
-                {section.titre}
+                {section?.titre}
               </AnimatedTitle>
               <div className="prose prose-p:mb-2 max-w-none">
-                <BlocksRenderer content={section.contenu} />
+                <BlocksRenderer content={section?.contenu} />
               </div>
             </section>
           ),

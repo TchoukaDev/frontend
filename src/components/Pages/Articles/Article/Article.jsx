@@ -7,9 +7,10 @@ import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
 import { notFound } from "next/navigation";
 
-export default async function Article({ params, endpoint }) {
+export default async function Article({ params, endpoint, title }) {
   const { slug } = await params;
 
+  // Récupération de l'article
   const response = await fetchStrapi(`${endpoint}/${slug}`, 300);
   const data = response?.data || {};
 
@@ -24,6 +25,7 @@ export default async function Article({ params, endpoint }) {
 
   return (
     <Card>
+      <h1>{title}</h1>
       <section className="section">
         {" "}
         <div className="flex justify-between">
@@ -39,9 +41,9 @@ export default async function Article({ params, endpoint }) {
               `Publié le ${formatDate(data.createdAt)}`}
           </div>
         </div>
-        <h1 className="text-2xl text-blue3 border-0 font-main italic justify-start max-w-full shadow-none my-5 underline">
+        <h2 className="text-2xl text-blue3 border-0 font-main italic text-center max-w-full shadow-none my-5 underline">
           {data?.titre}
-        </h1>{" "}
+        </h2>{" "}
         <div className="prose max-w-none my-5">
           <BlocksRendererWrapper content={data?.contenu || []} />
         </div>

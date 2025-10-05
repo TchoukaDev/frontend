@@ -2,7 +2,7 @@ import ClubPage from "@/components/Pages/Club/ClubPage";
 // import CompetitionsPage from "@/components/Pages/Competitions/CompetitionsPage";
 import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
 import SessionsPage from "@/components/Pages/Sessions/SessionsPage";
-import WaterWalkingPage from "@/components/Pages/WaterWalking/WaterWalking";
+import WaterWalkingPage from "@/components/Pages/WaterWalking/WaterWalkingPage";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
 

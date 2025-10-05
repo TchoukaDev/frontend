@@ -30,7 +30,7 @@ export default function useMeteo(ville = "Biscarrosse", initialData = null) {
     staleTime: 5 * 60 * 1000, // données fraîches pendant 5min
     refetchInterval: 10 * 60 * 1000, // refresh toutes les 10min
     refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false, //Eviter un double fetch immédiatement après la réception de InitialData du server
     refetchOnReconnect: true,
 
     // Retry automatique

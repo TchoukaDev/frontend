@@ -53,7 +53,6 @@ export default function LoginForm() {
         setIsPending(false);
       } else {
         // Succès !
-        reset();
         router.push("/"); // Change selon ta page de destination
         router.refresh(); // Force le rafraîchissement de la session
       }
@@ -61,6 +60,8 @@ export default function LoginForm() {
       console.error("Erreur:", error);
       setServerError("Une erreur s'est produite");
       setIsPending(false);
+    } finally {
+      reset();
     }
   };
 

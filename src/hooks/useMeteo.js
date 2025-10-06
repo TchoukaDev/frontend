@@ -1,11 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 // Fonction pour fetcher la météo depuis l'API route
 async function fetchMeteo(ville) {
   // fallback sur "Biscarrosse" si ville vide
-  if (!ville) ville = "Biscarrosse";
 
   // fetch vers l'API interne
   const res = await fetch(`/api/meteo?ville=${encodeURIComponent(ville)}`);
@@ -13,24 +12,31 @@ async function fetchMeteo(ville) {
   // transformer la réponse en JSON
   const data = await res.json();
 
+  // ✅ Si erreur dans la réponse, throw
+  if (!res.ok || data.error) {
+    throw new Error(data.error || `Erreur ${res.status}`);
+  }
+
   // On renvoie toujours les données, même si elles contiennent error
   return data;
 }
 
 // Hook personnalisé
 export default function useMeteo(ville = "Biscarrosse", initialData = null) {
+  // Protège contre "", null, undefined, false, 0
+  const normalizedVille = ville || "Biscarrosse";
   return useQuery({
-    queryKey: ["meteo", ville], // clé unique pour cette ville
-    queryFn: () => fetchMeteo(ville),
+    queryKey: ["meteo", normalizedVille], // clé unique pour cette ville
+    queryFn: () => fetchMeteo(normalizedVille),
 
     initialData, // données initiales venant d'un server component
-    keepPreviousData: true, // garder l'ancienne météo si le fetch échoue
+    placeholderData: keepPreviousData, // garder l'ancienne météo si le fetch échoue
 
     // Stale / refetch
-    staleTime: 5 * 60 * 1000, // données fraîches pendant 5min
+    staleTime: 10 * 60 * 1000, // données fraîches pendant 5min
     refetchInterval: 10 * 60 * 1000, // refresh toutes les 10min
     refetchIntervalInBackground: true,
-    refetchOnWindowFocus: false, //Eviter un double fetch immédiatement après la réception de InitialData du server
+    refetchOnWindowFocus: true,
     refetchOnReconnect: true,
 
     // Retry automatique

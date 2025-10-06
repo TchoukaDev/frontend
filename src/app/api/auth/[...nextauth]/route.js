@@ -17,7 +17,8 @@ export const authOptions = {
         }
 
         try {
-          const response = await fetch(
+          // 1. Authentification Strapi
+          const loginResponse = await fetch(
             `${process.env.STRAPI_API_URL}/api/auth/local`,
             {
               method: "POST",
@@ -29,23 +30,55 @@ export const authOptions = {
             },
           );
 
-          const data = await response.json();
+          const loginData = await loginResponse.json();
 
-          if (response.ok && data.jwt) {
-            const user = {
-              id: data.user.id,
-              email: data.user.email,
-              name: data.user.name,
-              firstname: data.user.firstname,
-              username: data.user.username || data.user.email,
-              jwt: data.jwt,
-            };
-            return user;
+          if (!loginResponse.ok || !loginData.jwt) {
+            console.error("❌ Login failed:", loginData);
+            return null;
           }
 
-          return null;
+          // 2. Récupérer les informations complètes avec le rôle
+          const userDetailsResponse = await fetch(
+            `${process.env.STRAPI_API_URL}/api/users/${loginData.user.id}?populate=role`,
+            {
+              headers: {
+                Authorization: `Bearer ${loginData.jwt}`,
+              },
+            },
+          );
+
+          const userDetailsData = await userDetailsResponse.json();
+
+          if (!userDetailsResponse.ok) {
+            console.error("❌ Failed to fetch user details:", userDetailsData);
+            // Retourner quand même avec les données de base
+            return {
+              id: loginData.user.id,
+              email: loginData.user.email,
+              telephone: loginData.user.telephone || null,
+              name: loginData.user.name || null,
+              firstname: loginData.user.firstname || null,
+              blocked: loginData.blocked || false,
+              jwt: loginData.jwt,
+              role: null,
+              roleName: null,
+            };
+          }
+
+          // 3. Retourner l'objet user complet
+          return {
+            id: userDetailsData.id,
+            email: userDetailsData.email,
+            telephone: userDetailsData.telephone || null,
+            name: userDetailsData.name || null,
+            firstname: userDetailsData.firstname || null,
+            blocked: userDetailsData.blocked || false,
+            jwt: loginData.jwt,
+            role: userDetailsData.role?.type || null,
+            roleName: userDetailsData.role?.name || null,
+          };
         } catch (error) {
-          console.error("Erreur auth:", error);
+          console.error("💥 Erreur auth:", error);
           return null;
         }
       },
@@ -54,7 +87,7 @@ export const authOptions = {
 
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 30 * 24 * 60 * 60, // 30 jours
   },
 
   pages: {
@@ -65,17 +98,46 @@ export const authOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
+      // user n'existe QUE lors du premier sign in
       if (user) {
-        token.user = user;
+        // Infos utilisateur
+        token.id = user.id;
+        token.email = user.email;
+        token.telephone = user.telephone;
+        token.name = user.name;
+        token.firstname = user.firstname;
+        token.blocked = user.blocked;
+
+        // JWT Strapi (pour les requêtes API)
+        token.jwt = user.jwt;
+
+        // Rôle
+        token.role = user.role;
+        token.roleName = user.roleName;
       }
       return token;
     },
 
     async session({ session, token }) {
-      session.user = token.user;
+      // Infos utilisateur dans session.user
+      session.user.id = token.id;
+      session.user.email = token.email;
+      session.user.telephone = token.telephone;
+      session.user.name = token.name;
+      session.user.firstname = token.firstname;
+      session.user.blocked = token.blocked;
+
+      // Rôle dans session.user
+      session.user.role = token.role;
+      session.user.roleName = token.roleName;
+
+      // JWT Strapi à la racine de session (séparé des infos user)
+      session.jwt = token.jwt;
+
       return session;
     },
   },
 };
+
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

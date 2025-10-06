@@ -31,12 +31,12 @@ export default function Navbar() {
     ["Séances", "/seances"],
     ["Informations", "/infos"],
     ["Compétitions", "/competitions", "isAuthenticated"],
-    // [
-    //   "Section animateurs",
-    //   "/section-animateurs",
-    //   "isAuthenticated",
-    //   "isAnimator",
-    // ],
+    [
+      "Section animateurs",
+      "/section-animateurs",
+      "isAuthenticated",
+      "isAnimator",
+    ],
     ["Galerie", "/galerie/"],
   ];
 
@@ -65,6 +65,11 @@ export default function Navbar() {
           <ul className="hidden lg:flex space-x-9">
             {links.map((link) => {
               if (link[2] === "isAuthenticated" && !session?.user) return null;
+              if (
+                link[3] === "isAnimator" &&
+                !session?.user?.role !== "animateur"
+              )
+                return null;
 
               return (
                 <li key={link[0]}>
@@ -119,7 +124,11 @@ export default function Navbar() {
         >
           {links.map((link) => {
             if (link[2] === "isAuthenticated" && !session?.user) return null;
-
+            if (
+              link[3] === "isAnimator" &&
+              !session?.user?.role !== "animateur"
+            )
+              return null;
             return (
               <li key={link[0]} className="py-2">
                 <Link

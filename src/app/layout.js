@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar/Navbar";
 import QueryProvider from "@/components/Providers/QueryClientProvider/QueryClientProvider";
 import Footer from "@/components/layout/Footer/Footer";
 import BackgroundImage from "@/components/ui/BackgroundImage/BackgroundImage";
-import AuthProvider from "@/providers/AuthProvider/AuthProvider";
+import AuthProvider from "@/components/Providers/AuthProvider/AuthProvider";
 
 export const metadata = {
   title: "Les randonneurs des sables",

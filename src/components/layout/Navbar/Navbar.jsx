@@ -74,6 +74,7 @@ export default function Navbar() {
               return (
                 <li key={link[0]}>
                   <Link
+                    prefetch={true}
                     href={link[1]}
                     className={`hover:text-blue-600 transition-colors ${
                       Path === link[1] ? "text-blue3" : "text-blue2"
@@ -132,6 +133,7 @@ export default function Navbar() {
             return (
               <li key={link[0]} className="py-2">
                 <Link
+                  prefetch={true}
                   href={link[1]}
                   onClick={closeMenu}
                   className={`block hover:text-blue-600 transition-colors ${

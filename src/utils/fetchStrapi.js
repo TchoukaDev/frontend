@@ -1,10 +1,16 @@
-export async function fetchStrapi(endpoint, cache) {
+// /utils/fetchStrapi.js
+export async function fetchStrapi(endpoint, revalidate = 300) {
   try {
     const response = await fetch(
       `${process.env.STRAPI_API_URL}/api/${endpoint}`,
-      { headers: { Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}` } },
       {
-        next: { revalidate: cache },
+        // ✅ UN SEUL OBJET avec toutes les options
+        headers: {
+          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        },
+        next: {
+          revalidate: revalidate,
+        },
       },
     );
 

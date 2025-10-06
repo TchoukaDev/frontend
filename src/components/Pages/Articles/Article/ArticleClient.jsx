@@ -32,7 +32,7 @@ export default function ArticleClient({
             `Publié le ${formatDate(data?.createdAt)}`}
         </div>
       </div>
-      <h2 className="text-2xl text-blue3 border-0 font-main italic text-center max-w-full shadow-none my-5 underline">
+      <h2 className="text-2xl text-blue3 border-0 font-main italic text-center max-w-full shadow-none my-10 underline whitespace-normal">
         {data?.titre}
       </h2>{" "}
       <div className="prose max-w-none my-5">

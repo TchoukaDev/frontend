@@ -1,28 +1,36 @@
 // /utils/fetchStrapi.js
-export async function fetchStrapi(endpoint, revalidate = 300) {
-  try {
-    const response = await fetch(
-      `${process.env.STRAPI_API_URL}/api/${endpoint}`,
-      {
-        // ✅ UN SEUL OBJET avec toutes les options
-        headers: {
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-        },
-        next: {
-          revalidate: revalidate,
-        },
+import { unstable_cache } from "next/cache";
+
+async function fetchStrapiUncached(endpoint) {
+  console.log(`🔥 FETCH REEL: ${endpoint}`);
+
+  const response = await fetch(
+    `${process.env.STRAPI_API_URL}/api/${endpoint}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
       },
-    );
+      // ⚠️ Pas de cache ici, c'est unstable_cache qui gère
+    },
+  );
 
-    if (!response.ok) {
-      console.error(response.status, response.statusText);
-      return {};
-    }
-
-    const data = await response.json();
-    return data || {};
-  } catch (e) {
-    console.error(e.message);
-    return {};
+  if (!response.ok) {
+    throw new Error(`Erreur ${response.status}`);
   }
+
+  return response.json();
+}
+
+export async function fetchStrapi(endpoint, revalidate = 300) {
+  // ✅ Créer une fonction cachée pour CET endpoint spécifique
+  const getCachedData = unstable_cache(
+    async () => fetchStrapiUncached(endpoint),
+    [endpoint], // Cache key
+    {
+      revalidate: revalidate,
+      tags: [endpoint.split("?")[0]],
+    },
+  );
+
+  return getCachedData();
 }

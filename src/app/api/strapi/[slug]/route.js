@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
     }
 
     // 4. Fetch Strapi avec cache de 300 secondes (5 min)
-    const response = await fetchStrapi(`${slug} /optimized`, 300);
+    const response = await fetchStrapi(`${slug}/optimized`, 300);
 
     // 5. Parser la réponse
     const data = await response.json();

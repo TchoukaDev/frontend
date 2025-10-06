@@ -10,7 +10,7 @@ export default async function CompetitionsPage({ searchParams }) {
   }
   return (
     <ArticlesPage
-      endpoint="competitions"
+      slug="competitions"
       title="Informations compétitions"
       searchParams={searchParams}
     />

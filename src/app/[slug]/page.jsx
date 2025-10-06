@@ -23,7 +23,7 @@ export default async function Page({ params }) {
 
   const initialData = (await fetchStrapi(`${slug}/optimized`, 300)) || [];
 
-  return <PageComponent initialData={initialData} />;
+  return <PageComponent initialData={initialData} slug={slug} />;
 }
 
 export const revalidate = 300;

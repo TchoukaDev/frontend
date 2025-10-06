@@ -2,16 +2,16 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 /**
  * Hook pour fetcher une page depuis l'API Strapi
- * @param {string} endpoint - Endpoint à fetcher (ex: "articles", "products")
+ * @param {string} slug - slug à fetcher (ex: "articles", "products")
  * @param {object|null} initialData - Données SSR (optionnel)
  * @returns {UseQueryResult}
  */
-export function useGetPage(endpoint, initialData = null) {
+export function useGetPage(slug, initialData = null) {
   return useQuery({
-    queryKey: ["pages", endpoint],
+    queryKey: ["pages", slug],
 
     queryFn: async () => {
-      const url = `${process.env.NEXT_PUBLIC_URL}/api/strapi/${endpoint}`;
+      const url = `${process.env.NEXT_PUBLIC_URL}/api/strapi/${slug}`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -37,8 +37,8 @@ export function useGetPage(endpoint, initialData = null) {
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
 
-    // Désactive si pas d'endpoint
-    enabled: !!endpoint,
+    // Désactive si pas de slug
+    enabled: !!slug,
 
     // Retry en cas d'erreur
     retry: 2,

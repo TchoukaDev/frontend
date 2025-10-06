@@ -1,9 +1,9 @@
 import ArticlesPage from "@/components/Pages/Articles/ArticlesPage";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
-export default async function AnimSectionPage({ searchParams }) {
+export default async function AnimSectionPage({ searchParams, params }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -15,7 +15,7 @@ export default async function AnimSectionPage({ searchParams }) {
   }
   return (
     <ArticlesPage
-      endpoint="animateurs"
+      slug={params.slug}
       title="Section animateurs"
       searchParams={searchParams}
     />

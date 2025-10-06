@@ -4,8 +4,8 @@ import Card from "@/components/ui/Card/Card";
 import Carousel from "@/components/ui/Carousel/Carousel";
 import { useGetPage } from "@/hooks/useGetPage";
 
-export default function GalleryPage({ initialData = {} }) {
-  const { data = [] } = useGetPage("galerie", initialData);
+export default function GalleryPage({ initialData = {}, slug }) {
+  const { data = [] } = useGetPage(slug, initialData);
   const photos = data?.photos || [];
 
   return (

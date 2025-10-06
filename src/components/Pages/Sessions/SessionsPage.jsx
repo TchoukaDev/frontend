@@ -5,8 +5,8 @@ import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
 import { useGetPage } from "@/hooks/useGetPage";
 
-export default function SessionsPage({ initialData = {} }) {
-  const { data = [] } = useGetPage("seances", initialData);
+export default function SessionsPage({ initialData = {}, slug }) {
+  const { data = [] } = useGetPage(slug, initialData);
   const sessions = data;
 
   // Extraction des tableaux de séances et des documents PDF

@@ -5,8 +5,8 @@ import Card from "@/components/ui/Card/Card";
 import { useGetPage } from "@/hooks/useGetPage";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
-export default function WaterWalkingPage({ initialData = {} }) {
-  const { data = [] } = useGetPage("marche-aquatique", initialData);
+export default function WaterWalkingPage({ initialData = {}, slug }) {
+  const { data = [] } = useGetPage(slug, initialData);
   const sections = data?.sections || [];
 
   return (

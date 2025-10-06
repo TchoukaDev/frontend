@@ -4,7 +4,7 @@ export default function InfosPage({ searchParams }) {
   return (
     <ArticlesPage
       searchParams={searchParams}
-      endpoint="infos"
+      slug="infos"
       title="Informations diverses"
     />
   );

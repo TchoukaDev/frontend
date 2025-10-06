@@ -6,8 +6,8 @@ import { useGetPage } from "@/hooks/useGetPage";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
-export default function ClubPage({ initialData = {} }) {
-  const { data = [] } = useGetPage("club", initialData);
+export default function ClubPage({ initialData = {}, slug }) {
+  const { data = [] } = useGetPage(slug, initialData);
 
   const animateurs = data.animateurs || [];
   return (

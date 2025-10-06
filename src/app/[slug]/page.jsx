@@ -21,9 +21,9 @@ export default async function Page({ params }) {
     return notFound(); // ← Pas de fetch si slug invalide
   }
 
-  const data = (await fetchStrapi(`${slug}/optimized`, 300)) || {};
+  const initialData = (await fetchStrapi(`${slug}/optimized`, 300)) || [];
 
-  return <PageComponent data={data} />;
+  return <PageComponent initialData={initialData} />;
 }
 
 export const revalidate = 300;

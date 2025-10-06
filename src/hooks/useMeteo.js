@@ -33,8 +33,8 @@ export default function useMeteo(ville = "Biscarrosse", initialData = null) {
     placeholderData: keepPreviousData, // garder l'ancienne météo si le fetch échoue
 
     // Stale / refetch
-    staleTime: 10 * 60 * 1000, // données fraîches pendant 5min
-    refetchInterval: 10 * 60 * 1000, // refresh toutes les 10min
+    staleTime: 5 * 60 * 1000, // données fraîches pendant 5 min
+    refetchInterval: 5 * 60 * 1000, // refresh toutes les 5min
     refetchIntervalInBackground: true,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,

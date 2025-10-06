@@ -2,9 +2,9 @@
 import Image from "next/image";
 import useMeteo from "@/hooks/useMeteo";
 
-export default function MeteoWidgetClient({ initialData }) {
+export default function MeteoWidgetClient({ initialData = {} }) {
   const {
-    data: meteo = [],
+    data: meteo = {},
     error,
     isLoading,
   } = useMeteo("Biscarrosse", initialData);

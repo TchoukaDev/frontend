@@ -1,9 +1,13 @@
+"use client";
+
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
+import { useGetPage } from "@/hooks/useGetPage";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
-export default async function WaterWalkingPage({ data = {} }) {
-  const sections = data.sections || [];
+export default function WaterWalkingPage({ initialData = {} }) {
+  const { data = [] } = useGetPage("marche-aquatique", initialData);
+  const sections = data?.sections || [];
 
   return (
     <Card>

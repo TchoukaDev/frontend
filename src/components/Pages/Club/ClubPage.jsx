@@ -1,9 +1,14 @@
+"use client";
+
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
+import { useGetPage } from "@/hooks/useGetPage";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 
-export default async function ClubPage({ data = {} }) {
+export default function ClubPage({ initialData = {} }) {
+  const { data = [] } = useGetPage("club", initialData);
+
   const animateurs = data.animateurs || [];
   return (
     <Card>

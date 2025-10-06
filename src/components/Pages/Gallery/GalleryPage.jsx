@@ -1,7 +1,11 @@
+"use client";
+
 import Card from "@/components/ui/Card/Card";
 import Carousel from "@/components/ui/Carousel/Carousel";
+import { useGetPage } from "@/hooks/useGetPage";
 
-export default async function GalleryPage({ data = {} }) {
+export default function GalleryPage({ initialData = {} }) {
+  const { data = [] } = useGetPage("galerie", initialData);
   const photos = data?.photos || [];
 
   return (

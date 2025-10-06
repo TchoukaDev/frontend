@@ -1,9 +1,12 @@
-// Imports des composants et utilitaires nécessaires
+"use client";
+
 import PdfThumbnail from "@/components/Utils/PdfThumbnail/PdfThumbnail";
 import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
+import { useGetPage } from "@/hooks/useGetPage";
 
-export default async function SessionsPage({ data = {} }) {
+export default function SessionsPage({ initialData = {} }) {
+  const { data = [] } = useGetPage("seances", initialData);
   const sessions = data;
 
   // Extraction des tableaux de séances et des documents PDF

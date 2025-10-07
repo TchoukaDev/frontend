@@ -16,7 +16,6 @@ export default function Navbar() {
   // State
   // Gère ouverture et fermeture navbar responsive
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   // Ref
   const navbarRef = useRef();
   // Hooks
@@ -67,7 +66,7 @@ export default function Navbar() {
               if (link[2] === "isAuthenticated" && !session?.user) return null;
               if (
                 link[3] === "isAnimator" &&
-                !session?.user?.role !== "animateur"
+                session?.user?.role !== "animateur"
               )
                 return null;
 
@@ -125,10 +124,7 @@ export default function Navbar() {
         >
           {links.map((link) => {
             if (link[2] === "isAuthenticated" && !session?.user) return null;
-            if (
-              link[3] === "isAnimator" &&
-              !session?.user?.role !== "animateur"
-            )
+            if (link[3] === "isAnimator" && session?.user?.role !== "animateur")
               return null;
             return (
               <li key={link[0]} className="py-2">

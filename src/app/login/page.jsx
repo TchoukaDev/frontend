@@ -15,7 +15,7 @@ export default async function login({ searchParams }) {
         "Cette page est strictement réservée aux animateurs. Veuillez vous connecter avec un compte animateur.",
     };
     const route = Object.keys(messages).find((route) =>
-      callbackUrl.startsWith(route),
+      callbackUrl?.startsWith(route),
     );
     return messages[route];
   };

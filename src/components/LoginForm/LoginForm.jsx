@@ -53,7 +53,8 @@ export default function LoginForm({ callbackUrl = "/" }) {
         setIsPending(false);
       } else {
         // Succès !
-        router.push(callbackUrl); // Change selon ta page de destination
+        const redirect = callbackUrl && callbackUrl != null ? callbackUrl : "/";
+        router.push(redirect); // Change selon ta page de destination
         router.refresh(); // Force le rafraîchissement de la session
       }
     } catch (error) {

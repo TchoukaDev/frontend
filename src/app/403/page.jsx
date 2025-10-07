@@ -15,12 +15,10 @@ export default async function ForbiddenPage({ searchParams }) {
     const messages = {
       "/section-animateurs":
         "Accès refusé : cette page est accessible exclusivement aux animateurs",
-      // Ajoutez d'autres routes ici si besoin
     };
 
-    // ✅ CORRIGÉ : Cherche quelle route correspond
-    const matchedRoute = Object.keys(messages).find(
-      (route) => from.startsWith(route), // ⬅️ INVERSÉ : from commence par route
+    const matchedRoute = Object.keys(messages).find((route) =>
+      from.startsWith(route),
     );
 
     return messages[matchedRoute] || "Cette page est strictement réservée";

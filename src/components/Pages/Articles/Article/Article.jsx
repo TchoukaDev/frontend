@@ -5,7 +5,6 @@ import Card from "@/components/ui/Card/Card";
 
 export default async function Article({ params, slug, title }) {
   const { articleSlug } = await params;
-
   // Récupération de l'article
   const response = await fetchStrapi(`${slug}/${articleSlug}`, 300);
   const data = response?.data || {};

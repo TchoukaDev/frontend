@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function GET(request, { params, searchParams }) {
   try {
     const { slug } = params;
-    const resolvedParams = await searchParams();
+    const resolvedParams = await searchParams;
     const limit = Number(resolvedParams?.limit);
     const page = Number(resolvedParams.page);
 

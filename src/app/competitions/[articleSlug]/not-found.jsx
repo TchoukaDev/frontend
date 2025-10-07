@@ -3,7 +3,6 @@ import Button from "@/components/ui/Button/Button";
 import Card from "@/components/ui/Card/Card";
 import { useRouter } from "next/navigation";
 
-// app/not-found.jsx
 export default function NotFound() {
   const router = useRouter();
   return (
@@ -12,9 +11,11 @@ export default function NotFound() {
         <h1 className="text-4xl font-bold mb-10">404</h1>
         <h2 className="text-2xl mb-4 text-blue3">Page non trouvée</h2>
         <p className="text-gray-600 my-10 font-semibold">
-          Désolé, la page que vous recherchez n'existe pas.
+          Désolé, la publication que vous recherchez n'existe pas.
         </p>
-        <Button onClick={() => router.push("/")}>Retour à l'accueil</Button>
+        <Button onClick={() => router.push("/competitions")}>
+          Retour à la page des compétitions
+        </Button>
       </div>
     </Card>
   );

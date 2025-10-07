@@ -4,11 +4,11 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Button from "../ui/Button/Button";
 import { ClipLoader } from "react-spinners";
 
-export default function LoginForm() {
+export default function LoginForm({ callbackUrl = "/" }) {
   const [isPending, setIsPending] = useState(false);
   const [serverError, setServerError] = useState(null);
   const emailRef = useRef();
@@ -53,7 +53,7 @@ export default function LoginForm() {
         setIsPending(false);
       } else {
         // Succès !
-        router.push("/"); // Change selon ta page de destination
+        router.push(callbackUrl); // Change selon ta page de destination
         router.refresh(); // Force le rafraîchissement de la session
       }
     } catch (error) {

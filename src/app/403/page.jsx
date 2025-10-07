@@ -4,10 +4,10 @@ import Card from "@/components/ui/Card/Card";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // app/not-found.jsx
-export default function ForbiddenPage() {
+export default async function ForbiddenPage({ searchParams }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
+  const resolvedSearchParams = await searchParams;
+  const from = resolvedSearchParams.from || null;
 
   const getRedirectMessage = () => {
     if (!from) return "Cette page est strictement réservée";

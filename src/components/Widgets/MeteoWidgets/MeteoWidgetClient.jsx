@@ -19,27 +19,25 @@ export default function MeteoWidgetClient({ initialData = {} }) {
   }
   if (isLoading) {
     return (
-      <div className="animate-pulse custom-gradient text-sand p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
+      <div className="animate-pulse custom-gradient text-sm md:text-lg text-sand p-2 md:p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
         Chargement meteo en cours...
       </div>
     );
   }
   return (
-    <div className="custom-gradient text-sand p-3 from-blue3 to-blue1 grid grid-rows-[auto_1fr] grid-cols-[1fr_auto] text-center rounded-xl border-2 text-lg font-semibold border-blue1 relative">
-      <div className="col-span-2 p-1">{meteo.name}</div>
-
-      <div className="flex flex-col">
+    <div className="custom-gradient font-title text-sand p-2 md:p-3 from-blue3 to-blue1 flex flex-col justify-center items-center  rounded-xl border-2 text-sm md:text-lg  border-blue1 relative">
+      <div className="underline text-center">{meteo.name}</div>
+      <div className="flex gap-2 justify-center items-center">
         <div className="p-1">{meteo.weather[0].description}</div>
+        <div>
+          <Image
+            width={30}
+            height={30}
+            src={`https://openweathermap.org/img/wn/${meteo.weather[0].icon}@2x.png`}
+            alt="meteo icon"
+          />{" "}
+        </div>{" "}
         <div className="p-1">{Math.round(meteo.main.temp)}°C</div>
-      </div>
-
-      <div className="flex justify-center items-center   col-start-2">
-        <Image
-          width={40}
-          height={40}
-          src={`https://openweathermap.org/img/wn/${meteo.weather[0].icon}@2x.png`}
-          alt="meteo icon"
-        />
       </div>
     </div>
   );

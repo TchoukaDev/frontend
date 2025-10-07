@@ -59,9 +59,9 @@ export default function Navbar() {
       className="bg-sand font-title shadow-lg shadow-black/40 z-1000 sticky top-0 text-lg"
     >
       <div className=" px-10 lg:px-18">
-        <div className="flex justify-between xl:justify-center items-center py-4 ">
+        <div className="flex justify-between xl:justify-center items-center py-2 md:py-4 ">
           {/* Menu desktop - caché sur mobile */}
-          <ul className="hidden lg:flex space-x-9">
+          <ul className="hidden lg:flex space-x-6 xl:space-x-9">
             {links.map((link) => {
               if (link[2] === "isAuthenticated" && !session?.user) return null;
               if (
@@ -75,7 +75,7 @@ export default function Navbar() {
                   <Link
                     prefetch={true}
                     href={link[1]}
-                    className={`hover:text-blue-600 transition-colors ${
+                    className={`hover:text-blue-600 flex items-center justify-center text-center transition-colors ${
                       Path === link[1] ? "text-blue3" : "text-blue2"
                     } duration-200`}
                   >
@@ -101,19 +101,6 @@ export default function Navbar() {
               aria-label="Toggle menu"
             />
           )}
-
-          {/* Bouton connexion/deconnexion */}
-          <div className="absolute right-10">
-            {!session?.user ? (
-              <Button sm onClick={() => routeur.push("/login")}>
-                Connexion
-              </Button>
-            ) : (
-              <Button sm onClick={logOut}>
-                Se déconnecter
-              </Button>
-            )}
-          </div>
         </div>
 
         {/* Menu mobile - coulissant */}
@@ -127,7 +114,7 @@ export default function Navbar() {
             if (link[3] === "isAnimator" && session?.user?.role !== "animateur")
               return null;
             return (
-              <li key={link[0]} className="py-2">
+              <li key={link[0]} className="text-xs md:text-base py-10md: py-2">
                 <Link
                   prefetch={true}
                   href={link[1]}

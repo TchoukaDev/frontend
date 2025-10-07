@@ -44,6 +44,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
+        autoLogin: String(data.autoLogin), //Convertir en string
         redirect: false, // Important : on gère la redirection manuellement
       });
 

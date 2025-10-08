@@ -120,7 +120,10 @@ export const authOptions = {
   cookies: {
     sessionToken: {
       // 📛 NOM DU COOKIE : Visible dans DevTools → Application → Cookies
-      name: `next-auth.session-token`,
+      name:
+        process.env.NODE_ENV === "production"
+          ? "__Secure-next-auth.session-token"
+          : "next-auth.session-token",
 
       options: {
         // 🔒 HTTP ONLY : Le cookie n'est PAS accessible via JavaScript (protection XSS)

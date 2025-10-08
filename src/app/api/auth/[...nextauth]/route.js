@@ -177,8 +177,6 @@ export const authOptions = {
     async jwt({ token, user }) {
       // ✅ PREMIER LOGIN : user existe seulement ici
       if (user) {
-        console.log("🔑 Création du JWT initial");
-
         // Infos utilisateur copiées dans le token
         token.id = user.id;
         token.email = user.email;
@@ -197,10 +195,8 @@ export const authOptions = {
         // Cette durée définit quand le JWT expire (indépendamment du cookie)
         if (user.autoLogin) {
           token.maxAge = 30 * 24 * 60 * 60; // 30 jours
-          console.log("✅ AutoLogin activé → Session de 30 jours");
         } else {
           token.maxAge = 24 * 60 * 60; // 1 jour
-          console.log("⏰ AutoLogin désactivé → Session de 1 jour");
         }
 
         // 🕐 TIMESTAMP D'EXPIRATION
@@ -221,8 +217,6 @@ export const authOptions = {
      * C'est ici qu'on définit ce qui sera disponible côté client.
      */
     async session({ session, token }) {
-      console.log("📊 Construction de la session");
-
       // Copier les données du token dans session.user
       session.user.id = token.id;
       session.user.email = token.email;
@@ -243,11 +237,9 @@ export const authOptions = {
         session.expires = new Date(
           now + 30 * 24 * 60 * 60 * 1000,
         ).toISOString();
-        console.log("✅ Session expire le:", session.expires);
       } else {
         // 🔒 Session courte : 1 jour
         session.expires = new Date(now + 24 * 60 * 60 * 1000).toISOString();
-        console.log("⏰ Session expire le:", session.expires);
       }
 
       return session;

@@ -35,6 +35,10 @@ export async function middleware(request) {
    */
   const { pathname } = request.nextUrl;
 
+  console.log("\n========================================");
+  console.log("🔍 MIDDLEWARE APPELÉ");
+  console.log("📍 pathname:", pathname);
+  console.log("🔑 NEXTAUTH_SECRET défini?", !!process.env.NEXTAUTH_SECRET);
   /**
    * 🎫 TOKEN - Informations de session de l'utilisateur (ou null si non connecté)
    *
@@ -53,12 +57,9 @@ export async function middleware(request) {
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
-    cookieName:
-      process.env.NODE_ENV === "production"
-        ? "__Secure-next-auth.session-token"
-        : "next-auth.session-token",
   });
-
+  console.log("🎫 Token:", token);
+  console.log("========================================\n");
   // ═══════════════════════════════════════════════════════════
   // 🔒 PROTECTION DE /competitions (connexion requise)
   // ═══════════════════════════════════════════════════════════

@@ -3,8 +3,6 @@ import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
 
 async function fetchStrapiUncached(endpoint) {
-  console.log(`🔥 FETCH REEL: ${endpoint}`);
-
   const response = await fetch(
     `${process.env.STRAPI_API_URL}/api/${endpoint}`,
     {

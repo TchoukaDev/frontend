@@ -50,7 +50,10 @@ export async function middleware(request) {
    * Si NON connecté :
    * null
    */
-  const token = await getToken({ req: request });
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
   // ═══════════════════════════════════════════════════════════
   // 🔒 PROTECTION DE /competitions (connexion requise)

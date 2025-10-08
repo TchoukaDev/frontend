@@ -20,7 +20,8 @@ import { NextResponse } from "next/server";
  * }
  */
 export async function middleware(request) {
- 
+  /*
+   */
   const { pathname } = request.nextUrl;
 
   const token = await getToken({
@@ -40,8 +41,7 @@ export async function middleware(request) {
     console.log("🌐 NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
   }
 
-
-   * Vérifie si l'URL commence par "/competitions"
+  //  Vérifie si l'URL commence par "/competitions"
 
   if (pathname.startsWith("/competitions")) {
     // Si l'utilisateur n'est PAS connecté (token = null)
@@ -131,7 +131,6 @@ export async function middleware(request) {
    */
   return NextResponse.next();
 }
-
 
 export const config = {
   matcher: [

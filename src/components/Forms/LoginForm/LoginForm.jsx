@@ -8,9 +8,12 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button/Button";
 import { ClipLoader } from "react-spinners";
 import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
+import { Eye } from "lucide-react";
+import { FaEyeSlash } from "react-icons/fa";
 
 export default function LoginForm({ callbackUrl = "/" }) {
   const [serverError, setServerError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef();
   const router = useRouter();
 
@@ -102,20 +105,40 @@ export default function LoginForm({ callbackUrl = "/" }) {
           <label htmlFor="password" className="label">
             Mot de passe
           </label>
-          <input
-            className="input"
-            type="password"
-            {...register("password", {
-              required: "Veuillez saisir votre mot de passe",
-              minLength: {
-                value: 8,
-                message: "Minimum 8 caractères requis",
-              },
-            })}
-            id="password"
-            placeholder="Mot de passe"
-            autoComplete="current-password"
-          />
+          <div className="relative">
+            {" "}
+            <input
+              className="input pr-10" // Ajout de pr-10 pour laisser de la place à l'icône
+              type={showPassword ? "text" : "password"} // Type dynamique
+              {...register("password", {
+                required: "Veuillez saisir votre mot de passe",
+                minLength: {
+                  value: 8,
+                  message: "Minimum 8 caractères requis",
+                },
+              })}
+              id="password"
+              placeholder="Mot de passe"
+              autoComplete="current-password"
+            />
+            {/*Bouton d'affichage mot de passe */}
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label={
+                showPassword
+                  ? "Masquer le mot de passe"
+                  : "Afficher le mot de passe"
+              }
+            >
+              {showPassword ? (
+                <FaEyeSlash className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {clientErrors.password && (
             <p className="formError">{clientErrors.password.message}</p>
           )}

@@ -3,13 +3,25 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/utils/validation";
-import { startTransition, useActionState, useEffect, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { createUser } from "@/actions/create-user";
 import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
+import { FaEyeSlash } from "react-icons/fa";
+import { Eye } from "lucide-react";
 
 export default function SignupForm() {
+  // State pour gérer affichage ou non du  password
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
   // Hook pour server action
   const [serverState, formAction, isPending] = useActionState(createUser, null);
 
@@ -162,14 +174,34 @@ export default function SignupForm() {
           <label htmlFor="password" className="label">
             Mot de passe
           </label>
-          <input
-            type="password"
-            id="password"
-            {...register("password")}
-            placeholder="Votre mot de passe"
-            autoComplete="new-password"
-            className="input"
-          />
+          <div className="relative">
+            {" "}
+            <input
+              className="input pr-10" // Ajout de pr-10 pour laisser de la place à l'icône
+              type={showPassword ? "text" : "password"} // Type dynamique
+              {...register("password")}
+              id="password"
+              placeholder="Votre mot de passe"
+              autoComplete="current-password"
+            />
+            {/*Bouton d'affichage mot de passe */}
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label={
+                showPassword
+                  ? "Masquer le mot de passe"
+                  : "Afficher le mot de passe"
+              }
+            >
+              {showPassword ? (
+                <FaEyeSlash className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {/* Erreur côté client */}
           {clientErrors.password && (
             <p className="formError">{clientErrors.password.message}</p>
@@ -185,13 +217,33 @@ export default function SignupForm() {
           <label htmlFor="password2" className="label">
             Confirmer le mot de passe
           </label>
-          <input
-            type="password"
-            id="password2"
-            {...register("password2")}
-            placeholder="Confirmez votre mot de passe"
-            className="input"
-          />
+          <div className="relative">
+            {" "}
+            <input
+              className="input pr-10"
+              type={showPassword2 ? "text" : "password"}
+              {...register("password2")}
+              id="password"
+              placeholder="Confirmez votre mot de passe"
+            />
+            {/*Bouton d'affichage mot de passe */}
+            <button
+              type="button"
+              onClick={() => setShowPassword2((prev) => !prev)}
+              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label={
+                showPassword2
+                  ? "Masquer les mot de passe"
+                  : "Afficher les mot de passe"
+              }
+            >
+              {showPassword2 ? (
+                <FaEyeSlash className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {/* Erreur côté client */}
           {clientErrors.password2 && (
             <p className="formError">{clientErrors.password2.message}</p>

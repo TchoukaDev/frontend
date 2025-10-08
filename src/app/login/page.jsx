@@ -1,11 +1,12 @@
 import LoginForm from "@/components/LoginForm/LoginForm";
 import Card from "@/components/ui/Card/Card";
+import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
 import Link from "next/link";
 
 export default async function login({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const callbackUrl = resolvedSearchParams?.callbackUrl || null;
-
+  const safeUrl = getSafeRedirectUrl(callbackUrl);
   // Message personnalisé après redirection
   const getRedirectMessage = () => {
     const messages = {
@@ -15,11 +16,11 @@ export default async function login({ searchParams }) {
         "Cette page est strictement réservée aux animateurs. Veuillez vous connecter avec un compte animateur.",
     };
     const route = Object.keys(messages).find((route) =>
-      callbackUrl?.startsWith(route),
+      safeUrl?.startsWith(route),
     );
     return messages[route];
   };
-  const redirectMessage = getRedirectMessage(callbackUrl);
+  const redirectMessage = getRedirectMessage(safeUrl);
 
   return (
     <section>
@@ -33,7 +34,7 @@ export default async function login({ searchParams }) {
           <p className="my-8 text-center font-semibold">
             Connectez-vous pour pouvoir consulter l'ensemble du contenu du site.
           </p>
-          <LoginForm callbackUrl={callbackUrl} />
+          <LoginForm callbackUrl={safeUrl} />
           <p className=" text-center text-sm my-2">
             Pas encore inscrit?{" "}
             <Link

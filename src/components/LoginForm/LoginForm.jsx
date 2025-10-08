@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button/Button";
 import { ClipLoader } from "react-spinners";
+import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
 
 export default function LoginForm({ callbackUrl = "/" }) {
   const [isPending, setIsPending] = useState(false);
@@ -54,7 +55,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
         setIsPending(false);
       } else {
         // Succès !
-        const redirect = callbackUrl && callbackUrl != null ? callbackUrl : "/";
+        const redirect = getSafeRedirectUrl(callbackUrl);
         router.push(redirect); // Change selon ta page de destination
         router.refresh(); // Force le rafraîchissement de la session
       }

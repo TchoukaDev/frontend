@@ -44,11 +44,11 @@ export default function ArticlesPageClient({
                 <div className="flex items-start gap-4">
                   <div className="flex-1 overflow-hidden">
                     {/* En-tête avec titre et date */}
-                    <div className="flex flex-col md:flex-row-reverse justify-between items-start mb-3">
+                    <div className="flex flex-row-reverse justify-between items-start mb-3">
                       {" "}
                       <time
                         dateTime={article.updatedAt}
-                        className="text-sm text-gray-500 bg-blue-50 px-3 py-1 md:ml-4 rounded-full whitespace-nowrap self-end md:self-start"
+                        className="text-sm text-gray-500 bg-blue-50 px-3 py-1 md:ml-4 rounded-full whitespace-nowrap self-start"
                       >
                         {formatDate(article.updatedAt)}
                       </time>

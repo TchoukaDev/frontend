@@ -34,13 +34,6 @@ export async function middleware(request) {
         : "next-auth.session-token",
   });
 
-  // 📊 Logs pour débogage en production
-  if (!token) {
-    console.log("❌ Middleware: Token null pour", pathname);
-    console.log("🔑 Secret défini:", !!process.env.NEXTAUTH_SECRET);
-    console.log("🌐 NEXTAUTH_URL:", process.env.NEXTAUTH_URL);
-  }
-
   //  Vérifie si l'URL commence par "/competitions"
 
   if (pathname.startsWith("/competitions")) {

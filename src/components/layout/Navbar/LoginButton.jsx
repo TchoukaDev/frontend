@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { LogIn, LogOut, User, ChevronDown, UserRound } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { LogOut, User, ChevronDown } from "lucide-react";
+import { AnimatePresence, easeOut, motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
 
-export default function LoginButton() {
+export default function LoginButton({ session }) {
   const router = useRouter();
-  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef();
 
@@ -25,7 +24,7 @@ export default function LoginButton() {
   // 🔹 Cas 1 : utilisateur non connecté → bouton connexion (icône seule)
   if (!session?.user) {
     return (
-      <div className="absolute top-1/2 transform -translate-y-1/2 right-5 group">
+      <div className="absolute md:top-1/2 transform md:-translate-y-1/2 right-5 group">
         <button
           onClick={() => router.push("/login")}
           className="p-1 md:p-2 rounded-lg text-blue3 border-[1.5px] border-blue3 hover:text-blue-700 hover:border-blue-700 text-xs md:text-sm transition cursor-pointer"

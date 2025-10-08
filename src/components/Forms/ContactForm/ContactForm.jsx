@@ -2,15 +2,16 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "@/utils/validation";
+import { sendMailSchema } from "@/utils/validation";
 import { startTransition, useActionState, useEffect, useRef } from "react";
-import { createUser } from "@/actions/create-user";
-import Button from "../ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
+import { sendMail } from "@/actions/sendMail";
 
-export default function SignupForm() {
+export default function ContactForm() {
   // Hook pour server action
-  const [serverState, formAction, isPending] = useActionState(createUser, null);
+  const [serverState, formAction, isPending] = useActionState(sendMail, null);
 
   // Hooks pour redirection
   const router = useRouter();
@@ -20,8 +21,8 @@ export default function SignupForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors: clientErrors },
-  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onChange" });
+    formState: { errors: clientErrors, isSubmitting },
+  } = useForm({ resolver: zodResolver(sendMailSchema), mode: "onChange" });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -38,10 +39,10 @@ export default function SignupForm() {
 
   // reset du formulaire
   useEffect(() => {
-    if (serverState?.success && !isPending) {
+    if (serverState?.success && !isPending && !isSubmitting) {
       reset();
     }
-  }, [serverState, isPending, reset]);
+  }, [serverState, isSubmitting, isPending, reset]);
 
   // Focus au chargement de la page
   useEffect(() => {
@@ -105,7 +106,6 @@ export default function SignupForm() {
           )}
         </div>
       </div>
-
       {/* Contact */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4">
         {/* Adresse email */}
@@ -154,82 +154,88 @@ export default function SignupForm() {
           )}
         </div>
       </div>
-
-      {/* Mot de passe */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4">
-        <div className="text-center md:text-start">
-          <label htmlFor="password" className="label">
-            Mot de passe
-          </label>
-          <input
-            type="password"
-            id="password"
-            {...register("password")}
-            placeholder="Votre mot de passe"
-            autoComplete="new-password"
-            className="input"
-          />
-          {/* Erreur côté client */}
-          {clientErrors.password && (
-            <p className="formError">{clientErrors.password.message}</p>
-          )}
-          {/* Erreur côté serveur */}
-          {serverState?.fieldErrors?.password && !clientErrors.password && (
-            <p className="formError">{serverState.fieldErrors.password}</p>
-          )}
+      {/* Choix du mode de contact */}
+      <div className="text-center">
+        <p className="mb-3">
+          Par quel moyen préférez-vous être contacté? (Cocher au moins une case)
+        </p>
+        {/* Téléphone */}
+        <div className="flex justify-center text-center items-center gap-10">
+          <div>
+            <label
+              htmlFor="prefersPhone"
+              className="label inline-block align-middle mr-2"
+            >
+              Téléphone:
+            </label>
+            <input
+              type="checkbox"
+              {...register("prefersPhone")}
+              id="prefersPhone"
+            />
+          </div>
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="prefersEMail"
+              className="label inline-block align-middle mr-2"
+            >
+              Email:
+            </label>
+            <input
+              type="checkbox"
+              {...register("prefersEMail")}
+              id="prefersEmail"
+            />{" "}
+          </div>
         </div>
-
-        {/* Confirmation du mot de passe */}
-        <div className="text-center md:text-start">
-          <label htmlFor="password2" className="label">
-            Confirmer le mot de passe
-          </label>
-          <input
-            type="password"
-            id="password2"
-            {...register("password2")}
-            placeholder="Confirmez votre mot de passe"
-            className="input"
-          />
-          {/* Erreur côté client */}
-          {clientErrors.password2 && (
-            <p className="formError">{clientErrors.password2.message}</p>
+        {/* Erreur client */}
+        {clientErrors?.wayToContact && (
+          <p className="formError">{clientErrors.wayToContact.message}</p>
+        )}
+        {/* Erreur serveur */}
+        {serverState?.fieldErrors?.wayToContact &&
+          !clientErrors.wayToContact && (
+            <p className="formError">{serverState.fieldErrors.wayToContact}</p>
           )}
-          {/* Erreur côté serveur */}
-          {serverState?.fieldErrors?.password2 && !clientErrors.password2 && (
-            <p className="formError">{serverState.fieldErrors.password2}</p>
-          )}
-        </div>
       </div>
 
+      {/* Message */}
+      <textarea
+        className="input max-w-none w-fit"
+        rows={10}
+        cols={80}
+        id="message"
+        {...register("message")}
+        placeholder="Saisissez votre message"
+      />
+      {/* Erreur client */}
+      {clientErrors?.message && (
+        <p className="formError">{clientErrors.message.message}</p>
+      )}
+      {/* Erreur serveur */}
+      {serverState?.fieldErrors?.message && !clientErrors.message && (
+        <p className="formError">{serverState.fieldErrors.message}</p>
+      )}
       {/* Bouton d'envoi */}
       <div className="text-center">
-        <Button disabled={isPending} type="submit">
-          Envoyer
+        <Button disabled={isSubmitting || isSubmitting} type="submit">
+          {isSubmitting || isPending ? (
+            <span className="flex items-center text-sand justify-center gap-2">
+              Envoi en cours... <ClipLoader size={20} />
+            </span>
+          ) : (
+            "Envoyer"
+          )}
         </Button>
       </div>
-
       {/* Messages de retour serveur */}
-
-      {/* Inscription réussie */}
+      {/* Envoi réussi */}
       {serverState?.success && (
         <div className="bg-green-100 border border-green-400 text-green-700 text-center px-4 py-3 rounded">
           <p className="mb-3">{serverState.message} </p>
-          {/* Bouton de connexion après succès */}
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/login");
-            }}
-            margin="my-3"
-            className="btn"
-            href="/login"
-          >
-            Se connecter
-          </Button>
         </div>
       )}
-
       {/* Erreur serveur générale */}
       {serverState?.error && !serverState?.fieldErrors && (
         <div className="bg-red-100 border border-red-400 text-red-700 text-center px-4 py-3 rounded">

@@ -1,5 +1,6 @@
 // /utils/fetchStrapi.js
 import { unstable_cache } from "next/cache";
+import { notFound } from "next/navigation";
 
 async function fetchStrapiUncached(endpoint) {
   console.log(`🔥 FETCH REEL: ${endpoint}`);
@@ -15,7 +16,7 @@ async function fetchStrapiUncached(endpoint) {
   );
 
   if (!response.ok) {
-    throw new Error(`Erreur ${response.status}`);
+    console.error(`Erreur ${response.status}`);
   }
 
   return response.json();

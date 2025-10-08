@@ -1,4 +1,4 @@
-import LoginForm from "@/components/LoginForm/LoginForm";
+import LoginForm from "@/components/Forms/LoginForm/LoginForm";
 import Card from "@/components/ui/Card/Card";
 import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
 import Link from "next/link";

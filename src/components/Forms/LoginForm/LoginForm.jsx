@@ -5,12 +5,11 @@ import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Button from "../ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 import { ClipLoader } from "react-spinners";
 import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
 
 export default function LoginForm({ callbackUrl = "/" }) {
-  const [isPending, setIsPending] = useState(false);
   const [serverError, setServerError] = useState(null);
   const emailRef = useRef();
   const router = useRouter();
@@ -19,7 +18,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors: clientErrors },
+    formState: { errors: clientErrors, isSubmitting },
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -37,7 +36,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
 
   // Soumission du formulaire
   const onSubmit = async (data) => {
-    setIsPending(true);
     setServerError(null);
 
     try {
@@ -52,7 +50,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
       if (result?.error) {
         // Erreur de connexion
         setServerError("Email ou mot de passe incorrect");
-        setIsPending(false);
       } else {
         // Succès !
         const redirect = getSafeRedirectUrl(callbackUrl);
@@ -62,7 +59,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
     } catch (error) {
       console.error("Erreur:", error);
       setServerError("Une erreur s'est produite");
-      setIsPending(false);
     } finally {
       reset();
     }
@@ -134,8 +130,8 @@ export default function LoginForm({ callbackUrl = "/" }) {
       )}
 
       <div className="text-center my-3">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? (
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
             <span className="flex items-center text-sand justify-center gap-2">
               Connexion... <ClipLoader size={20} />
             </span>

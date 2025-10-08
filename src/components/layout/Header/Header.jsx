@@ -1,5 +1,4 @@
 import Image from "next/image";
-import LoginButton from "./LoginButton";
 
 export default function Header() {
   return (
@@ -38,10 +37,6 @@ export default function Header() {
             className="rounded-full object-cover"
           />
         </div>
-      </div>
-      {/* Menu connexion/déconnexion */}
-      <div className="absolute right-2 md:right-6 bottom-2 lg:top-2">
-        <LoginButton />
       </div>
     </header>
   );

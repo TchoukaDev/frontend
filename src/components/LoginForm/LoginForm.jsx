@@ -112,8 +112,8 @@ export default function LoginForm({ callbackUrl = "/" }) {
             {...register("password", {
               required: "Veuillez saisir votre mot de passe",
               minLength: {
-                value: 6,
-                message: "Minimum 6 caractères requis",
+                value: 8,
+                message: "Minimum 8 caractères requis",
               },
             })}
             id="password"

@@ -34,7 +34,7 @@ export default function Home() {
             <span className="animateLetter">v</span>
             <span className="animateLetter">e</span>
             <span className="animateLetter">n</span>
-            <san className="animateLetter">u</san>
+            <span className="animateLetter">u</span>
             <span className="animateLetter">e</span>
           </div>
         </div>{" "}

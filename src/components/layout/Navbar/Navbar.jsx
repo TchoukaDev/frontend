@@ -7,6 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import LoginButton from "./LoginButton";
 
 export default function Navbar() {
   // Variables
@@ -58,10 +59,10 @@ export default function Navbar() {
       ref={navbarRef}
       className="bg-sand font-title shadow-lg shadow-black/40 z-1000 sticky top-0 text-lg"
     >
-      <div className=" px-10 lg:px-18">
-        <div className="flex justify-between xl:justify-center items-center py-2 md:py-4 ">
+      <div className=" px-10 xl:px-18">
+        <div className="flex justify-start lg:justify-center  items-center py-2 md:py-4 ">
           {/* Menu desktop - caché sur mobile */}
-          <ul className="hidden lg:flex space-x-6 xl:space-x-9">
+          <ul className="hidden lg:flex justify-center space-x-5 xl:space-x-7">
             {links.map((link) => {
               if (link[2] === "isAuthenticated" && !session?.user) return null;
               if (
@@ -75,8 +76,8 @@ export default function Navbar() {
                   <Link
                     prefetch={true}
                     href={link[1]}
-                    className={`hover:text-blue-600 flex items-center justify-center text-center transition-colors ${
-                      Path === link[1] ? "text-blue3" : "text-blue2"
+                    className={`hover:text-blue-700 flex items-center text-center  transition-colors ${
+                      Path === link[1] ? "text-blue-700" : "text-blue3"
                     } duration-200`}
                   >
                     {link[0]}
@@ -91,16 +92,17 @@ export default function Navbar() {
             <X
               onClick={toggleMenu}
               aria-label="Toggle menu"
-              className="lg:hidden text-blue2 cursor-pointer hover:text-blue3 transition-colors duration-200"
+              className="lg:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
             />
           ) : (
             /* Bouton hamburger - visible seulement sur mobile */
             <Menu
               onClick={toggleMenu}
-              className="lg:hidden text-blue2 cursor-pointer hover:text-blue3 transition-colors duration-200"
+              className="lg:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
               aria-label="Toggle menu"
             />
           )}
+          <LoginButton />
         </div>
 
         {/* Menu mobile - coulissant */}
@@ -119,8 +121,8 @@ export default function Navbar() {
                   prefetch={true}
                   href={link[1]}
                   onClick={closeMenu}
-                  className={`block hover:text-blue-600 transition-colors ${
-                    Path === link[1] ? "text-blue3" : "text-blue2"
+                  className={`block hover:text-blue-700 transition-colors ${
+                    Path === link[1] ? "text-blue-700" : "text-blue3"
                   } duration-200`}
                 >
                   {link[0]}

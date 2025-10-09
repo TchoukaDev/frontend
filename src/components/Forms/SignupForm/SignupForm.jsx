@@ -61,6 +61,25 @@ export default function SignupForm() {
     firstnameRef.current.focus();
   }, []);
 
+  // Si inscription réussie, montre uniquement le message et bouton pour login
+  {
+    serverState?.success && (
+      <div className="bg-green-100 border border-green-400 text-green-700 text-center p-6 rounded">
+        <p className="mb-3">{serverState.message} </p>
+        {/* Bouton de connexion après succès */}
+        <Button
+          onClick={(e) => {
+            router.push("/login");
+          }}
+          margin="my-3"
+          className="btn"
+        >
+          Se connecter
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <form
       method="POST"
@@ -267,27 +286,6 @@ export default function SignupForm() {
           )}
         </Button>
       </div>
-
-      {/* Messages de retour serveur */}
-
-      {/* Inscription réussie */}
-      {serverState?.success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 text-center px-4 py-3 rounded">
-          <p className="mb-3">{serverState.message} </p>
-          {/* Bouton de connexion après succès */}
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/login");
-            }}
-            margin="my-3"
-            className="btn"
-            href="/login"
-          >
-            Se connecter
-          </Button>
-        </div>
-      )}
 
       {/* Erreur serveur générale */}
       {serverState?.error && !serverState?.fieldErrors && (

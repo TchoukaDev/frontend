@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/ui/Button/Button";
 import Card from "@/components/ui/Card/Card";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 // app/not-found.jsx
 export default async function ForbiddenPage({ searchParams }) {

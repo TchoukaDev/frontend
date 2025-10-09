@@ -1,7 +1,7 @@
 "use client";
 
 import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
-import { Menu, X } from "lucide-react";
+import { Mail, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
@@ -95,7 +95,20 @@ export default function NavbarClient({ session }) {
               aria-label="Toggle menu"
             />
           )}
-          <LoginButton session={session} />
+          <div className="absolute flex gap-3 items-center  right-5">
+            <Link
+              title="Nous contacter"
+              href="/contact"
+              className="border-[1.5px] border-blue3 text-blue3 hover:text-blue-700 hover:border-blue-700 transition-all p-1 rounded-lg "
+            >
+              <Mail
+                className="size-4 md:size-[28px] "
+                size={30}
+                strokeWidth={1}
+              />
+            </Link>
+            <LoginButton session={session} />
+          </div>
         </div>
 
         {/* Menu mobile - coulissant */}

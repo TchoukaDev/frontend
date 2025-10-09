@@ -224,7 +224,7 @@ export default function ContactForm() {
 
         {/* Message */}
         <textarea
-          className="input max-w-none w-fit"
+          className="input w-fit max-w-full"
           rows={10}
           cols={80}
           id="message"

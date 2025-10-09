@@ -52,7 +52,7 @@ export default function ContactForm() {
   if (serverState?.success) {
     return (
       <div className="bg-green-100 border border-green-400 text-green-700 text-center p-6 rounded">
-        <p className="mb-3">{serverState.message} </p>
+        <p className="mb-6">{serverState.message} </p>
         {/* Bouton pour envoyer un autre email après succès */}
         <Button
           onClick={() => {

@@ -65,7 +65,7 @@ export default function SignupForm() {
   {
     serverState?.success && (
       <div className="bg-green-100 border border-green-400 text-green-700 text-center p-6 rounded">
-        <p className="mb-3">{serverState.message} </p>
+        <p className="mb-6">{serverState.message} </p>
         {/* Bouton de connexion après succès */}
         <Button
           onClick={(e) => {

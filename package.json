@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "email": "email dev --dir src/emails"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -35,7 +36,9 @@
     "zod": "^4.1.9"
   },
   "devDependencies": {
+    "@react-email/preview-server": "^4.3.0",
     "@tailwindcss/postcss": "^4",
+    "react-email": "^4.3.0",
     "tailwindcss": "^4"
   }
 }

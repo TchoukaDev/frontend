@@ -1,9 +1,14 @@
+import { fetchStrapi } from "@/utils/fetchStrapi";
 import Link from "next/link";
+import Accordion from "./Accordion";
 
-export default function Footer() {
+export default async function Footer() {
+  const data = await fetchStrapi("pied-de-page/optimized", 300);
+
   return (
-    <footer className="flex flex-col md:flex-row justify-evenly items-center md:items-start custom-gradient p-8 gap-5 text-black font-semibold">
-      <div className="flex flex-col items-start justify-items-start gap-5 ">
+    <footer className="flex flex-col md:flex-row justify-evenly items-center md:items-start custom-gradient py-8 px-16 gap-3 text-xs md:text-sm text-black">
+      <div className="flex flex-col w-2/3 md:w-1/3 gap-3 font-semibold">
+        {/* Liens internes */}
         <Link className="footerLink" href="/contact">
           Contact
         </Link>
@@ -17,7 +22,15 @@ export default function Footer() {
           Conditions générales d'utilisation
         </Link>
       </div>
-      <div className="flex flex-col md:flex-row justify-evenly gap-5 items-start">
+      <div className="flex flex-col md:flex-row gap-1 w-2/3 ">
+        {/* Liens externes colonne 1 */}
+
+        <Accordion title={data.titre1} links={data.liens1} />
+
+        {/* Liens externes colonne 2 */}
+        <Accordion title={data.titre2} links={data.liens2} />
+      </div>
+      {/* <div className="hidden  flex-col md:flex-row justify-evenly gap- items-start">
         <div>
           Liens utiles
           <div className="flex flex-col justify-start items-start text-sm mt-4 font-normal">
@@ -110,7 +123,7 @@ export default function Footer() {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
     </footer>
   );
 }

@@ -1,6 +1,5 @@
 // /utils/fetchStrapi.js
 import { unstable_cache } from "next/cache";
-import { notFound } from "next/navigation";
 
 async function fetchStrapiUncached(endpoint) {
   const response = await fetch(

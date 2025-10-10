@@ -16,7 +16,7 @@ export default function NavbarClient({ session }) {
     ["Le club", "/club"],
     ["Marche aquatique", "/marche-aquatique"],
     ["Séances", "/seances"],
-    ["Informations", "/infos"],
+    ["Actualités", "/infos"],
     ["Compétitions", "/competitions", "isAuthenticated"],
     [
       "Section animateurs",
@@ -122,7 +122,7 @@ export default function NavbarClient({ session }) {
             if (link[3] === "isAnimator" && session?.user?.role !== "animateur")
               return null;
             return (
-              <li key={link[0]} className="text-xs md:text-base py-10md: py-2">
+              <li key={link[0]} className="text-sm  py-10md: py-2">
                 <Link
                   prefetch={true}
                   href={link[1]}

@@ -5,7 +5,7 @@ export default async function BackgroundImage() {
   const { image = {} } = await fetchStrapi("accueil/optimized");
 
   return (
-    <div className=" h-lvh fixed w-full -z-50 ">
+    <div className=" h-svh fixed w-full -z-50 ">
       <Image
         src={`${image?.url}` || "/images/fond.jpg"}
         className="object-cover"

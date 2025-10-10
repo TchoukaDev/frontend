@@ -2,11 +2,7 @@ import ArticlesPage from "@/components/Pages/Articles/ArticlesPage";
 
 export default function InfosPage({ searchParams }) {
   return (
-    <ArticlesPage
-      searchParams={searchParams}
-      slug="infos"
-      title="Informations diverses"
-    />
+    <ArticlesPage searchParams={searchParams} slug="infos" title="Actualités" />
   );
 }
 

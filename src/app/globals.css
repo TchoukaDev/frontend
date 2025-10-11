@@ -6,10 +6,12 @@
 @font-face {
   font-family: "Pacifico";
   src: url("/fonts/pacifico_regular.ttf");
+  font-display: swap;
 }
 @font-face {
   font-family: "Delius";
   src: url("/fonts/Delius.ttf");
+  font-display: swap;
 }
 
 @theme {

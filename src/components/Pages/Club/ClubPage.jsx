@@ -46,6 +46,7 @@ export default function ClubPage({ initialData = {}, slug }) {
                     src={anim?.file?.url}
                     className="object-cover"
                     alt={anim.file?.alternativeText}
+                    sizes="80px"
                   />
                   <div className="text-center prose grow">
                     {anim.file?.caption}

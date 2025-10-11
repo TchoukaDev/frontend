@@ -3,7 +3,7 @@ import Link from "next/link";
 import Accordion from "./Accordion";
 
 export default async function Footer() {
-  const data = await fetchStrapi("pied-de-page/optimized", 300);
+  const initialData = await fetchStrapi("pied-de-page/optimized", 300);
 
   return (
     <footer className="flex flex-col md:flex-row justify-evenly items-center md:items-start custom-gradient py-8 px-16 gap-3 text-xs md:text-sm text-black">
@@ -25,10 +25,10 @@ export default async function Footer() {
       <div className="flex flex-col md:flex-row gap-1 w-2/3 ">
         {/* Liens externes colonne 1 */}
 
-        <Accordion title={data.titre1} links={data.liens1} />
+        <Accordion initialData={initialData} titleData="1" linksData="1" />
 
         {/* Liens externes colonne 2 */}
-        <Accordion title={data.titre2} links={data.liens2} />
+        <Accordion initialData={initialData} titleData="2" linksData="2" />
       </div>
       {/* <div className="hidden  flex-col md:flex-row justify-evenly gap- items-start">
         <div>

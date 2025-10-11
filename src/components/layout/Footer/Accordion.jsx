@@ -2,8 +2,16 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useGetFooterLink } from "@/hooks/useGetFooterLinks";
 
-export default function Accordion({ title, links = [] }) {
+export default function Accordion({
+  initialData = [],
+  titleData = 1,
+  linksData = 1,
+}) {
+  const { data = [] } = useGetFooterLink(initialData);
+  const title = titleData === "1" ? data.titre1 : data.titre2;
+  const links = linksData === "1" ? data.liens1 : data.liens2;
   const [isOpen, setIsOpen] = useState(false);
 
   return (

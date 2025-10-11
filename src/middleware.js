@@ -107,7 +107,12 @@ export async function middleware(request) {
    * ET qu'il essaie d'accéder à /login ou /signup
    * → On le redirige vers la page d'accueil
    */
-  if ((pathname === "/login" || pathname === "/signup") && token) {
+  if (
+    (pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/forgot-password") &&
+    token
+  ) {
     /**
      * new URL("/", request.url) crée :
      * {
@@ -131,5 +136,6 @@ export const config = {
     "/section-animateurs/:path*", // /section-animateurs ET tout ce qui suit
     "/login", // Seulement /login (pas /login/autre)
     "/signup", // Seulement /signup
+    "/forgot-password",
   ],
 };

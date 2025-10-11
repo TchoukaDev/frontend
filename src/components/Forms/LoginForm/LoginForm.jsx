@@ -10,6 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { getSafeRedirectUrl } from "@/utils/getSafeRedirectUrl";
 import { Eye } from "lucide-react";
 import { FaEyeSlash } from "react-icons/fa";
+import Link from "next/link";
 
 export default function LoginForm({ callbackUrl = "/" }) {
   const [serverError, setServerError] = useState(null);
@@ -106,7 +107,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
             Mot de passe
           </label>
           <div className="relative">
-            {" "}
             <input
               className="input pr-10" // Ajout de pr-10 pour laisser de la place à l'icône
               type={showPassword ? "text" : "password"} // Type dynamique
@@ -125,7 +125,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="absolute right-5 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label={
                 showPassword
                   ? "Masquer le mot de passe"
@@ -144,15 +144,19 @@ export default function LoginForm({ callbackUrl = "/" }) {
           )}
         </div>
       </div>
-
       {/* Erreur serveur */}
       {serverError && (
         <div className="bg-red-100 border border-red-400 text-red-700 text-center px-4 py-3 rounded">
           <p>{serverError}</p>
         </div>
-      )}
-
-      <div className="text-center my-3">
+      )}{" "}
+      <Link
+        href="/forgot-password"
+        className="text-blue-800 hover:text-blue3 hover:underline duration-200 text-xs"
+      >
+        Mot de passe oublié?
+      </Link>
+      <div className="text-center my-2">
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? (
             <span className="flex items-center text-sand justify-center gap-2">
@@ -162,7 +166,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
             "Se connecter"
           )}
         </Button>
-
         <div className="flex items-center justify-center my-3 gap-1">
           <label htmlFor="autoLogin" className="text-xs cursor-pointer">
             Se souvenir de moi
@@ -173,7 +176,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
             {...register("autoLogin")}
             id="autoLogin"
           />
-        </div>
+        </div>{" "}
       </div>
     </form>
   );

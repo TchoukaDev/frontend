@@ -19,7 +19,7 @@
 
 @layer components {
   .btn {
-    @apply bg-blue3 p-3 text-sand  border border-blue2   hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-default disabled:opacity-40;
+    @apply bg-blue3 py-3 px-4 text-sand  border border-blue2   hover:border-sand rounded-lg hover:bg-blue3/80  text-center  transition-all duration-200 cursor-pointer disabled:cursor-default disabled:opacity-40;
   }
   header {
     @apply flex flex-col md:flex-row justify-center lg:justify-around gap-4 md:gap-8 lg:gap-0 items-center bg-gradient-to-br from-blue3 to-blue1 text-sand p-5 md:p-14 relative;

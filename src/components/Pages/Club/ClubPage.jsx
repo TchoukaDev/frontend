@@ -43,7 +43,7 @@ export default function ClubPage({ initialData = {}, slug }) {
                   <Image
                     width={80}
                     height={80}
-                    src={anim?.file?.url}
+                    src={anim?.file?.formats?.thumbnail?.url}
                     className="object-cover"
                     alt={anim.file?.alternativeText}
                     sizes="80px"

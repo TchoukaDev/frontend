@@ -13,7 +13,7 @@ export default async function BackgroundImage() {
         fill
         priority
         sizes="100vw"
-        quality={80}
+        quality={70}
       />
     </div>
   );

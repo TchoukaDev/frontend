@@ -10,6 +10,8 @@ export default function Header() {
           src="/images/longe_cote.jpg"
           alt="logo longe cote"
           className="rounded-full object-cover"
+          sizes="(max-width: 768px) 60px, 100px" // ✅ Indique les tailles
+          priority // ✅ Charge en priorité (visible immédiatement)
         />
       </div>
       {/* Titre */}
@@ -26,6 +28,8 @@ export default function Header() {
             src="/images/longe_cote.jpg"
             alt="logo longe cote"
             className="rounded-full object-cover"
+            sizes="40px" // ✅ Taille fixe mobile
+            priority
           />
         </div>
         {/* Logo2 */}
@@ -35,6 +39,8 @@ export default function Header() {
             src="/images/image_randonneur.png"
             alt="logo du club"
             className="rounded-full object-cover"
+            sizes="(max-width: 768px) 40px, 100px" // ✅ Responsive
+            priority
           />
         </div>
       </div>

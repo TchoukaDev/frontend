@@ -1,9 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Delius&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 /* Pour config typography */
 @config "./tailwind.config.js";
+
+@font-face {
+  font-family: "Pacifico";
+  src: url("/fonts/pacifico_regular.ttf");
+}
+@font-face {
+  font-family: "Delius";
+  src: url("/fonts/Delius.ttf");
+}
 
 @theme {
   --color-sand: #f7eedd;

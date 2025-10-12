@@ -27,3 +27,10 @@ export default function signUp() {
     </section>
   );
 }
+
+export const metadata = {
+  robots: {
+    index: false, // ✅ Bloque explicitement
+    follow: false,
+  },
+};

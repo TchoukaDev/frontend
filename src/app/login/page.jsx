@@ -49,3 +49,10 @@ export default async function login({ searchParams }) {
     </section>
   );
 }
+
+export const metadata = {
+  robots: {
+    index: false, // ✅ Bloque explicitement
+    follow: false,
+  },
+};

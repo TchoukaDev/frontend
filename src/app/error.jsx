@@ -27,3 +27,12 @@ export default function Error({ error, reset }) {
     </Card>
   );
 }
+export const metadata = {
+  title: "Erreur",
+  description:
+    "Une erreur est survenue. Veuillez rééssayer ou retourner à l'accueil.",
+  robots: {
+    index: false, // ✅ Ne pas indexer
+    follow: false,
+  },
+};

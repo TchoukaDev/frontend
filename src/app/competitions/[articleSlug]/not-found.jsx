@@ -20,3 +20,11 @@ export default function NotFound() {
     </Card>
   );
 }
+export const metadata = {
+  title: "Page introuvable - 404",
+  description: "La page que vous recherchez n'existe pas ou a été déplacée.",
+  robots: {
+    index: false, // ✅ Ne pas indexer
+    follow: false,
+  },
+};

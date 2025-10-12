@@ -57,3 +57,10 @@ export default function Home() {
     </>
   );
 }
+
+// app/page.js
+export const metadata = {
+  title: "Accueil", // ✅ Devient : "Accueil | Les Randonneurs des Sables"
+  description:
+    "Bienvenue au club de marche aquatique Les Randonneurs des Sables du Born. Découvrez nos activités, animations et événements dans les Landes. Retrouvez-nous également sur notre page Facebook.",
+};

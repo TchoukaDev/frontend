@@ -24,3 +24,10 @@ export default function ResetPassword() {
     </Card>
   );
 }
+
+export const metadata = {
+  robots: {
+    index: false, // ✅ Bloque explicitement
+    follow: false,
+  },
+};

@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
   return {
     // 📌 TITRE DE LA PAGE
     // Apparaît dans l'onglet du navigateur et dans les résultats Google
-    title: data.titre || "Article",
+    title: data.titre || "Information",
 
     // 📝 DESCRIPTION
     // Apparaît sous le titre dans les résultats de recherche Google

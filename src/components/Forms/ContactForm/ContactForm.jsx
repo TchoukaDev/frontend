@@ -21,7 +21,11 @@ export default function ContactForm() {
     register,
     handleSubmit,
     formState: { errors: clientErrors, isSubmitting },
-  } = useForm({ resolver: zodResolver(sendMailSchema), mode: "onTouched" });
+  } = useForm({
+    resolver: zodResolver(sendMailSchema),
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -182,7 +186,6 @@ export default function ContactForm() {
                 Téléphone:
               </label>
               <input
-                onMouseDown={(e) => e.preventDefault()}
                 type="checkbox"
                 {...register("prefersPhone")}
                 id="prefersPhone"
@@ -197,7 +200,6 @@ export default function ContactForm() {
                 Email:
               </label>
               <input
-                onMouseDown={(e) => e.preventDefault()}
                 type="checkbox"
                 {...register("prefersEmail")}
                 id="prefersEmail"
@@ -236,13 +238,7 @@ export default function ContactForm() {
         )}
         {/* Bouton d'envoi */}
         <div className="text-center">
-          <Button
-            disabled={isSubmitting || isSubmitting}
-            onMouseDown={(e) => {
-              e.preventDefault();
-            }}
-            type="submit"
-          >
+          <Button disabled={isSubmitting || isSubmitting} type="submit">
             {isSubmitting || isPending ? (
               <span className="flex items-center text-sand justify-center gap-2">
                 Envoi en cours... <ClipLoader size={20} />

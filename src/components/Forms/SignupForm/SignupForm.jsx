@@ -34,7 +34,11 @@ export default function SignupForm() {
     handleSubmit,
     reset,
     formState: { errors: clientErrors, isSubmitting },
-  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onTouched" });
+  } = useForm({
+    resolver: zodResolver(signUpSchema),
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -276,13 +280,7 @@ export default function SignupForm() {
 
       {/* Bouton d'envoi */}
       <div className="text-center">
-        <Button
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          disabled={isSubmitting || isSubmitting}
-          type="submit"
-        >
+        <Button disabled={isSubmitting || isSubmitting} type="submit">
           {isSubmitting || isPending ? (
             <span className="flex items-center text-sand justify-center gap-2">
               Inscription en cours... <ClipLoader size={20} />

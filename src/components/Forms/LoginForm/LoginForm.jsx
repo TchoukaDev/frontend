@@ -24,7 +24,8 @@ export default function LoginForm({ callbackUrl = "/" }) {
     reset,
     formState: { errors: clientErrors, isSubmitting },
   } = useForm({
-    mode: "onTouched",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       autoLogin: true,
     },
@@ -125,9 +126,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              onMouseDown={(e) => {
-                e.preventDefault();
-              }}
               className="absolute right-6 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               aria-label={
                 showPassword

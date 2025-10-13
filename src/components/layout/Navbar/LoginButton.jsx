@@ -26,7 +26,7 @@ export default function LoginButton({ session }) {
     return (
       <div className="flex items-center group">
         <button
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/connexion")}
           className="p-1 md:p-2 rounded-lg text-blue3 border-[1.5px] border-blue3 hover:text-blue-700 hover:border-blue-700 text-xs md:text-sm transition cursor-pointer"
         >
           Connexion

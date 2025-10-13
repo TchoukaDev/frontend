@@ -72,7 +72,7 @@ export default function ResetPasswordForm() {
         <p className="bg-green-100 border border-green-400 text-green-700 text-center my-5 px-4 py-3 rounded">
           Votre mot de passe a été réinitialisé, vous pouvez vous connecter.
         </p>
-        <Link className="btn" href="/login">
+        <Link className="btn" href="/connexion">
           Se connecter
         </Link>
       </div>

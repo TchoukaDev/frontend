@@ -15,10 +15,7 @@ export default function signUp() {
           <SignupForm />
           <p className="text-sm text-center my-2">
             Vous avez déjà un compte?{" "}
-            <Link
-              href="/login"
-              className="text-blue-800 hover:text-blue3 hover:underline duration-200"
-            >
+            <Link href="/connexion" className="link">
               Connectez-vous.
             </Link>
           </p>
@@ -29,8 +26,27 @@ export default function signUp() {
 }
 
 export const metadata = {
+  title: "Inscription",
+  description:
+    "Créez votre compte membre pour accéder au contenu exclusif des Randonneurs des Sables du Born : actualités, compétitions et informations réservées.",
+
+  // ❌ Pas d'indexation pour les pages d'inscription
   robots: {
-    index: false, // ✅ Bloque explicitement
+    index: false,
     follow: false,
+    noarchive: true,
+  },
+
+  // ✅ OpenGraph minimal
+  openGraph: {
+    title: "Inscription - Randonneurs des Sables du Born",
+    description: "Créez votre compte membre pour accéder au contenu exclusif",
+    url: "/inscription",
+    type: "website",
+  },
+
+  // ✅ URL canonique
+  alternates: {
+    canonical: "/inscription",
   },
 };

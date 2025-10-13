@@ -54,6 +54,10 @@
   .section {
     @apply border px-5 md:px-10 py-10 bg-sand rounded-xl border-blue3 shadow-lg;
   }
+
+  .link {
+    @apply text-blue-800 hover:text-blue3 hover:underline duration-200;
+  }
 }
 
 body {

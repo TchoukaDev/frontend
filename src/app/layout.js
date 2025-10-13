@@ -5,45 +5,44 @@ import QueryProvider from "@/components/Providers/QueryClientProvider/QueryClien
 import Footer from "@/components/layout/Footer/Footer";
 import BackgroundImage from "@/components/ui/BackgroundImage/BackgroundImage";
 import AuthProvider from "@/components/Providers/AuthProvider/AuthProvider";
+import { siteConfig } from "@/utils/siteConfig";
 
 export const metadata = {
-  metadataBase: new URL("https://les-randonneurs-des-sables.fr"),
+  metadataBase: new URL(siteConfig.url),
 
   title: {
-    default: "Les Randonneurs des Sables du Born - Marche Aquatique",
-    template: "%s | Les Randonneurs des Sables", // ✅ Template pour les pages enfants
+    default: `${siteConfig.name} - ${siteConfig.description}`,
+    template: "%s | " + siteConfig.siteName, // ✅ Template pour les pages enfants
   },
 
-  description:
-    "Club de marche aquatique et longe-côte dans les Landes. Découvrez nos animations, événements et rejoignez-nous pour des activités en plein air.",
+  description: siteConfig.description,
 
-  keywords: [
-    "marche aquatique",
-    "longe-côte",
-    "Landes",
-    "Born",
-    "club sportif",
-    "activités nautiques",
-  ],
+  keywords: siteConfig.keywords,
 
-  authors: [{ name: "Les Randonneurs des Sables" }],
+  authors: [{ name: siteConfig.author }],
 
   openGraph: {
     type: "website",
-    locale: "fr_FR",
-    siteName: "Les Randonneurs des Sables du Born",
+    locale: siteConfig.locale,
+    url: siteConfig.url,
+    siteName: siteConfig.siteName,
+    title: siteConfig.name, // on peut ajouter un titre spécifique si besoin
+    description: siteConfig.description,
     images: [
       {
-        url: "/images/og-default.jpg", // Image par défaut
+        url: siteConfig.seoDefaults.image,
         width: 1200,
         height: 630,
-        alt: "Les Randonneurs des Sables du Born",
+        alt: `${siteConfig.name} - ${siteConfig.description}`,
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.seoDefaults.image],
   },
 
   robots: {
@@ -56,6 +55,13 @@ export const metadata = {
   },
 };
 
+export const viewport = {
+  themeColor: siteConfig.themeColor,
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
@@ -65,7 +71,7 @@ export default function RootLayout({ children }) {
             <BackgroundImage />
             <Header />
             <Navbar />
-            {children}
+            <main>{children}</main>
             <Footer />
           </QueryProvider>
         </AuthProvider>

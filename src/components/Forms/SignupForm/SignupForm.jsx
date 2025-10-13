@@ -69,7 +69,7 @@ export default function SignupForm() {
         {/* Bouton de connexion après succès */}
         <Button
           onClick={(e) => {
-            router.push("/login");
+            router.push("/connexion");
           }}
           margin="my-3"
           className="btn"

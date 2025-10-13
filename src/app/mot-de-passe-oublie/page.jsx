@@ -15,3 +15,15 @@ export default function ForgotPassword() {
     </Card>
   );
 }
+
+// Metadata
+export const metadata = {
+  title: "Mot de passe oublié",
+  description:
+    "Réinitialisez votre mot de passe pour accéder à votre compte membre.",
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+  },
+};

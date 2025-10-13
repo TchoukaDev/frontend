@@ -150,10 +150,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
           <p>{serverError}</p>
         </div>
       )}{" "}
-      <Link
-        href="/forgot-password"
-        className="text-blue-800 hover:text-blue3 hover:underline duration-200 text-xs"
-      >
+      <Link href="/mot-de-passe-oublie" className="link text-xs">
         Mot de passe oublié?
       </Link>
       <div className="text-center my-2">

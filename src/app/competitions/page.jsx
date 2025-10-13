@@ -9,6 +9,7 @@ export default async function CompetitionsPage({ searchParams }) {
     />
   );
 }
+
 export async function generateMetadata({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams?.page) || 1;
@@ -16,16 +17,28 @@ export async function generateMetadata({ searchParams }) {
 
   return {
     title: `Informations compétitions${page > 1 ? ` - Page ${page}` : ""}`,
-    description: `Retrouvez toutes les actualités et informations concernant les différentes compétitions. ${limit} articles par page.`,
-    robots: "index, follow",
-    openGraph: {
-      title: `Informations compétitions - Page ${page}`,
-      description: "Informations concernant les différentes compétitions",
-      type: "website",
+    description: `Informations sur les compétitions de marche aquatique et longe-côte réservées aux membres du club. ${limit} articles par page.`,
+
+    // ⚠️ CRITIQUE : Robots pour contenu PRIVÉ
+    robots: {
+      index: false, // ❌ NE PAS indexer (contenu réservé membres)
+      follow: false, // ❌ NE PAS suivre les liens
+      noarchive: true, // ❌ NE PAS archiver
     },
-    // URL canonique pour éviter le duplicate content
+
+    // OpenGraph minimal
+    openGraph: {
+      title: `Informations compétitions${page > 1 ? ` - Page ${page}` : ""} - Espace Membre`,
+      description:
+        "Informations sur les compétitions - Accès réservé aux membres",
+      url: `/competitions${page > 1 ? `?page=${page}` : ""}`,
+      type: "website",
+      // L'image sera héritée du layout.js
+    },
+
+    // URL canonique
     alternates: {
-      canonical: `/infos${page > 1 ? `?page=${page}` : ""}${
+      canonical: `/competitions${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""
       }`,
     },

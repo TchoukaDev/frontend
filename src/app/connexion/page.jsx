@@ -37,10 +37,7 @@ export default async function login({ searchParams }) {
           <LoginForm callbackUrl={safeUrl} />
           <p className=" text-center text-sm my-2">
             Pas encore inscrit?{" "}
-            <Link
-              href="/signup"
-              className="text-blue-800 hover:text-blue3 hover:underline duration-200"
-            >
+            <Link href="/inscription" className="link">
               Inscrivez-vous.
             </Link>
           </p>
@@ -50,9 +47,23 @@ export default async function login({ searchParams }) {
   );
 }
 
+// ✅ Metadata optimisées pour page de connexion
 export const metadata = {
+  title: "Connexion",
+  description:
+    "Connectez-vous à votre espace membre des Randonneurs des Sables du Born pour accéder au contenu réservé.",
+
+  // ❌ Pas d'indexation pour les pages de connexion
   robots: {
-    index: false, // ✅ Bloque explicitement
+    index: false,
     follow: false,
+    noarchive: true,
+  },
+
+  // ❌ Pas d'OpenGraph (page privée)
+  openGraph: {
+    title: "Connexion - Randonneurs des Sables du Born",
+    description: "Accédez à votre espace membre",
+    url: "/connexion",
   },
 };

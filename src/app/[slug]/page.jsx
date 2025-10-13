@@ -20,7 +20,10 @@ const pageMetadata = {
     description:
       "Découvrez Les Randonneurs des Sables du Born, notre histoire, nos animateurs et nos valeurs. Club de marche aquatique dans les Landes.",
     openGraph: {
-      images: ["/images/club-og.jpg"],
+      title: "Le Club - Randonneurs des Sables du Born",
+      description: "Notre histoire, nos animateurs et nos valeurs",
+      url: "/club",
+      // L'image sera héritée du layout.js
     },
   },
   "marche-aquatique": {
@@ -28,7 +31,10 @@ const pageMetadata = {
     description:
       "Qu'est-ce que la marche aquatique (longe-côte) ? Découvrez cette activité nautique accessible à tous, ses bienfaits et nos conseils.",
     openGraph: {
-      images: ["/images/marche-aquatique-og.jpg"],
+      title: "Marche Aquatique - Longe-Côte",
+      description:
+        "Découvrez la marche aquatique, ses bienfaits et nos conseils",
+      url: "/marche-aquatique",
     },
   },
   seances: {
@@ -36,7 +42,9 @@ const pageMetadata = {
     description:
       "Horaires, lieux et tarifs de nos séances de marche aquatique. Rejoignez-nous pour des sessions encadrées dans les Landes.",
     openGraph: {
-      images: ["/images/seances-og.jpg"],
+      title: "Nos Séances - Horaires et Tarifs",
+      description: "Horaires, lieux et tarifs de nos séances encadrées",
+      url: "/seances",
     },
   },
   galerie: {
@@ -44,7 +52,9 @@ const pageMetadata = {
     description:
       "Photos de nos sorties, événements et activités de marche aquatique. Revivez les meilleurs moments du club.",
     openGraph: {
-      images: ["/images/galerie-og.jpg"],
+      title: "Galerie Photos - Nos Sorties",
+      description: "Revivez nos meilleures sorties en images",
+      url: "/galerie",
     },
   },
 };
@@ -56,7 +66,7 @@ export default async function Page({ params }) {
   const PageComponent = pageComponents[slug];
 
   if (!PageComponent) {
-    return notFound(); // ← Pas de fetch si slug invalide
+    return notFound();
   }
 
   const initialData = (await fetchStrapi(`${slug}/optimized`, 300)) || [];

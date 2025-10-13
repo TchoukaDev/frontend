@@ -25,9 +25,13 @@ export default function ResetPassword() {
   );
 }
 
+// Metadatas
 export const metadata = {
+  title: "Réinitialisation du mot de passe",
+  description: "Créez un nouveau mot de passe pour votre compte.",
   robots: {
-    index: false, // ✅ Bloque explicitement
+    index: false,
     follow: false,
+    noarchive: true,
   },
 };

@@ -12,13 +12,13 @@ export default async function Footer() {
         <Link className="footerLink" href="/contact">
           Contact
         </Link>
-        <Link className="footerLink" href="/legal">
+        <Link className="footerLink" href="/mentions-legales">
           Mentions légales
         </Link>
-        <Link className="footerLink" href="/privacy">
+        <Link className="footerLink" href="/politique-de-confidentialite">
           Politique de confidentialité
         </Link>
-        <Link className="footerLink" href="/terms">
+        <Link className="footerLink" href="/conditions-generales">
           Conditions générales d'utilisation
         </Link>
       </div>

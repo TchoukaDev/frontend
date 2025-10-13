@@ -10,7 +10,7 @@ export default function Error({ error, reset }) {
         <h1 className="text-4xl font-bold mb-4 text-red-500 font-title">
           Oups !
         </h1>
-        <h2 className="text-2xl mb-4">Une erreur s'est produite</h2>
+        <h2 className="text-2xl mb-4 text-blue3">Une erreur s'est produite</h2>
         <p className="text-gray-600 my-10 text-center font-semibold text-lg">
           Quelque chose s'est mal passé!
         </p>
@@ -27,12 +27,3 @@ export default function Error({ error, reset }) {
     </Card>
   );
 }
-export const metadata = {
-  title: "Erreur",
-  description:
-    "Une erreur est survenue. Veuillez rééssayer ou retourner à l'accueil.",
-  robots: {
-    index: false, // ✅ Ne pas indexer
-    follow: false,
-  },
-};

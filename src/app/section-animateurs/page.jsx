@@ -17,16 +17,27 @@ export async function generateMetadata({ searchParams }) {
 
   return {
     title: `Section réservée aux animateurs${page > 1 ? ` - Page ${page}` : ""}`,
-    description: `Retrouvez toutes les informations exclusivement réservées aux animateurs du club ${limit} articles par page.`,
-    robots: "index, follow",
-    openGraph: {
-      title: `Section animateurs - Page ${page}`,
-      description: "Actualités et informations réservées au animateurs du club",
-      type: "website",
+    description: `Espace réservé aux animateurs des Randonneurs des Sables du Born. Informations, documents et communications internes. ${limit} articles par page.`,
+
+    // ⚠️ CRITIQUE : Robots pour contenu PRIVÉ
+    robots: {
+      index: false, // ❌ NE PAS indexer (contenu privé !)
+      follow: false, // ❌ NE PAS suivre les liens
+      noarchive: true, // ❌ NE PAS archiver
     },
-    // URL canonique pour éviter le duplicate content
+
+    // OpenGraph minimal
+    openGraph: {
+      title: `Section Animateurs${page > 1 ? ` - Page ${page}` : ""}`,
+      description: "Espace réservé aux animateurs - Accès restreint",
+      url: `/section-animateurs${page > 1 ? `?page=${page}` : ""}`,
+      type: "website",
+      // L'image sera héritée du layout.js
+    },
+
+    // URL canonique
     alternates: {
-      canonical: `/infos${page > 1 ? `?page=${page}` : ""}${
+      canonical: `/section-animateurs${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""
       }`,
     },

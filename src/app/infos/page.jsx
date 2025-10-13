@@ -16,15 +16,45 @@ export async function generateMetadata({ searchParams }) {
   const limit = Number(resolvedSearchParams.limit) || 5;
 
   return {
-    title: `Informations du club${page > 1 ? ` - Page ${page}` : ""}`,
-    description: `Retrouvez toutes les actualités et informations du club. ${limit} articles par page.`,
-    robots: "index, follow",
+    title: `Actualités${page > 1 ? ` - Page ${page}` : ""}`,
+    description: `Suivez l'actualité des Randonneurs des Sables du Born : événements, sorties, nouvelles du club et informations sur la marche aquatique à Biscarrosse. ${limit} articles par page.`,
+
+    // ✅ Mots-clés
+    keywords: [
+      "actualités",
+      "nouvelles",
+      "marche aquatique",
+      "longe-côte",
+      "Biscarrosse",
+      "événements",
+      "Randonneurs des Sables",
+    ],
+
+    // ✅ OpenGraph optimisé
     openGraph: {
-      title: `Informations du club - Page ${page}`,
-      description: "Actualités et informations du club",
+      title: `Actualités${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
+      description:
+        "Suivez toute l'actualité du club : événements, sorties et nouvelles de la marche aquatique",
+      url: `/infos${page > 1 ? `?page=${page}` : ""}`,
       type: "website",
+      // L'image sera héritée du layout.js
     },
-    // URL canonique pour éviter le duplicate content
+
+    // ✅ Twitter Card
+    twitter: {
+      card: "summary_large_image",
+      title: `Actualités - Randonneurs des Sables`,
+      description: "Toute l'actualité du club de marche aquatique",
+    },
+
+    // ✅ Robots optimisés pour pagination
+    robots: {
+      index: page === 1, // ✅ Indexer SEULEMENT page 1
+      follow: true, // ✅ Suivre tous les liens
+      noarchive: page > 1, // ❌ Ne pas archiver pages 2+
+    },
+
+    // ✅ URL canonique
     alternates: {
       canonical: `/infos${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""

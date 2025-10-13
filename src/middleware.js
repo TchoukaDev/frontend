@@ -24,6 +24,22 @@ export async function middleware(request) {
    */
   const { pathname } = request.nextUrl;
 
+  // ✅ Ne faire l'appel à getToken QUE si nécessaire
+  const protectedRoutes = [
+    "/competitions",
+    "/section-animateurs",
+    "/connexion",
+    "/inscription",
+    "/mot-de-passe-oublie",
+  ];
+
+  const needsAuth = protectedRoutes.some((route) => pathname.startsWith(route));
+
+  if (!needsAuth) {
+    // ✅ Pas de vérification auth = pas de SSR forcé
+    return NextResponse.next();
+  }
+
   const token = await getToken({
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
@@ -40,29 +56,29 @@ export async function middleware(request) {
     // Si l'utilisateur n'est PAS connecté (token = null)
     if (!token) {
       /**
-       * new URL("/login", request.url) crée :
+       * new URL("/connexion", request.url) crée :
        * {
-       *   pathname: "/login",
+       *   pathname: "/connexion",
        *   origin: "https://votre-site.com",
-       *   href: "https://votre-site.com/login",
+       *   href: "https://votre-site.com/connexion",
        *   searchParams: {} (vide au départ)
        * }
        *
        * request.url contient l'URL complète actuelle
 
        */
-      const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/connexion", request.url);
 
       /**
        * 📌 CALLBACK URL - Ajoute le query param "callbackUrl"
-       * Avant : loginUrl.href = "https://votre-site.com/login"
-       * Après  : loginUrl.href = "https://votre-site.com/login?callbackUrl=/competitions"
+       * Avant : loginUrl.href = "https://votre-site.com/connexion"
+       * Après  : loginUrl.href = "https://votre-site.com/connexion?callbackUrl=/competitions"
        */
       loginUrl.searchParams.set("callbackUrl", pathname);
 
       /**
        * L'utilisateur sera renvoyé vers :
-       * https://votre-site.com/login?callbackUrl=/competitions
+       * https://votre-site.com/connexion?callbackUrl=/competitions
        */
       return NextResponse.redirect(loginUrl);
     }
@@ -73,9 +89,9 @@ export async function middleware(request) {
     if (!token) {
       /**
        * loginUrl sera par exemple :
-       * https://votre-site.com/login?callbackUrl=/section-animateurs
+       * https://votre-site.com/connexion?callbackUrl=/section-animateurs
        */
-      const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/connexion", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -104,13 +120,13 @@ export async function middleware(request) {
 
   /**
    * Si l'utilisateur est déjà connecté (token existe)
-   * ET qu'il essaie d'accéder à /login ou /signup
+   * ET qu'il essaie d'accéder à /connexion ou /inscription
    * → On le redirige vers la page d'accueil
    */
   if (
-    (pathname === "/login" ||
-      pathname === "/signup" ||
-      pathname === "/forgot-password") &&
+    (pathname === "/connexion" ||
+      pathname === "/inscription" ||
+      pathname === "/mot-de-passe-oublie") &&
     token
   ) {
     /**
@@ -134,8 +150,8 @@ export const config = {
   matcher: [
     "/competitions/:path*", // /competitions ET tout ce qui suit
     "/section-animateurs/:path*", // /section-animateurs ET tout ce qui suit
-    "/login", // Seulement /login (pas /login/autre)
-    "/signup", // Seulement /signup
-    "/forgot-password",
+    "/connexion", // Seulement /connexion (pas /connexion/autre)
+    "/inscription", // Seulement /inscription
+    "/mot-de-passe-oublie",
   ],
 };

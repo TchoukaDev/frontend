@@ -22,44 +22,99 @@ export async function generateStaticParams() {
 
     const articles = data?.data || [];
 
-    // ✅ RETOURNEZ le résultat du map avec la bonne syntaxe
     return articles.map((article) => ({
       articleSlug: article.slug,
     }));
   } catch (e) {
-    console.error(e.message);
-    return []; // ✅ Bon fallback
+    console.error("Erreur generateStaticParams section-animateurs:", e.message);
+    return [];
   }
 }
 
-/*
+/**
+ * Génération des métadonnées pour les articles de la section animateurs
  * @param {Object} context - Contexte Next.js
  * @param {Object} context.params - Paramètres de route dynamique
  */
 export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
 
-  // 2️⃣ RÉCUPÉRATION DES DONNÉES DE L'ARTICLE
+  // Récupération des données de l'article
   const response = await fetchStrapi(`section-animateurs/${articleSlug}`, 300);
-
-  // Extraction des données avec fallback pour éviter les erreurs
   const data = response?.data || {};
 
-  // 3️⃣ RETOUR DES MÉTADONNÉES
+  // ✅ Extraction description optimisée
+  const description =
+    data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) ||
+    "Information réservée aux animateurs des Randonneurs des Sables du Born";
+
+  // ✅ Gestion image : spécifique ou héritage
+  const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined; // undefined = héritage du layout.js
+
   return {
-    title: data.titre || "Article",
+    // 📌 TITRE
+    title: data.titre || "Article animateurs",
 
     // 📝 DESCRIPTION
-    description:
-      data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) || "",
+    description: description,
 
-    // 🖼️ OPEN GRAPH (Prévisualisations sur réseaux sociaux)
+    // 🔑 MOTS-CLÉS
+    keywords: [
+      data.titre,
+      "animateurs",
+      "section animateurs",
+      "marche aquatique",
+      "Randonneurs des Sables",
+    ].filter(Boolean),
+
+    // 🖼️ OPEN GRAPH
     openGraph: {
-      // Titre pour Facebook, Twitter, LinkedIn, etc.
-      title: data.titre,
+      title: data.titre || "Article animateurs",
+      description: description,
+      url: `/section-animateurs/${articleSlug}`,
+      type: "article",
 
-      // 🖼️ IMAGES DE PRÉVISUALISATION
-      images: data.images?.[0] ? [`${data?.images[0]?.url}`] : [],
+      // Image conditionnelle
+      ...(ogImage && {
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: data.titre || "Article animateurs",
+          },
+        ],
+      }),
+
+      // Métadonnées article
+      article: {
+        publishedTime: data.publishedAt,
+        modifiedTime: data.updatedAt,
+        section: "Section Animateurs",
+        tags: ["animateurs", "marche aquatique"],
+      },
+    },
+
+    // 🐦 TWITTER CARD (si image)
+    ...(ogImage && {
+      twitter: {
+        card: "summary_large_image",
+        title: data.titre,
+        description: description,
+        images: [ogImage],
+      },
+    }),
+
+    // 🔗 URL CANONIQUE
+    alternates: {
+      canonical: `/section-animateurs/${articleSlug}`,
+    },
+
+    // 🤖 ROBOTS - ⚠️ IMPORTANT : Page privée !
+    robots: {
+      index: false, // ❌ NE PAS indexer (contenu réservé)
+      follow: false, // ❌ NE PAS suivre les liens
+      noarchive: true, // ❌ NE PAS archiver
     },
   };
 }

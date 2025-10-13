@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/contact</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/mentions-legales</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/politique-de-confidentialite</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/conditions-generales</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/club</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/marche-aquatique</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/seances</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/infos</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/galerie</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/infos/nouveau-trest</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/infos/test</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://les-randonneurs-des-sables.vercel.app/infos/message-de-bienvenue</loc>
+  <lastmod>2025-10-13T16:52:25+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>

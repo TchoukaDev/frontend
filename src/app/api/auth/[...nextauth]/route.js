@@ -14,11 +14,35 @@ export const authOptions = {
 
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null;
+          throw new Error("Email et mot de passe requis.");
         }
 
         try {
-          // 1. Authentification Strapi
+          // 🔍 ÉTAPE 1 : Vérifier d'abord si l'utilisateur existe et son statut
+          const checkUserResponse = await fetch(
+            `${process.env.STRAPI_API_URL}/api/users?filters[email][$eq]=${credentials.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+              },
+              cache: "no-store",
+            },
+          );
+
+          const users = await checkUserResponse.json();
+
+          if (users.length > 0) {
+            const user = users[0];
+
+            // ⚠️ Vérifier si déjà bloqué
+            if (user.blocked) {
+              throw new Error(
+                "Votre compte est bloqué. Veuillez contacter l'administrateur du site",
+              );
+            }
+          } // 🆕 FERMETURE DU IF manquante !
+
+          // 🔐 ÉTAPE 2 : Tentative d'authentification Strapi
           const loginResponse = await fetch(
             `${process.env.STRAPI_API_URL}/api/auth/local`,
             {
@@ -33,12 +57,62 @@ export const authOptions = {
 
           const loginData = await loginResponse.json();
 
+          // ❌ ÉCHEC DE CONNEXION : Incrémenter les tentatives
           if (!loginResponse.ok || !loginData.jwt) {
+            if (users.length > 0) {
+              const user = users[0];
+              const newAttempts = (user.loginAttempts || 0) + 1;
+              const shouldBlock = newAttempts >= 5;
+
+              await fetch(
+                `${process.env.STRAPI_API_URL}/api/users/${user.id}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+                  },
+                  body: JSON.stringify({
+                    loginAttempts: newAttempts,
+                    lastFailedLogin: new Date().toISOString(),
+                    blocked: shouldBlock,
+                  }),
+                },
+              );
+
+              if (shouldBlock) {
+                throw new Error(
+                  "Votre compte a été bloqué après 5 tentatives échouées. Contactez l'administrateur.",
+                );
+              } else {
+                const remainingAttempts = 5 - newAttempts;
+                throw new Error(
+                  `Identifiants incorrects. Il vous reste ${remainingAttempts} tentative(s).`,
+                );
+              }
+            }
+
             console.error("❌ Login failed:", loginData);
-            return null;
+            throw new Error("Email ou mot de passe incorrect.");
           }
 
-          // 2. Récupérer les informations complètes avec le rôle
+          // ✅ SUCCÈS : Réinitialiser le compteur de tentatives
+          await fetch(
+            `${process.env.STRAPI_API_URL}/api/users/${loginData.user.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+              },
+              body: JSON.stringify({
+                loginAttempts: 0,
+                lastFailedLogin: null,
+              }),
+            },
+          );
+
+          // 🔍 ÉTAPE 3 : Récupérer les informations complètes avec le rôle
           const userDetailsResponse = await fetch(
             `${process.env.STRAPI_API_URL}/api/users/${loginData.user.id}?populate=role`,
             {
@@ -50,7 +124,7 @@ export const authOptions = {
 
           const userDetailsData = await userDetailsResponse.json();
 
-          // Si erreur, renvoyer l'user sans le role
+          // Si erreur de récupération des détails, renvoyer user sans le role
           if (!userDetailsResponse.ok) {
             console.error("❌ Failed to fetch user details:", userDetailsData);
             return {
@@ -59,32 +133,30 @@ export const authOptions = {
               telephone: loginData.user.telephone || null,
               name: loginData.user.name || null,
               firstname: loginData.user.firstname || null,
-              blocked: loginData.blocked || false,
+              blocked: false, // 🆕 On sait qu'il n'est pas bloqué (vérifié au début)
               jwt: loginData.jwt,
               role: null,
               roleName: null,
-              // 🔑 AUTOLOGIN - Converti de string "true"/"false" en boolean
               autoLogin: credentials.autoLogin === "true",
             };
           }
 
-          // 3. Retourner l'objet user complet avec autoLogin
+          // Retourner l'objet user complet
           return {
             id: userDetailsData.id,
             email: userDetailsData.email,
             telephone: userDetailsData.telephone || null,
             name: userDetailsData.name || null,
             firstname: userDetailsData.firstname || null,
-            blocked: userDetailsData.blocked || false,
+            blocked: false, // 🆕 On sait qu'il n'est pas bloqué (vérifié au début)
             jwt: loginData.jwt,
             role: userDetailsData.role?.type || null,
             roleName: userDetailsData.role?.name || null,
-            // Sera utilisé dans le callback jwt() pour définir la durée
             autoLogin: credentials.autoLogin === "true",
           };
         } catch (error) {
           console.error("💥 Erreur auth:", error);
-          return null;
+          throw error;
         }
       },
     }),
@@ -207,7 +279,34 @@ export const authOptions = {
         token.exp = Math.floor(Date.now() / 1000) + token.maxAge;
       }
 
-      // 🔄 À CHAQUE REQUÊTE : token est retourné tel quel (ou modifié si besoin)
+      // 🔄 VÉRIFICATION EN TEMPS RÉEL DU STATUT BLOCKED
+      // Cette vérification se fait à chaque rafraîchissement du token (toutes les 24h selon votre updateAge)
+      if (token?.id && token?.jwt) {
+        try {
+          const userStatusResponse = await fetch(
+            `${process.env.STRAPI_API_URL}/api/users/${token.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token.jwt}`,
+              },
+            },
+          );
+
+          if (userStatusResponse.ok) {
+            const userData = await userStatusResponse.json();
+
+            // ⚠️ Mettre à jour le statut blocked dans le token
+            token.blocked = userData.blocked || false;
+          }
+        } catch (error) {
+          console.error(
+            "❌ Erreur lors de la vérification du statut blocked:",
+            error,
+          );
+          // En cas d'erreur, on garde l'ancien statut
+        }
+      }
+
       return token;
     },
 

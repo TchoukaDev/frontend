@@ -31,6 +31,7 @@ export async function middleware(request) {
     "/connexion",
     "/inscription",
     "/mot-de-passe-oublie",
+    "/compte-bloque",
   ];
 
   const needsAuth = protectedRoutes.some((route) => pathname.startsWith(route));
@@ -49,6 +50,13 @@ export async function middleware(request) {
         ? "__Secure-next-auth.session-token"
         : "next-auth.session-token",
   });
+
+  // 🚫 NOUVELLE VÉRIFICATION : Bloquer l'utilisateur si son compte est bloqué
+  // ⚠️ IMPORTANT : Cette vérification doit être AVANT toutes les autres
+  if (token?.blocked && pathname !== "/compte-bloque") {
+    const blockedUrl = new URL("/compte-bloque", request.url);
+    return NextResponse.redirect(blockedUrl);
+  }
 
   //  Vérifie si l'URL commence par "/competitions"
 
@@ -153,5 +161,6 @@ export const config = {
     "/connexion", // Seulement /connexion (pas /connexion/autre)
     "/inscription", // Seulement /inscription
     "/mot-de-passe-oublie",
+    "/compte-bloque",
   ],
 };

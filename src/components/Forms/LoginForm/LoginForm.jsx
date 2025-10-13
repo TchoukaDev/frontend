@@ -54,7 +54,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
 
       if (result?.error) {
         // Erreur de connexion
-        setServerError("Email ou mot de passe incorrect");
+        setServerError(result.error);
       } else {
         // Succès !
         const redirect = getSafeRedirectUrl(callbackUrl);
@@ -63,7 +63,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
       }
     } catch (error) {
       console.error("Erreur:", error);
-      setServerError("Une erreur s'est produite");
+      setServerError("Une erreur s'est produite lors de la connexion");
     } finally {
       reset();
     }
@@ -113,10 +113,6 @@ export default function LoginForm({ callbackUrl = "/" }) {
               type={showPassword ? "text" : "password"} // Type dynamique
               {...register("password", {
                 required: "Veuillez saisir votre mot de passe",
-                minLength: {
-                  value: 8,
-                  message: "Minimum 8 caractères requis",
-                },
               })}
               id="password"
               placeholder="Mot de passe"

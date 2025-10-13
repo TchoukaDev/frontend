@@ -3,13 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sendMailSchema } from "@/utils/validation";
-import {
-  startTransition,
-  useActionState,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { startTransition, useActionState, useEffect, useRef } from "react";
 import Button from "@/components/ui/Button/Button";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
@@ -26,9 +20,8 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors: clientErrors, isSubmitting },
-  } = useForm({ resolver: zodResolver(sendMailSchema), mode: "onChange" });
+  } = useForm({ resolver: zodResolver(sendMailSchema), mode: "onTouched" });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -189,6 +182,7 @@ export default function ContactForm() {
                 Téléphone:
               </label>
               <input
+                onMouseDown={(e) => e.preventDefault()}
                 type="checkbox"
                 {...register("prefersPhone")}
                 id="prefersPhone"
@@ -203,6 +197,7 @@ export default function ContactForm() {
                 Email:
               </label>
               <input
+                onMouseDown={(e) => e.preventDefault()}
                 type="checkbox"
                 {...register("prefersEmail")}
                 id="prefersEmail"
@@ -241,7 +236,13 @@ export default function ContactForm() {
         )}
         {/* Bouton d'envoi */}
         <div className="text-center">
-          <Button disabled={isSubmitting || isSubmitting} type="submit">
+          <Button
+            disabled={isSubmitting || isSubmitting}
+            onMouseDown={(e) => {
+              e.preventDefault();
+            }}
+            type="submit"
+          >
             {isSubmitting || isPending ? (
               <span className="flex items-center text-sand justify-center gap-2">
                 Envoi en cours... <ClipLoader size={20} />

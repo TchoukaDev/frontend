@@ -34,7 +34,7 @@ export default function SignupForm() {
     handleSubmit,
     reset,
     formState: { errors: clientErrors, isSubmitting },
-  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onChange" });
+  } = useForm({ resolver: zodResolver(signUpSchema), mode: "onTouched" });
 
   const firstnameRegister = register("firstname");
   const firstnameRef = useRef();
@@ -207,7 +207,7 @@ export default function SignupForm() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               aria-label={
                 showPassword
                   ? "Masquer le mot de passe"
@@ -249,7 +249,7 @@ export default function SignupForm() {
             <button
               type="button"
               onClick={() => setShowPassword2((prev) => !prev)}
-              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="absolute right-2 top-1/2 -translate-y-[calc(50%+5px)] text-gray-500 hover:text-gray-700 p-1 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               aria-label={
                 showPassword2
                   ? "Masquer les mot de passe"
@@ -276,7 +276,13 @@ export default function SignupForm() {
 
       {/* Bouton d'envoi */}
       <div className="text-center">
-        <Button disabled={isSubmitting || isSubmitting} type="submit">
+        <Button
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          disabled={isSubmitting || isSubmitting}
+          type="submit"
+        >
           {isSubmitting || isPending ? (
             <span className="flex items-center text-sand justify-center gap-2">
               Inscription en cours... <ClipLoader size={20} />

@@ -5,7 +5,13 @@ export default function Contact() {
   return (
     <Card>
       <h1>Contact</h1>
-      <ContactForm />
+      <section className="section">
+        <p className="text-center font-semibold mb-3 text-lg">
+          Si vous avez des questions concernant notre activité, n'hésitez pas à
+          nous écrire via le formulaire suivant:
+        </p>
+        <ContactForm />
+      </section>
     </Card>
   );
 }

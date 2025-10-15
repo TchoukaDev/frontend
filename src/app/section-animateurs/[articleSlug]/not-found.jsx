@@ -11,7 +11,9 @@ export default function NotFound() {
         <p className="text-gray-600 my-10 font-semibold">
           Désolé, la page que vous recherchez n'existe pas.
         </p>
-        <Link href="/">Retour à l'accueil</Link>
+        <Link className="btn" href="/">
+          Retour à l'accueil
+        </Link>
       </div>
     </Card>
   );

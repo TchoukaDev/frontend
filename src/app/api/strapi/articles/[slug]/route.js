@@ -18,19 +18,12 @@ export async function GET(request, { params, searchParams }) {
       return NextResponse.json({ error: "Slug manquant", status: 400 });
     }
 
-    const response = await fetchStrapi(
-      `${slug}?page=${page}&limit=${limit}`,
-      300,
-    );
+    const data = await fetchStrapi(`${slug}?page=${page}&limit=${limit}`, 300);
 
-    const data = await response.json();
-
-    if (!response.ok || data.error) {
+    if (data.error) {
       return NextResponse.json(
         {
-          error:
-            data.error ||
-            `Erreur Strapi: ${response.status} - ${response.statusText}`,
+          error: data.error,
         },
         {
           status: response.status,

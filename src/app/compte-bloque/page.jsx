@@ -25,3 +25,12 @@ export default function BlockedPage() {
     </Card>
   );
 }
+export const metadata = {
+  title: "Compte bloqué",
+  description:
+    "Votre compte est actuellement bloqué. Contactez l'administrateur pour résoudre ce problème.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};

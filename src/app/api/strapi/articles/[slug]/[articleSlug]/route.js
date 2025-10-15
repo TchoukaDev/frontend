@@ -11,16 +11,12 @@ export async function GET(req, { params }) {
       );
     }
 
-    const response = await fetchStrapi(`${slug}/${articleSlug}`, 300);
+    const data = await fetchStrapi(`${slug}/${articleSlug}`, 300);
 
-    const data = await response.json();
-
-    if (!response.ok || data.error) {
+    if (data.error) {
       return NextResponse.json(
         {
-          error:
-            data.error ||
-            `Erreur Strapi: ${response.status} - ${response.statusText}`,
+          error: data.error,
         },
         {
           status: response.status,

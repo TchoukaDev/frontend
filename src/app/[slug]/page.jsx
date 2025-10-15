@@ -1,5 +1,4 @@
 import ClubPage from "@/components/Pages/Club/ClubPage";
-import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
 import SessionsPage from "@/components/Pages/Sessions/SessionsPage";
 import WaterWalkingPage from "@/components/Pages/WaterWalking/WaterWalkingPage";
 import { fetchStrapi } from "@/utils/fetchStrapi";
@@ -10,7 +9,6 @@ const pageComponents = {
   club: ClubPage,
   "marche-aquatique": WaterWalkingPage,
   seances: SessionsPage,
-  galerie: GalleryPage,
 };
 
 // ✅ Métadonnées par slug
@@ -45,16 +43,6 @@ const pageMetadata = {
       title: "Nos Séances - Horaires et Tarifs",
       description: "Horaires, lieux et tarifs de nos séances encadrées",
       url: "/seances",
-    },
-  },
-  galerie: {
-    title: "Galerie Photos",
-    description:
-      "Photos de nos sorties, événements et activités de marche aquatique. Revivez les meilleurs moments du club.",
-    openGraph: {
-      title: "Galerie Photos - Nos Sorties",
-      description: "Revivez nos meilleures sorties en images",
-      url: "/galerie",
     },
   },
 };

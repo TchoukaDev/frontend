@@ -92,7 +92,7 @@ const Carousel = ({ images = [] }) => {
               ) : (
                 <Image
                   src={`${images[index]?.url}`}
-                  alt={images[index].alternativeText || `Slide ${index + 1}`}
+                  alt={images[index]?.alternativeText || `Slide ${index + 1}`}
                   fill // Prend tout l'espace du parent
                   className="object-cover" // Remplit sans déformer
                   priority={index === 0} // Charge la première image en priorité
@@ -127,9 +127,9 @@ const Carousel = ({ images = [] }) => {
 
         {/* Points indicateurs en bas */}
         <div className="absolute bottom-4 w-full flex justify-center space-x-2">
-          {images.map((_, i) => (
+          {images.map((image, i) => (
             <button
-              key={i}
+              key={image.id}
               onClick={() => {
                 setDirection(i > index ? 1 : -1); // Direction selon la position cible
                 setIndex(i); // Va directement à l'image cliquée

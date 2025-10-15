@@ -14,18 +14,13 @@ export async function GET(request, { params }) {
     }
 
     // 4. Fetch Strapi avec cache de 300 secondes (5 min)
-    const response = await fetchStrapi(`${slug}/optimized`, 300);
-
-    // 5. Parser la réponse
-    const data = await response.json();
+    const data = await fetchStrapi(`${slug}/optimized`, 300);
 
     // 6. Gérer les erreurs HTTP de Strapi
-    if (!response.ok || data.error) {
+    if (data.error) {
       return NextResponse.json(
         {
-          error:
-            data.error ||
-            `Erreur Strapi: ${response.status} - ${response.statusText}`,
+          error: data.error,
         },
         {
           status: response.status,

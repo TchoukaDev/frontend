@@ -5,12 +5,10 @@ export function useGetFooterLink(initialData = null) {
   return useQuery({
     queryKey: ["footerLinks"],
     queryFn: async () => {
-      const response = await fetchStrapi("pied-de-page");
-      const data = await response.json();
-      if (!response.ok || data.error) {
-        throw new Error(
-          data.error || `Erreur ${response.status}: ${response.statusText}`,
-        );
+      const data = await fetchStrapi("pied-de-page");
+
+      if (data.error) {
+        throw new Error(data.error);
       }
 
       return data;

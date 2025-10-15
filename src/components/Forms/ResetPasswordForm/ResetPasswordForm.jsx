@@ -111,7 +111,7 @@ export default function ResetPasswordForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             id="password"
-            placeholder="Votre mot de passe"
+            placeholder="Nouveau mot de passe"
             autoComplete="current-password"
             required
           />

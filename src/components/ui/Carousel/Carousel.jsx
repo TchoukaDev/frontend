@@ -68,10 +68,10 @@ const Carousel = ({ images = [] }) => {
   }, [index, images]);
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-10 md:space-y-20">
       <div className="relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl shadow-blue3/40 border border-blue2">
         {/* Zone d'affichage principale */}
-        <div className="relative h-64 md:h-96">
+        <div className="relative h-52 md:h-96">
           {/* AnimatePresence gère l'entrée/sortie des animations */}
           <AnimatePresence mode="wait" custom={direction}>
             {/* motion.div = div animé par Framer Motion */}
@@ -90,14 +90,21 @@ const Carousel = ({ images = [] }) => {
                   Aucune image n'a été publiée pour le moment
                 </div>
               ) : (
-                <Image
-                  src={`${images[index]?.url}`}
-                  alt={images[index]?.alternativeText || `Slide ${index + 1}`}
-                  fill // Prend tout l'espace du parent
-                  className="object-cover" // Remplit sans déformer
-                  priority={index === 0} // Charge la première image en priorité
-                  sizes="(max-width: 768px) 95vw, 768px"
-                />
+                <>
+                  <Image
+                    src={`${images[index]?.url}`}
+                    alt={images[index]?.alternativeText || `Slide ${index + 1}`}
+                    fill // Prend tout l'espace du parent
+                    className="object-cover" // Remplit sans déformer
+                    priority={index === 0} // Charge la première image en priorité
+                    sizes="(max-width: 768px) 95vw, 768px"
+                  />
+                  {images[index]?.caption && (
+                    <div className="absolute bg-blue3 w-fit p-1 md:p-3 text-xs md:text-base text-center rounded-full text-sand font-semibold top-5 left-1/2 transform -translate-x-1/2">
+                      {images[index]?.caption}
+                    </div>
+                  )}
+                </>
               )}
             </motion.div>
           </AnimatePresence>
@@ -146,28 +153,33 @@ const Carousel = ({ images = [] }) => {
       </div>
 
       {/* Galerie de miniatures en bas */}
-      <div className="flex gap-20 flex-wrap items-center justify-center">
+      <div className="flex gap-5 md:gap-20 flex-wrap items-center justify-center">
         {images.map((image, i) => (
-          <Image
-            onClick={() => {
-              setDirection(i > index ? 1 : -1);
-              setIndex(i);
-            }}
-            onMouseEnter={() => {
-              // Précharge l'image en grand quand on survole la miniature
-              const img = new window.Image();
-              img.src = `${image?.url}`;
-            }}
-            key={image.id}
-            src={`${image?.url}`}
-            alt={image.alternativeText || `Miniature ${i + 1}`}
-            width={100}
-            height={100}
-            className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-              i === index ? "border-3 border-blue3 shadow-lg" : "" // Bordure sur la miniature active
-            }`}
-            priority={i < 3} // Les 3 premières miniatures chargent en priorité
-          />
+          <div key={image.id} className="flex flex-col items-center gap-2">
+            <div className=" size-12 md:size-25 relative">
+              <Image
+                onClick={() => {
+                  setDirection(i > index ? 1 : -1);
+                  setIndex(i);
+                }}
+                onMouseEnter={() => {
+                  // Précharge l'image en grand quand on survole la miniature
+                  const img = new window.Image();
+                  img.src = `${image?.url}`;
+                }}
+                src={`${image?.url}`}
+                alt={image.alternativeText || `Miniature ${i + 1}`}
+                fill
+                className={`object-cover aspect-square rounded cursor-pointer transition-all ${
+                  i === index ? "border-3 border-blue3 shadow-lg" : "" // Bordure sur la miniature active
+                }`}
+                priority={i < 3} // Les 3 premières miniatures chargent en priorité
+              />
+            </div>
+            {image?.caption && (
+              <div className="hidden md:block">{image.caption}</div>
+            )}
+          </div>
         ))}
       </div>
     </div>

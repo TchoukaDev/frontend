@@ -80,9 +80,18 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
     } else {
       // Ajouter les nouvelles photos en évitant les doublons
       setAllPhotos((prev) => {
-        const ids = new Set(prev.map((p) => p.id)); // IDs déjà présents
-        const uniques = data.photos.filter((p) => !ids.has(p.id)); // Nouvelles photos uniquement
-        return [...prev, ...uniques]; // Fusion
+        // 1. Créer un Set avec les IDs déjà présents (plus optimisé avec Set.has que de filtrer un tableau complet)
+        const ids = new Set(prev.map((photo) => photo.id));
+        // ids = Set {1, 2, 3, 4, 5}
+
+        // 2. Filtrer pour garder UNIQUEMENT les nouvelles photos
+        const uniques = data.photos.filter((photo) => !ids.has(photo.id));
+        // data.photos = [5, 6, 7]
+        // uniques = [6, 7] ← Le 5 est rejeté car déjà présent
+
+        // 3. Fusionner
+        return [...prev, ...uniques];
+        // Résultat : [1, 2, 3, 4, 5, 6, 7] ✅ Pas de doublon
       });
     }
   }, [data?.photos, offset]);
@@ -100,9 +109,18 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
    * - Ne descend jamais sous initialLimit photos
    */
   const handleShowLess = () => {
+    // 1️⃣ Réduire l'offset (jamais négatif)
     setOffset((prev) => Math.max(0, prev - loadOffset));
-    setAllPhotos((prev) =>
-      prev.slice(0, Math.max(initialLimit, prev.length - loadOffset)),
+    // Exemple : prev=30, loadOffset=10
+    // → Math.max(0, 30-10) = Math.max(0, 20) = 20 ✅
+    // Exemple : prev=10, loadOffset=10
+    // → Math.max(0, 10-10) = Math.max(0, 0) = 0 ✅
+
+    // 2️⃣ Retirer des photos visuellement
+    setAllPhotos(
+      (prev) => prev.slice(0, Math.max(initialLimit, prev.length - loadOffset)),
+      //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      //            Garder AU MINIMUM initialLimit photos
     );
   };
 
@@ -112,7 +130,7 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
 
       <section className="section">
         {/* key force le reset du carousel quand le nb de photos change */}
-        <Carousel key={allPhotos.length} images={allPhotos} />
+        <Carousel key={allPhotos.length} images={allPhotos} gallery />
 
         {/* Affiche les contrôles si nécessaire */}
         {(hasMore || canShowLess) && (

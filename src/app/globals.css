@@ -61,7 +61,7 @@
 }
 
 body {
-  @apply flex flex-col font-main min-h-screen w-full;
+  @apply flex flex-col font-main min-h-screen w-full shrink-0;
 }
 @utility custom-gradient {
   @apply bg-gradient-to-br from-blue3 to-blue1;

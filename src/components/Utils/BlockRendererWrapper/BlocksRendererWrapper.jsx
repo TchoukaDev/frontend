@@ -30,7 +30,10 @@ export default function BlocksRendererWrapper({ content = [], noLinks }) {
   }
 
   return (
-    <div ref={contentRef} className="prose max-w-none">
+    <div
+      ref={contentRef}
+      className="prose max-w-none prose-p:my-0 md:prose-p:my-5"
+    >
       <BlocksRenderer content={content || []} />
     </div>
   );

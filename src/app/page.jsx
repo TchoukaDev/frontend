@@ -1,3 +1,5 @@
+import LastNew from "@/components/LastNew/LastNew";
+import MiniCarousel from "@/components/ui/Carousel/MiniCarousel/MiniCarousel";
 import MeteoWidget from "@/components/Widgets/MeteoWidgets/MeteoWidget";
 import { FaFacebook } from "react-icons/fa";
 
@@ -42,20 +44,20 @@ export default function Home() {
   return (
     <>
       {/* Section principale */}
-      <section className="h-[40vh] grow sm:h-[50vh] md:h-[60vh] min-h-[270px]">
-        <div className="flex flex-col justify-between gap-15 items-center mt-5 h-full">
-          <div className="md:flex-row gap-5 flex items-center justify-between flex-[1] w-[90%]">
+      <section className="h-full grow ">
+        <div className="flex flex-col justify-between gap-15 md:gap-20 items-center my-5 h-full relative">
+          <div className="md:flex-row gap-5 flex items-center justify-between  w-[90%]">
             {/* Meteo */}
             <MeteoWidget />
 
             {/* Date */}
-            <div className="custom-gradient p-2 md:p-3 text-sand from-blue3 to-blue1 text-center rounded-xl border-2 text-sm md:text-lg font-title border-blue1 relative">
+            <div className="custom-gradient p-2 md:p-3 text-sand text-center rounded-xl border-2 text-sm md:text-xl font-title border-blue1 relative">
               {dateFr}
             </div>
           </div>
 
-          {/* Bienvenue mobile */}
-          <div className="flex justify-center top-2/3 bottom-1/3 w-full left-1/2 right-1/2 flex-[2] items-start">
+          {/* Bienvenue */}
+          <div className="flex justify-center grow-1 top-2/3 bottom-1/3 w-full left-1/2 right-1/2  items-start">
             <span className="animateLetter">B</span>
             <span className="animateLetter">i</span>
             <span className="animateLetter">e</span>
@@ -65,6 +67,24 @@ export default function Home() {
             <span className="animateLetter">n</span>
             <span className="animateLetter">u</span>
             <span className="animateLetter">e</span>
+          </div>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-5 w-[90%]">
+            <div className="flex flex-col items-center custom-gradient gap-2  p-1 md:p-2 rounded-xl border border-blue1">
+              <div>
+                <h2 className="text-sm md:text-xl font-normal font-title">
+                  Les dernières photos
+                </h2>
+              </div>
+              <MiniCarousel />
+            </div>
+            <div className="flex flex-col items-center custom-gradient gap-2  p-1 md:p-2 rounded-xl border border-blue1">
+              <div>
+                <h2 className="text-sm md:text-xl font-normal font-title">
+                  À la une
+                </h2>
+              </div>
+              <LastNew />
+            </div>
           </div>
         </div>
       </section>

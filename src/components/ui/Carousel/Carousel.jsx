@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const Carousel = ({ images = [] }) => {
+const Carousel = ({ images = [], gallery = false }) => {
   // État pour savoir quelle image est affichée actuellement
   const [index, setIndex] = useState(0);
 
@@ -69,9 +69,13 @@ const Carousel = ({ images = [] }) => {
 
   return (
     <div className="space-y-10 md:space-y-20">
-      <div className="relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl shadow-blue3/40 border border-blue2">
+      <div
+        className={`relative w-[95%] max-w-3xl mx-auto overflow-hidden rounded-2xl shadow-xl ${gallery && "shadow-blue3/40"} border border-blue2`}
+      >
         {/* Zone d'affichage principale */}
-        <div className="relative h-52 md:h-96">
+        <div
+          className={`relative ${gallery ? "h-52 md:h-96" : "h-[100px] md:h-[150px]"}`}
+        >
           {/* AnimatePresence gère l'entrée/sortie des animations */}
           <AnimatePresence mode="wait" custom={direction}>
             {/* motion.div = div animé par Framer Motion */}
@@ -87,7 +91,9 @@ const Carousel = ({ images = [] }) => {
             >
               {images.length < 1 ? (
                 <div className="font-semibold flex justify-center items-center h-full">
-                  Aucune image n'a été publiée pour le moment
+                  {gallery
+                    ? "Aucune image n'a été publiée pour le moment"
+                    : "Aucune photo"}
                 </div>
               ) : (
                 <>
@@ -99,7 +105,7 @@ const Carousel = ({ images = [] }) => {
                     priority={index === 0} // Charge la première image en priorité
                     sizes="(max-width: 768px) 95vw, 768px"
                   />
-                  {images[index]?.caption && (
+                  {images[index]?.caption && gallery && (
                     <div className="absolute bg-blue3 w-fit p-1 md:p-3 text-xs md:text-base text-center rounded-full text-sand font-semibold top-5 left-1/2 transform -translate-x-1/2">
                       {images[index]?.caption}
                     </div>
@@ -115,7 +121,7 @@ const Carousel = ({ images = [] }) => {
           onClick={prevSlide}
           onMouseEnter={() => setPaused(true)} // Pause l'auto-play au survol
           onMouseLeave={() => setPaused(false)} // Reprend l'auto-play
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow cursor-pointer opacity-60 hover:opacity-80 transition-all"
+          className={`absolute top-1/2  -translate-y-1/2 bg-sand/70 ${gallery ? " left-2 md:left-4 p-1 md:p-2" : "left-1 px-1"} rounded-full  shadow cursor-pointer opacity-60 hover:opacity-80 transition-all`}
           aria-label="Image précédente"
         >
           ◀
@@ -126,7 +132,7 @@ const Carousel = ({ images = [] }) => {
           onClick={nextSlide}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow cursor-pointer opacity-60 hover:opacity-80 transition-all"
+          className={`absolute top-1/2  -translate-y-1/2 bg-sand/70 ${gallery ? " right-2 md:right-4 p-1 md:p-2" : "right-1 px-1"} rounded-full  shadow cursor-pointer opacity-60 hover:opacity-80 transition-all`}
           aria-label="Image suivante"
         >
           ▶
@@ -153,35 +159,37 @@ const Carousel = ({ images = [] }) => {
       </div>
 
       {/* Galerie de miniatures en bas */}
-      <div className="flex gap-5 md:gap-20 flex-wrap items-center justify-center">
-        {images.map((image, i) => (
-          <div key={image.id} className="flex flex-col items-center gap-2">
-            <div className=" size-12 md:size-25 relative">
-              <Image
-                onClick={() => {
-                  setDirection(i > index ? 1 : -1);
-                  setIndex(i);
-                }}
-                onMouseEnter={() => {
-                  // Précharge l'image en grand quand on survole la miniature
-                  const img = new window.Image();
-                  img.src = `${image?.url}`;
-                }}
-                src={`${image?.url}`}
-                alt={image.alternativeText || `Miniature ${i + 1}`}
-                fill
-                className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-                  i === index ? "border-3 border-blue3 shadow-lg" : "" // Bordure sur la miniature active
-                }`}
-                priority={i < 3} // Les 3 premières miniatures chargent en priorité
-              />
+      {gallery && (
+        <div className="flex gap-5 md:gap-20 flex-wrap items-center justify-center">
+          {images.map((image, i) => (
+            <div key={image.id} className="flex flex-col items-center gap-2">
+              <div className=" size-12 md:size-25 relative">
+                <Image
+                  onClick={() => {
+                    setDirection(i > index ? 1 : -1);
+                    setIndex(i);
+                  }}
+                  onMouseEnter={() => {
+                    // Précharge l'image en grand quand on survole la miniature
+                    const img = new window.Image();
+                    img.src = `${image?.url}`;
+                  }}
+                  src={`${image?.url}`}
+                  alt={image.alternativeText || `Miniature ${i + 1}`}
+                  fill
+                  className={`object-cover aspect-square rounded cursor-pointer transition-all ${
+                    i === index ? "border-3 border-blue3 shadow-lg" : "" // Bordure sur la miniature active
+                  }`}
+                  priority={i < 3} // Les 3 premières miniatures chargent en priorité
+                />
+              </div>
+              {image?.caption && (
+                <div className="hidden md:block">{image.caption}</div>
+              )}
             </div>
-            {image?.caption && (
-              <div className="hidden md:block">{image.caption}</div>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -19,13 +19,13 @@ export default function MeteoWidgetClient({ initialData = {} }) {
   }
   if (isLoading) {
     return (
-      <div className="animate-pulse custom-gradient text-sm md:text-lg text-sand p-2 md:p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
+      <div className="animate-pulse custom-gradient text-sm md:text-xl text-sand p-2 md:p-3 from-blue3 to-blue1 rounded-xl border-2 border-blue1">
         Chargement meteo en cours...
       </div>
     );
   }
   return (
-    <div className="custom-gradient font-title text-sand p-2 md:p-3 from-blue3 to-blue1 flex flex-col justify-center items-center  rounded-xl border-2 text-sm md:text-lg  border-blue1 relative">
+    <div className="custom-gradient font-title text-sand p-2 md:p-3 from-blue3 to-blue1 flex flex-col justify-center items-center  rounded-xl border-2 text-sm md:text-xl  border-blue1 relative">
       <div className="underline text-center">{meteo.name}</div>
       <div className="flex gap-2 justify-center items-center">
         <div className="p-1">{meteo.weather[0].description}</div>

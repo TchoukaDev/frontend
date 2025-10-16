@@ -20,7 +20,8 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors: clientErrors, isSubmitting },
+    trigger,
+    formState: { errors: clientErrors, isSubmitting, isSubmitted },
   } = useForm({
     resolver: zodResolver(sendMailSchema),
     mode: "onSubmit",
@@ -76,7 +77,7 @@ export default function ContactForm() {
           {/* Prénom */}{" "}
           <div className="text-center md:text-start">
             <label htmlFor="firstname" className="label">
-              Prénom
+              Prénom*
             </label>
             <input
               type="text"
@@ -102,7 +103,7 @@ export default function ContactForm() {
           {/* Nom de famille */}
           <div className="text-center md:text-start">
             <label htmlFor="name" className="label">
-              Nom de famille
+              Nom de famille*
             </label>
             <input
               type="text"
@@ -176,7 +177,6 @@ export default function ContactForm() {
             Par quel moyen préférez-vous être contacté? (Cocher au moins une
             case)
           </p>
-          {/* Téléphone */}
           <div className="flex justify-center text-center items-center gap-10 mb-3">
             <div>
               <label
@@ -187,11 +187,17 @@ export default function ContactForm() {
               </label>
               <input
                 type="checkbox"
-                {...register("prefersPhone")}
+                {...register("prefersPhone", {
+                  onChange: () => {
+                    // ✅ Trigger seulement si déjà soumis
+                    if (isSubmitted) {
+                      trigger("wayToContact");
+                    }
+                  },
+                })}
                 id="prefersPhone"
               />
             </div>
-            {/* Email */}
             <div>
               <label
                 htmlFor="prefersEmail"
@@ -201,16 +207,21 @@ export default function ContactForm() {
               </label>
               <input
                 type="checkbox"
-                {...register("prefersEmail")}
+                {...register("prefersEmail", {
+                  onChange: () => {
+                    // ✅ Trigger seulement si déjà soumis
+                    if (isSubmitted) {
+                      trigger("wayToContact");
+                    }
+                  },
+                })}
                 id="prefersEmail"
-              />{" "}
+              />
             </div>
           </div>
-          {/* Erreur client */}
           {clientErrors?.wayToContact && (
             <p className="formError">{clientErrors.wayToContact.message}</p>
           )}
-          {/* Erreur serveur */}
           {serverState?.fieldErrors?.wayToContact &&
             !clientErrors.wayToContact && (
               <p className="formError">
@@ -226,7 +237,7 @@ export default function ContactForm() {
           cols={80}
           id="message"
           {...register("message")}
-          placeholder="Saisissez votre message"
+          placeholder="Saisissez votre message*"
         />
         {/* Erreur client */}
         {clientErrors?.message && (

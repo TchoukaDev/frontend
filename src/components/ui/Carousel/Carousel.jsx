@@ -90,7 +90,9 @@ const Carousel = ({ images = [], gallery = false }) => {
               className="absolute w-full h-full"
             >
               {images.length < 1 ? (
-                <div className="font-semibold flex justify-center items-center h-full">
+                <div
+                  className={`font-semibold ${gallery ? "text-base" : "text-sm md:text-base"} flex justify-center items-center h-full`}
+                >
                   {gallery
                     ? "Aucune image n'a été publiée pour le moment"
                     : "Aucune photo"}

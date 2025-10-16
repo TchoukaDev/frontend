@@ -68,8 +68,8 @@ export default function Home() {
             <span className="animateLetter">u</span>
             <span className="animateLetter">e</span>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-5 w-[90%]">
-            <div className="flex flex-col items-center custom-gradient gap-2  p-1 md:p-2 rounded-xl border border-blue1">
+          <div className="flex flex-col md:flex-row items-center justify-evenly gap-5 w-[90%]">
+            <div className="flex flex-col items-center custom-gradient gap-2 h-[150px] md:h-[210px]  p-1 md:p-2 rounded-xl border border-blue1">
               <div>
                 <h2 className="text-sm md:text-xl font-normal font-title">
                   Les dernières photos
@@ -77,7 +77,7 @@ export default function Home() {
               </div>
               <MiniCarousel />
             </div>
-            <div className="flex flex-col items-center custom-gradient gap-2  p-1 md:p-2 rounded-xl border border-blue1">
+            <div className="flex flex-col items-center justify-center custom-gradient gap-2 h-[150px] md:h-[210px]  p-1 md:p-2 rounded-xl border border-blue1">
               <div>
                 <h2 className="text-sm md:text-xl font-normal font-title">
                   À la une

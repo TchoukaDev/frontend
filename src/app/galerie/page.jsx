@@ -7,7 +7,7 @@ export const metadata = {
   description: "Photos de nos sorties et événements",
 };
 
-const initialLimit = 10;
+const initialLimit = 3;
 
 export default async function Gallery() {
   const initialData = await fetchStrapi(

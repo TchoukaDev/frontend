@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Site Les Randonneurs des Sables du Born
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+Ce site a été réalisé à la demande du responsable du club de marche aquatique de la ville de Biscarrosse. La partie front a été réalisée avec NextJS et Tailwind CSS et le contenu est géré est modifiable via Strapi. Ce site est majoritairement accessible au grand public, et contient une partie réservée aux membres connectés.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Stack :
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Frontend :
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+·      NextJS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+·      Tailwind CSS
 
-## Learn More
+### Backend :
 
-To learn more about Next.js, take a look at the following resources:
+·      NextJS (API route)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+·      STRAPI (gestion de contenu)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+·      Supabase POSTGRESQL (base de données)
 
-## Deploy on Vercel
+·      Cloudinary (hébergement des images)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Dépendances utilisées :
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+·      Zod resolver (validation formulaires)
+
+·      React-email + Resend (envoi d’email de contact)
+
+·      Pdfjs-dist (affichage PDF thumbnail)
+
+·      Block-React-Renderer (affichage du rich text Strapi)
+
+·      Tailwindcss
+
+·      Tanstack query (cache client)
+
+·      Framer-motion (animations)
+
+·      Js-cookies (gestion des cookies)
+
+·      Lucide-react (icônes)
+
+·      Tailwind-css (design)
+
+·      React-spinners (loaders)
+
+·      React-hook-form (formulaires)
+
+·      Next-auth(authentification, session, jwt)
+
+## Gestion de contenu :
+
+L’essentiel du contenu du site est modifiable via l’interface administrateur de Strapi. L’utilisateur peut ainsi mettre à jour les informations des différentes pages, créer, supprimer ou modifier des articles, publications ou images de la galerie. Il peut également ajouter des documents dans les publications. Le système de publication est paginé, avec un sélecteur de nombre d’article par page. Les liens du Footer sont également personnalisables.
+
+## Authentification :
+
+Le site comporte une fonctionnalité d’inscription et d’authentification. Une grande partie du contenu est accessible, mais certaines sections sont réservées pour les membres inscrits, ou certains membres avec un rôle spécifique. L’administrateur peut gérer les rôles des comptes dans Strapi directement. L’authentification est gérée via Next-Auth avec une stratégie de jwt par utilisateur, renouvelé régulièrement. A la connexion, l’utilisateur peut choisir de générer un cookie de 30 jours pour conserver son état de connexion (via la checkbox « se souvenir de moi »). Les chemins publics et protégés sont gérés par un fichier middleware. Il est possible pour l’utilisateur de réinitialiser son mot de passe en cas d’oubli. Un système de blocage de compte est également intégré en cas d’échec répété de connexion.
+
+## Optimisation :
+
+Les performances du site sont optimisées afin d’offrir une bonne expérience utilisateur. La plupart des pages sont générées au build et revalidées à intervalle régulier (via l’Incremental Static Generation). Un cache est également mis en place sur chaque page côté client, via Tanstack Query pour limiter les requêtes.
+
+Les images sont hébergées sur Cloudinary, pour conserver une meilleure performance dans Strapi, et l’affichage est optimisé via le composant natif Image de NextJs.
+
+Niveau SEO, chacune des pages comporte des metadonnées personnalisées afin d’améliorer le référencement sur les moteurs de recherches.

@@ -141,7 +141,7 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
                 <button
                   onClick={handleLoadMore}
                   disabled={isFetching}
-                  className="px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="btn"
                 >
                   {isFetching ? "Chargement…" : "Voir plus"}
                 </button>
@@ -151,7 +151,7 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
               {canShowLess && (
                 <button
                   onClick={handleShowLess}
-                  className="px-6 py-3 rounded-lg bg-gray-600 text-white hover:bg-gray-700"
+                  className="btn bg-blue-700 hover:bg-blue-700/80"
                 >
                   Voir moins
                 </button>

@@ -75,9 +75,11 @@ export default function Home() {
                   Les dernières photos
                 </h2>
               </div>
+              {/* Mini Galerie */}
               <MiniCarousel />
             </div>
-            <div className="flex flex-col items-center justify-center custom-gradient gap-2 h-[150px] md:h-[210px]  p-1 md:p-2 rounded-xl border border-blue1">
+            {/* A la une */}
+            <div className="flex flex-col items-center justify-evenly custom-gradient gap-2 h-[150px] md:h-[210px]  p-1 md:p-2 rounded-xl border border-blue1">
               <div>
                 <h2 className="text-sm md:text-xl font-normal font-title">
                   À la une

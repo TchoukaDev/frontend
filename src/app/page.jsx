@@ -39,6 +39,7 @@ export default function Home() {
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
+    timeZone: "Europe/Paris",
   });
 
   return (

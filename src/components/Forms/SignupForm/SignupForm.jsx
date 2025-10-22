@@ -24,7 +24,7 @@ export default function SignupForm() {
 
   // Hook pour server action
   const [serverState, formAction, isPending] = useActionState(createUser, null);
-
+  console.log(serverState);
   // Hooks pour redirection
   const router = useRouter();
 
@@ -66,20 +66,20 @@ export default function SignupForm() {
   }, []);
 
   // Si inscription réussie, montre uniquement le message et bouton pour login
-  {
-    serverState?.success && (
-      <div className="bg-green-100 border border-green-400 text-green-700 text-center p-6 rounded">
-        <p className="mb-6">{serverState.message} </p>
-        {/* Bouton de connexion après succès */}
-        <Button
-          onClick={(e) => {
-            router.push("/connexion");
-          }}
-          margin="my-3"
-          className="btn"
-        >
-          Se connecter
-        </Button>
+
+  if (serverState?.success) {
+    return (
+      <div className="max-w-2xl mx-auto p-4">
+        <div className="bg-green-100 border border-green-400 text-green-700 text-center p-6 rounded">
+          <p className="mb-6">{serverState.message}</p>
+          <Button
+            onClick={() => router.push("/connexion")}
+            margin="my-3"
+            className="btn"
+          >
+            Se connecter
+          </Button>
+        </div>
       </div>
     );
   }

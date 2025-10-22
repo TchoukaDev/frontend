@@ -7,8 +7,6 @@ export async function GET(request) {
     const limit = searchParams.get("limit") || "20";
     const offset = searchParams.get("offset") || "0";
 
-    console.log("🔍 API Route - Limit:", limit, "Offset:", offset);
-
     const url = `${process.env.STRAPI_API_URL}/api/galerie?limit=${limit}&offset=${offset}`;
 
     const response = await fetch(url, {

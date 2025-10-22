@@ -4,6 +4,5 @@ import NavbarClient from "./NavbarClient";
 
 export default async function NavbarServer() {
   const session = await getServerSession(authOptions);
-
   return <NavbarClient session={session} />;
 }

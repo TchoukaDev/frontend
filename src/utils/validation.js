@@ -20,6 +20,9 @@ export const signUpSchema = z
         /^(?:\+33s*|0)[1-9]s*[0-9]{2}(s*[0-9]{2}){3}s*$/,
         "Veuillez saisir un numéro de téléphone valide",
       ),
+    isLicensed: z.enum(["licencié", "non licencié"], {
+      message: "Veuillez sélectionner une des deux propositions",
+    }),
 
     password: z
       .string()

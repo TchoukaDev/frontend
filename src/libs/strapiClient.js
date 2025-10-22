@@ -14,6 +14,7 @@ export const strapiClient = {
           firstname: userData.firstname,
           name: userData.name,
           telephone: userData.telephone,
+          isLicensed: userData.isLicensed,
         }),
       },
     );

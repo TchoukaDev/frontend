@@ -2,8 +2,8 @@
 
 import { useState, useRef } from "react";
 import { LogOut, User, ChevronDown } from "lucide-react";
-import { AnimatePresence, easeOut, motion } from "framer-motion";
-import { signOut, useSession } from "next-auth/react";
+import { AnimatePresence, motion } from "framer-motion";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useHandleClickOutside } from "@/hooks/useHandleClickOutside";
 

@@ -24,7 +24,6 @@ export default function SignupForm() {
 
   // Hook pour server action
   const [serverState, formAction, isPending] = useActionState(createUser, null);
-  console.log(serverState);
   // Hooks pour redirection
   const router = useRouter();
 
@@ -47,7 +46,6 @@ export default function SignupForm() {
   const onSubmit = (data) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => formData.append(key, value));
-
     startTransition(() => {
       formAction(formData);
     });
@@ -277,6 +275,37 @@ export default function SignupForm() {
           )}
         </div>
       </div>
+
+      {/* Licencié? */}
+      <div className="flex my-6 gap-6 justify-center">
+        Êtes-vous déjà licencié(e) aux Randonneurs des Sables?
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            value="licencié"
+            {...register("isLicensed")}
+            className="w-4 h-4 cursor-pointer"
+          />
+          <span>Oui</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            value="non licencié"
+            {...register("isLicensed")}
+            className="w-4 h-4 cursor-pointer"
+          />
+          <span>Non</span>
+        </label>
+      </div>
+      {/* Erreur client */}
+      {clientErrors.isLicensed && (
+        <p className="formError">{clientErrors.isLicensed.message}</p>
+      )}
+      {/* Erreur côté serveur */}
+      {serverState?.fieldErrors?.isLicensed && !clientErrors.isLicensed && (
+        <p className="formError">{serverState.fieldErrors.isLicensed}</p>
+      )}
 
       {/* Bouton d'envoi */}
       <div className="text-center">

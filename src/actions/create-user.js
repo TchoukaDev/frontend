@@ -15,6 +15,7 @@ export const createUser = async (prevState, formData) => {
       telephone: formData.get("telephone"),
       password: formData.get("password"),
       password2: formData.get("password2"),
+      isLicensed: formData.get("isLicensed"),
     };
 
     // 2. Validation avec le même schéma Zod côté serveur
@@ -80,8 +81,8 @@ export const createUser = async (prevState, formData) => {
       email: validatedData.email,
       telephone: validatedData.telephone,
       password: validatedData.password,
+      isLicensed: validatedData.isLicensed,
     };
-
     //   Ajouter l'utilisateur
     await strapiClient.register(newUser);
 

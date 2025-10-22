@@ -22,7 +22,7 @@ export const sendMail = async (prevState, formData) => {
     };
     // Validation Zod
     const validationResult = sendMailSchema.safeParse(rawData);
-    console.log(validationResult);
+
     // Formattage des erreur Zod
     if (validationResult.error) {
       const fieldErrors = {};
@@ -70,8 +70,6 @@ export const sendMail = async (prevState, formData) => {
         error: "Impossible d'envoyer l'email. Veuillez réessayer plus tard.",
       };
     }
-
-    console.log("Email envoyé avec succès:", data);
 
     // 6. Retourner le succès
     return {

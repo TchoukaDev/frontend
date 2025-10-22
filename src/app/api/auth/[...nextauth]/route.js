@@ -133,6 +133,7 @@ export const authOptions = {
               telephone: loginData.user.telephone || null,
               name: loginData.user.name || null,
               firstname: loginData.user.firstname || null,
+              isLicensed: loginData.user.isLicensed || null,
               blocked: false, // 🆕 On sait qu'il n'est pas bloqué (vérifié au début)
               jwt: loginData.jwt,
               role: null,
@@ -148,6 +149,7 @@ export const authOptions = {
             telephone: userDetailsData.telephone || null,
             name: userDetailsData.name || null,
             firstname: userDetailsData.firstname || null,
+            isLicensed: userDetailsData.isLicensed || null,
             blocked: false, // 🆕 On sait qu'il n'est pas bloqué (vérifié au début)
             jwt: loginData.jwt,
             role: userDetailsData.role?.type || null,
@@ -258,6 +260,7 @@ export const authOptions = {
         token.telephone = user.telephone;
         token.name = user.name;
         token.firstname = user.firstname;
+        token.isLicensed = user.isLicensed;
         token.blocked = user.blocked;
         token.jwt = user.jwt; // JWT Strapi
         token.role = user.role;
@@ -325,6 +328,7 @@ export const authOptions = {
       session.user.telephone = token.telephone;
       session.user.name = token.name;
       session.user.firstname = token.firstname;
+      session.user.isLicensed = token.isLicensed;
       session.user.blocked = token.blocked;
       session.user.role = token.role;
       session.user.roleName = token.roleName;

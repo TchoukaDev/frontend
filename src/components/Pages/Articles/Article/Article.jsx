@@ -8,8 +8,7 @@ export default async function Article({ params, slug, title }) {
   // Récupération de l'article
   const response = await fetchStrapi(`${slug}/${articleSlug}`, 300);
   const data = response?.data || {};
-
-  if (!data) {
+  if (!data?.id) {
     notFound();
   }
 

@@ -30,7 +30,10 @@ export default function WaterWalkingPage({ initialData = {}, slug }) {
               </div>
               <div className="flex my-10 gap-10 flex-wrap justify-center">
                 {section?.images?.map((image) => (
-                  <div key={image?.id} className="flex flex-col gap-3">
+                  <div
+                    key={image?.id}
+                    className="flex flex-col items-center justify-center gap-3"
+                  >
                     <Image
                       src={image?.url}
                       width={200}

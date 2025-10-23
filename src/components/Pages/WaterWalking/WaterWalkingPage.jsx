@@ -4,11 +4,12 @@ import AnimatedTitle from "@/components/ui/AnimatedTitle/AnimatedTitle";
 import Card from "@/components/ui/Card/Card";
 import { useGetPage } from "@/hooks/useGetPage";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import Image from "next/image";
 
 export default function WaterWalkingPage({ initialData = {}, slug }) {
   const { data = [] } = useGetPage(slug, initialData);
   const sections = data?.sections || [];
-
+  console.log(sections[0].images);
   return (
     <Card>
       <h1>{data.titreprincipal}</h1>
@@ -26,6 +27,19 @@ export default function WaterWalkingPage({ initialData = {}, slug }) {
               </AnimatedTitle>
               <div className="prose prose-p:mb-2 max-w-none">
                 <BlocksRenderer content={section?.contenu} />
+              </div>
+              <div className="flex my-10 gap-10 flex-wrap justify-center">
+                {section?.images?.map((image) => (
+                  <Image
+                    key={image?.id}
+                    src={image?.url}
+                    width={200}
+                    height={0}
+                    priority
+                    alt={image.alternativeText}
+                    className="w-[200px] h-auto"
+                  />
+                ))}
               </div>
             </section>
           ),

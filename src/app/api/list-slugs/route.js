@@ -2,14 +2,31 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
 
 export async function GET() {
-  const sections = await fetchStrapi(
-    "section-animateurs?fields=id,slug,titre",
-    0,
-  );
-  const comps = await fetchStrapi("competitions?fields=id,slug,titre", 0);
+  try {
+    console.log("🔍 Fetching section-animateurs...");
+    const sections = await fetchStrapi(
+      "section-animateurs?fields=id,slug,titre",
+      0,
+    );
 
-  return Response.json({
-    sectionAnimateurs: sections?.data || [],
-    competitions: comps?.data || [],
-  });
+    console.log("🔍 Fetching competitions...");
+    const comps = await fetchStrapi("competitions?fields=id,slug,titre", 0);
+
+    return Response.json({
+      success: true,
+      sectionAnimateurs: sections?.data || [],
+      competitions: comps?.data || [],
+    });
+  } catch (error) {
+    console.error("❌ Error:", error);
+
+    return Response.json(
+      {
+        success: false,
+        error: error.message,
+        stack: error.stack,
+      },
+      { status: 500 },
+    );
+  }
 }

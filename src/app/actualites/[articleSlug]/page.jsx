@@ -2,7 +2,9 @@ import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 
 export default function Info({ params }) {
-  return <Article params={params} slug="infos" title="Informations diverses" />;
+  return (
+    <Article params={params} slug="actualites" title="Informations diverses" />
+  );
 }
 
 export const revalidate = 300;
@@ -20,7 +22,7 @@ export async function generateStaticParams() {
       articleSlug: article.slug,
     }));
   } catch (e) {
-    console.error("Erreur generateStaticParams infos:", e.message);
+    console.error("Erreur generateStaticParams actualites:", e.message);
     return [];
   }
 }
@@ -74,7 +76,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: data.titre || "Information",
       description: description,
-      url: `/infos/${articleSlug}`,
+      url: `/actualites/${articleSlug}`,
       type: "article", // ✅ "article" au lieu de "website"
 
       // ✅ Image conditionnelle
@@ -110,7 +112,7 @@ export async function generateMetadata({ params }) {
 
     // 🔗 URL CANONIQUE
     alternates: {
-      canonical: `/infos/${articleSlug}`,
+      canonical: `/actualites/${articleSlug}`,
     },
 
     // 🤖 ROBOTS

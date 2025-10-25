@@ -2,7 +2,11 @@ import ArticlesPage from "@/components/Pages/Articles/ArticlesPage";
 
 export default function InfosPage({ searchParams }) {
   return (
-    <ArticlesPage searchParams={searchParams} slug="infos" title="Actualités" />
+    <ArticlesPage
+      searchParams={searchParams}
+      slug="actualites"
+      title="Actualités"
+    />
   );
 }
 
@@ -35,7 +39,7 @@ export async function generateMetadata({ searchParams }) {
       title: `Actualités${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
       description:
         "Suivez toute l'actualité du club : événements, sorties et nouvelles de la marche aquatique",
-      url: `/infos${page > 1 ? `?page=${page}` : ""}`,
+      url: `/actualites${page > 1 ? `?page=${page}` : ""}`,
       type: "website",
       // L'image sera héritée du layout.js
     },
@@ -56,7 +60,7 @@ export async function generateMetadata({ searchParams }) {
 
     // ✅ URL canonique
     alternates: {
-      canonical: `/infos${page > 1 ? `?page=${page}` : ""}${
+      canonical: `/actualites${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""
       }`,
     },

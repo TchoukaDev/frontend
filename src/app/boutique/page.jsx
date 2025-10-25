@@ -10,6 +10,23 @@ export default async function ShopPage({ searchParams }) {
   );
 }
 
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  try {
+    const data = await fetchStrapi(
+      `boutiques?pagination[limit]=50&sort=updatedAt:desc`,
+      300,
+    );
+    return (data?.data || []).map((article) => ({
+      articleSlug: article.slug,
+    }));
+  } catch (e) {
+    console.error("Erreur generateStaticParams competitions:", e.message);
+    return [];
+  }
+}
+
 export async function generateMetadata({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams?.page) || 1;

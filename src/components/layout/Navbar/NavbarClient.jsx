@@ -24,6 +24,7 @@ export default function NavbarClient({ session }) {
       "isAuthenticated",
       "isAnimator",
     ],
+    ["Boutique", "/boutique"],
     ["Galerie", "/galerie/"],
   ];
 
@@ -54,8 +55,8 @@ export default function NavbarClient({ session }) {
     >
       <div className=" px-10 xl:px-18">
         <div className="flex justify-start lg:justify-center  items-center py-2 md:py-4 ">
-          {/* Menu desktop - caché sur mobile */}
-          <ul className="hidden lg:flex justify-center space-x-5 xl:space-x-7">
+          {/* Menu desktop - caché sur mobile et tablette */}
+          <ul className="hidden xl:flex justify-center space-x-7">
             {links.map((link) => {
               if (link[2] === "isAuthenticated" && !session?.user) return null;
               if (
@@ -85,13 +86,13 @@ export default function NavbarClient({ session }) {
             <X
               onClick={toggleMenu}
               aria-label="Toggle menu"
-              className="lg:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
+              className="xl:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
             />
           ) : (
             /* Bouton hamburger - visible seulement sur mobile */
             <Menu
               onClick={toggleMenu}
-              className="lg:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
+              className="xl:hidden text-blue3 cursor-pointer hover:text-blue-700 transition-colors duration-200"
               aria-label="Toggle menu"
             />
           )}
@@ -113,7 +114,7 @@ export default function NavbarClient({ session }) {
 
         {/* Menu mobile - coulissant */}
         <ul
-          className={`lg:hidden text-center overflow-hidden transition-all duration-300 ${
+          className={`xl:hidden text-center overflow-hidden transition-all duration-300 ${
             isMenuOpen ? "max-h-96 pb-4" : "max-h-0"
           }`}
         >

@@ -3,6 +3,7 @@ import PaginationControls from "@/components/Utils/Pagination/PaginationControls
 import ItemsPerPageSelector from "@/components/Utils/Pagination/ItemsPerPageSelector";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import ArticlesPageClient from "./ArticlesPageClient";
+import { slugToApiCollection } from "@/libs/slugToApi";
 
 /**
  * Composant Server principal pour la page des informations
@@ -12,6 +13,7 @@ import ArticlesPageClient from "./ArticlesPageClient";
  */
 export default async function ArticlesPage({ searchParams, slug, title }) {
   const resolvedSearchParams = await searchParams;
+  const apiCollection = slugToApiCollection(slug);
   // Extraction et validation des paramètres URL
   const page = Number(resolvedSearchParams?.page) || 1;
   const limit = Number(resolvedSearchParams?.limit) || 5;
@@ -32,7 +34,7 @@ export default async function ArticlesPage({ searchParams, slug, title }) {
     try {
       // Construction de l'URL de l'API avec paramètres de pagination
       const data = await fetchStrapi(
-        `${slug}?page=${page}&limit=${limit}`,
+        `${apiCollection}?page=${page}&limit=${limit}`,
         300,
       );
       return data || [];

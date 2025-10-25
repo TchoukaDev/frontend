@@ -1,3 +1,4 @@
+import { slugToApiCollection } from "@/libs/slugToApi";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export function useGetArticlesPage(
@@ -6,11 +7,12 @@ export function useGetArticlesPage(
   page = 1,
   initialData = null,
 ) {
+  const apiCollection = slugToApiCollection(slug);
   return useQuery({
-    queryKey: ["articlesPage", slug, limit, page],
+    queryKey: ["articlesPage", apiCollection, limit, page],
     queryFn: async () => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/articles/${slug}?page=${page}&limit=${limit}`,
+        `${process.env.NEXT_PUBLIC_URL}/api/articles/${apiCollection}?page=${page}&limit=${limit}`,
       );
       const data = await response.json();
 

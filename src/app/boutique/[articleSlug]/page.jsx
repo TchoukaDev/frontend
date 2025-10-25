@@ -10,7 +10,7 @@ export const revalidate = 300;
 export async function generateStaticParams() {
   try {
     const data = await fetchStrapi(
-      `boutique?pagination[limit]=50&sort=updatedAt:desc`,
+      `boutiques?pagination[limit]=50&sort=updatedAt:desc`,
       300,
     );
     return (data?.data || []).map((article) => ({
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: data.titre || "Boutique",
       description: description,
-      url: `/competitions/${articleSlug}`,
+      url: `/boutique/${articleSlug}`,
       type: "article",
 
       ...(ogImage && {

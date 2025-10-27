@@ -4,7 +4,7 @@ export default function InfosPage({ searchParams }) {
   return (
     <ArticlesPage
       searchParams={searchParams}
-      slug="actualites"
+      slug="actualites-club"
       title="Actualités"
     />
   );
@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }) {
   const limit = Number(resolvedSearchParams.limit) || 5;
 
   return {
-    title: `Actualités${page > 1 ? ` - Page ${page}` : ""}`,
+    title: `Actualités du club${page > 1 ? ` - Page ${page}` : ""}`,
     description: `Suivez l'actualité des Randonneurs des Sables du Born : événements, sorties, nouvelles du club et informations sur la marche aquatique à Biscarrosse. ${limit} articles par page.`,
 
     // ✅ Mots-clés
@@ -36,10 +36,10 @@ export async function generateMetadata({ searchParams }) {
 
     // ✅ OpenGraph optimisé
     openGraph: {
-      title: `Actualités${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
+      title: `Actualités du club${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
       description:
         "Suivez toute l'actualité du club : événements, sorties et nouvelles de la marche aquatique",
-      url: `/actualites${page > 1 ? `?page=${page}` : ""}`,
+      url: `/actualites-club${page > 1 ? `?page=${page}` : ""}`,
       type: "website",
       // L'image sera héritée du layout.js
     },
@@ -60,7 +60,7 @@ export async function generateMetadata({ searchParams }) {
 
     // ✅ URL canonique
     alternates: {
-      canonical: `/actualites${page > 1 ? `?page=${page}` : ""}${
+      canonical: `/actualites-club${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""
       }`,
     },

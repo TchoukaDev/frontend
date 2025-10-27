@@ -16,7 +16,7 @@ export default function NavbarClient({ session }) {
     ["Le club", "/club"],
     ["Marche aquatique", "/marche-aquatique"],
     ["Séances", "/seances"],
-    ["Actualités", "/actualites"],
+    ["Actualités du club", "/actualites-club"],
     ["Compétitions", "/competitions", "isAuthenticated"],
     [
       "Section animateurs",

@@ -3,7 +3,11 @@ import { fetchStrapi } from "@/utils/fetchStrapi";
 
 export default function Info({ params }) {
   return (
-    <Article params={params} slug="actualites" title="Informations diverses" />
+    <Article
+      params={params}
+      slug="actualites-club"
+      title="Informations diverses"
+    />
   );
 }
 
@@ -22,7 +26,7 @@ export async function generateStaticParams() {
       articleSlug: article.slug,
     }));
   } catch (e) {
-    console.error("Erreur generateStaticParams actualites:", e.message);
+    console.error("Erreur generateStaticParams actualites du club:", e.message);
     return [];
   }
 }
@@ -57,7 +61,7 @@ export async function generateMetadata({ params }) {
   // 5️⃣ RETOUR DES MÉTADONNÉES COMPLÈTES
   return {
     // 📌 TITRE DE LA PAGE
-    title: data.titre || "Information",
+    title: data.titre || "Actualité",
 
     // 📝 DESCRIPTION
     description: description,
@@ -74,9 +78,9 @@ export async function generateMetadata({ params }) {
 
     // 🖼️ OPEN GRAPH (Réseaux sociaux)
     openGraph: {
-      title: data.titre || "Information",
+      title: data.titre || "Actualité",
       description: description,
-      url: `/actualites/${articleSlug}`,
+      url: `/actualites-club/${articleSlug}`,
       type: "article", // ✅ "article" au lieu de "website"
 
       // ✅ Image conditionnelle
@@ -86,7 +90,7 @@ export async function generateMetadata({ params }) {
             url: ogImage,
             width: 1200,
             height: 630,
-            alt: data.titre || "Information",
+            alt: data.titre || "Actualité",
           },
         ],
       }),
@@ -95,7 +99,7 @@ export async function generateMetadata({ params }) {
       article: {
         publishedTime: data.publishedAt,
         modifiedTime: data.updatedAt,
-        section: "Informations",
+        section: "Actualités du club",
         tags: ["marche aquatique", "longe-côte", "actualité"],
       },
     },
@@ -112,7 +116,7 @@ export async function generateMetadata({ params }) {
 
     // 🔗 URL CANONIQUE
     alternates: {
-      canonical: `/actualites/${articleSlug}`,
+      canonical: `/actualites-club/${articleSlug}`,
     },
 
     // 🤖 ROBOTS

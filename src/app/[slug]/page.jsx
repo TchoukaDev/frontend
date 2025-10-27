@@ -3,12 +3,14 @@ import SessionsPage from "@/components/Pages/Sessions/SessionsPage";
 import WaterWalkingPage from "@/components/Pages/WaterWalking/WaterWalkingPage";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
+import SponsorsPage from "@/components/Pages/Sponsors/SponsorsPage";
 
 // Mapping slug → composant
 const pageComponents = {
   club: ClubPage,
   "marche-aquatique": WaterWalkingPage,
   seances: SessionsPage,
+  partenaires: SponsorsPage,
 };
 
 // ✅ Métadonnées par slug
@@ -44,6 +46,12 @@ const pageMetadata = {
       description: "Horaires, lieux et tarifs de nos séances encadrées",
       url: "/seances",
     },
+  },
+  partenaires: {
+    titre: "Nos partenaires",
+    description:
+      "Les partenaires et sponsors du club avec qui nous partageons des valeurs communes et qui nous aident à nous développer",
+    url: "/partenaires",
   },
 };
 

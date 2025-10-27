@@ -25,6 +25,7 @@ export default function NavbarClient({ session }) {
       "isAnimator",
     ],
     ["Boutique", "/boutique"],
+    ["Partenaires", "/partenaires"],
     ["Galerie", "/galerie/"],
   ];
 

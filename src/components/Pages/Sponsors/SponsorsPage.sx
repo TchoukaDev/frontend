@@ -1,4 +1,0 @@
-export default function SponsorsPage({ initialData, slug }) {
-  const { data = [] } = useGetPage(slug, initialData);
-  return <div>Hello</div>;
-}

@@ -59,17 +59,13 @@ export const authOptions = {
 
           // ❌ ÉCHEC DE CONNEXION : Incrémenter les tentatives
           if (!loginResponse.ok || !loginData.jwt) {
-            console.log("🔍 DEBUG - User found:", users.length > 0);
             if (users.length > 0) {
               const user = users[0];
-              console.log("🔍 Current attempts:", user.loginAttempts);
-              console.log("🔍 User ID:", user.id);
-              const newAttempts = (user.loginAttempts || 0) + 1;
-              console.log("🔍 New attempts:", newAttempts);
-              const shouldBlock = newAttempts >= 5;
-              console.log("shouldBlock:", shouldBlock);
 
-              const updateResponse = await fetch(
+              const newAttempts = (user.loginAttempts || 0) + 1;
+              const shouldBlock = newAttempts >= 5;
+
+              await fetch(
                 `${process.env.STRAPI_API_URL}/api/users/${user.id}`,
                 {
                   method: "PUT",
@@ -84,9 +80,6 @@ export const authOptions = {
                   }),
                 },
               );
-              console.log("🔍 Update response status:", updateResponse.status);
-              const updateData = await updateResponse.json();
-              console.log("🔍 Update response data:", updateData);
 
               if (shouldBlock) {
                 throw new Error(

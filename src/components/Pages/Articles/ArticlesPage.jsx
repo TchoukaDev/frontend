@@ -62,7 +62,7 @@ export default async function ArticlesPage({ searchParams, slug, title }) {
    */
 
   // Récupération des données côté serveur (SEO friendly)
-  const { data: articles = {}, meta = {} } = await getArticles(
+  const { data: articles = [], meta = {} } = await getArticles(
     validatedPage,
     validatedLimit,
   );

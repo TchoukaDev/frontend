@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function WaterWalkingPage({ initialData = {}, slug }) {
   const { data = [] } = useGetPage(slug, initialData);
   const sections = data?.sections || [];
-  console.log(sections[0].images);
+
   return (
     <Card>
       <h1>{data.titreprincipal}</h1>

@@ -33,7 +33,7 @@ export default async function LastNew() {
       </div>
 
       <Link
-        href={`/actualites/${article.slug}`}
+        href={`/actualites-club/${article.slug}`}
         className="self-end  text-xs link"
       >
         Voir l'article

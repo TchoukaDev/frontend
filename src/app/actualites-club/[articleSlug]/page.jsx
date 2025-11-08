@@ -16,7 +16,7 @@ export const dynamicParams = true;
 export async function generateStaticParams() {
   try {
     const data = await fetchStrapi(
-      `actualites-club?pagination[limit]=50&sort=updatedAt:desc`,
+      `infos?pagination[limit]=50&sort=updatedAt:desc`,
       300,
     );
 
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
 
   // 2️⃣ RÉCUPÉRATION DES DONNÉES DE L'ARTICLE
-  const response = await fetchStrapi(`actualites-club/${articleSlug}`, 300);
+  const response = await fetchStrapi(`infos/${articleSlug}`, 300);
   const data = response?.data || {};
 
   // 3️⃣ EXTRACTION DE LA DESCRIPTION

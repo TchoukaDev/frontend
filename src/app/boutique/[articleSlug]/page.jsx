@@ -6,7 +6,7 @@ export default function Listing({ params }) {
 }
 
 export const revalidate = 300;
-
+export const dynamicParams = true;
 export async function generateStaticParams() {
   try {
     const data = await fetchStrapi(

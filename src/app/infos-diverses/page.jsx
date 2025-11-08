@@ -1,11 +1,11 @@
 import ArticlesPage from "@/components/Pages/Articles/ArticlesPage";
 
-export default function ActualitiesPage({ searchParams }) {
+export default function InfosPage({ searchParams }) {
   return (
     <ArticlesPage
       searchParams={searchParams}
-      slug="actualites-club"
-      title="Actualités du club"
+      slug="infos-diverses"
+      title="Informations diverses"
     />
   );
 }
@@ -20,13 +20,13 @@ export async function generateMetadata({ searchParams }) {
   const limit = Number(resolvedSearchParams.limit) || 5;
 
   return {
-    title: `Actualités du club${page > 1 ? ` - Page ${page}` : ""}`,
-    description: `Suivez l'actualité des Randonneurs des Sables du Born : événements, sorties, nouvelles du club et informations sur la marche aquatique à Biscarrosse. ${limit} articles par page.`,
+    title: `Informations diverses${page > 1 ? ` - Page ${page}` : ""}`,
+    description: `Retrouvez ici des informations diverses portant sur différents sujets (santé, loisirs, évènements...), et importantes à savoir ${limit} articles par page.`,
 
     // ✅ Mots-clés
     keywords: [
-      "actualités",
-      "nouvelles",
+      "loisirs",
+      "informations",
       "marche aquatique",
       "longe-côte",
       "Biscarrosse",
@@ -36,10 +36,10 @@ export async function generateMetadata({ searchParams }) {
 
     // ✅ OpenGraph optimisé
     openGraph: {
-      title: `Actualités du club${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
+      title: `informations diverses${page > 1 ? ` - Page ${page}` : ""} - Randonneurs des Sables du Born`,
       description:
-        "Suivez toute l'actualité du club : événements, sorties et nouvelles de la marche aquatique",
-      url: `/actualites-club${page > 1 ? `?page=${page}` : ""}`,
+        "Retrouvez ici des informations diverses portant sur différents sujets (santé, loisirs, évènements...)",
+      url: `/infos-diverses${page > 1 ? `?page=${page}` : ""}`,
       type: "website",
       // L'image sera héritée du layout.js
     },
@@ -47,8 +47,8 @@ export async function generateMetadata({ searchParams }) {
     // ✅ Twitter Card
     twitter: {
       card: "summary_large_image",
-      title: `Actualités - Randonneurs des Sables`,
-      description: "Toute l'actualité du club de marche aquatique",
+      title: `Informations diverses - Randonneurs des Sables`,
+      description: "Toute les informations que vous avez besoin de savoir",
     },
 
     // ✅ Robots optimisés pour pagination
@@ -60,7 +60,7 @@ export async function generateMetadata({ searchParams }) {
 
     // ✅ URL canonique
     alternates: {
-      canonical: `/actualites-club${page > 1 ? `?page=${page}` : ""}${
+      canonical: `/infos-diverses${page > 1 ? `?page=${page}` : ""}${
         limit !== 5 ? `${page > 1 ? "&" : "?"}limit=${limit}` : ""
       }`,
     },

@@ -3,7 +3,7 @@ import BlocksRendererWrapper from "../Utils/BlockRendererWrapper/BlocksRendererW
 import Link from "next/link";
 
 export default async function LastNew() {
-  const data = await fetchStrapi("infos?page=1&limit=1", 300);
+  const data = await fetchStrapi("actualites-club?page=1&limit=1", 300);
   const article = data.data[0];
 
   // ✅ Trouver le premier paragraphe NON VIDE

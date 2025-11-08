@@ -6,13 +6,13 @@ export default function NotFound() {
   return (
     <Card>
       <div className="flex flex-col items-center justify-evenly py-12 ">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <h2 className="text-2xl mb-4">Page non trouvée</h2>
+        <h1 className="text-4xl font-bold mb-10">404</h1>
+        <h2 className="text-2xl mb-4 text-blue3">Page non trouvée</h2>
         <p className="text-gray-600 my-10 font-semibold">
-          Désolé, la publication que vous recherchez n'existe pas.
+          Désolé, la page que vous recherchez n'existe pas.
         </p>
-        <Link className="link" href="/actualites-club">
-          Retour à la page des actualités du club
+        <Link className="btn" href="/">
+          Retour à l'accueil
         </Link>
       </div>
     </Card>

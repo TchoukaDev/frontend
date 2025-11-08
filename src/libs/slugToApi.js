@@ -1,6 +1,6 @@
 const SLUG_TO_API = {
-  boutique: "boutiques",
-  "actualites-club": "infos",
+  boutique: "boutique",
+  "actualites-club": "actualites-club",
   competitions: "competitions",
   "section-animateurs": "section-animateurs",
 };

@@ -11,8 +11,8 @@ export default function NotFound() {
         <p className="text-gray-600 my-10 font-semibold">
           Désolé, la publication que vous recherchez n'existe pas.
         </p>
-        <Link className="link" href="/actualites-club">
-          Retour à la page des actualités du club
+        <Link className="link" href="/infos-diverses">
+          Retour à la page des informations diverses.
         </Link>
       </div>
     </Card>

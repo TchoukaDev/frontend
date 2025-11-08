@@ -10,7 +10,7 @@ export const revalidate = 300;
 export async function generateStaticParams() {
   try {
     const data = await fetchStrapi(
-      `boutiques?pagination[limit]=50&sort=updatedAt:desc`,
+      `boutique?pagination[limit]=50&sort=updatedAt:desc`,
       300,
     );
     return (data?.data || []).map((article) => ({
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
-  const response = await fetchStrapi(`boutiques/${articleSlug}`, 300);
+  const response = await fetchStrapi(`boutique/${articleSlug}`, 300);
   const data = response?.data || {};
 
   // Extraction description

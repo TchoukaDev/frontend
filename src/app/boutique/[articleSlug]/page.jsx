@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
-  const response = await fetchStrapi(`boutique/${articleSlug}`, 300);
+  const response = await fetchStrapi(`boutiques/${articleSlug}`, 300);
   const data = response?.data || {};
 
   // Extraction description

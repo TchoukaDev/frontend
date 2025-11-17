@@ -188,7 +188,7 @@ const Carousel = ({
           <option value="all">Toutes les photos ({totalCount})</option>
           {folders?.map((f) => (
             <option key={f.id} value={f.id}>
-              {f.nom} ({f.count})
+              {f.nom || f.id} ({f.count})
             </option>
           ))}
         </select>

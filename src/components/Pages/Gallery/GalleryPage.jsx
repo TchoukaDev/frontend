@@ -146,6 +146,16 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
         <div className="mt-8 flex flex-col items-center gap-4">
           {allPhotos.length > 0 && (hasMore || canShowLess) && (
             <div className="flex gap-4">
+              {/* Bouton "Voir moins" */}
+              {canShowLess && (
+                <button
+                  onClick={handleShowLess}
+                  className="btn bg-blue-700 hover:bg-blue-700/80"
+                >
+                  Voir moins
+                </button>
+              )}
+
               {/* Bouton "Voir plus" */}
               {hasMore && (
                 <button
@@ -154,16 +164,6 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
                   className="btn"
                 >
                   {isFetching ? "Chargement…" : "Voir plus"}
-                </button>
-              )}
-
-              {/* Bouton "Voir moins" */}
-              {canShowLess && (
-                <button
-                  onClick={handleShowLess}
-                  className="btn bg-blue-700 hover:bg-blue-700/80"
-                >
-                  Voir moins
                 </button>
               )}
             </div>

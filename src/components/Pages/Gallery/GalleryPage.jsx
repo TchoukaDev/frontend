@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Card from "@/components/ui/Card/Card";
 import Carousel from "@/components/ui/Carousel/Carousel";
 import { useGetGallery } from "@/hooks/useGetGallery";
 
 /**
- * Composant de galerie photos avec pagination dynamique
- *
  * Fonctionnement :
  * - Charge les photos par blocs (ex: 10 par 10)
  * - "Voir plus" ajoute un bloc de photos
@@ -30,29 +28,26 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
    */
   const [offset, setOffset] = useState(0);
 
+  // Filtrage des photos par dossier (all par défaut, affiche les 10 dernières photos publiées)
+  const [selectedFolder, setSelectedFolder] = useState("all");
+
+  const { data, isFetching, prefetchNext } = useGetGallery(
+    offset === 0 && selectedFolder === "all" ? initialData : null, // Utilise les données SSR uniquement au début
+    loadOffset,
+    offset,
+    selectedFolder,
+  );
+
   /**
    * ALLPHOTOS : Toutes les photos actuellement VISIBLES par l'utilisateur
    * On accumule les photos au fur et à mesure des clics sur "Voir plus"
    */
   const [allPhotos, setAllPhotos] = useState(initialData.photos || []);
 
-  /**
-   * HOOK : Récupère les photos pour l'offset actuel
-   * - data : Les nouvelles photos chargées
-   * - isFetching : Indicateur de chargement
-   * - prefetchNext : Fonction pour précharger la page suivante
-   */
-  const { data, isFetching, prefetchNext } = useGetGallery(
-    offset === 0 ? initialData : null, // Utilise les données SSR uniquement au début
-    loadOffset,
-    offset,
-  );
-
   // Métadonnées
   const totalPhotos = data?.totalPhotos || initialData.totalPhotos || 0;
   const hasMore = allPhotos.length < totalPhotos; // Y a-t-il encore des photos à charger ?
   const canShowLess = allPhotos.length > initialLimit; // Peut-on réduire le nombre de photos affichées ?
-
   /**
    * PREFETCH : Précharge automatiquement la page suivante
    * Dès qu'une page est affichée, on charge la suivante en arrière-plan
@@ -101,7 +96,6 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
    * Incrémente l'offset de loadOffset (ex: 0 → 10 → 20 → 30...)
    */
   const handleLoadMore = () => setOffset((prev) => prev + loadOffset);
-
   /**
    * VOIR MOINS : Retire le dernier bloc de photos chargé
    * - Décrémente l'offset (ex: 30 → 20 → 10 → 0)
@@ -124,17 +118,33 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
     );
   };
 
+  //Choisir un dossier
+  const handleChangeFolder = (folder) => {
+    setSelectedFolder(folder);
+    setOffset(0);
+    setAllPhotos([]);
+  };
+
   return (
     <Card>
       <h1>{data?.titreprincipal || initialData.titreprincipal}</h1>
 
       <section className="section">
         {/* key force le reset du carousel quand le nb de photos change */}
-        <Carousel key={allPhotos.length} images={allPhotos} gallery />
+        <Carousel
+          key={allPhotos.length}
+          onChangeFolder={handleChangeFolder}
+          folders={data?.dossiers}
+          images={allPhotos}
+          selectedFolder={selectedFolder}
+          isFetching={isFetching}
+          gallery
+        />
 
         {/* Affiche les contrôles si nécessaire */}
-        {(hasMore || canShowLess) && (
-          <div className="mt-8 flex flex-col items-center gap-4">
+
+        <div className="mt-8 flex flex-col items-center gap-4">
+          {allPhotos.length > 0 && (hasMore || canShowLess) && (
             <div className="flex gap-4">
               {/* Bouton "Voir plus" */}
               {hasMore && (
@@ -157,13 +167,15 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
                 </button>
               )}
             </div>
+          )}
 
-            {/* Compteur */}
+          {/* Compteur */}
+          {allPhotos.length > 0 && (
             <span className="text-sm text-gray-600">
               {allPhotos.length} / {totalPhotos} photos
             </span>
-          </div>
-        )}
+          )}
+        </div>
       </section>
     </Card>
   );

@@ -11,7 +11,7 @@ const initialLimit = 10;
 
 export default async function Gallery() {
   const initialData = await fetchStrapi(
-    `galerie?limit=${initialLimit}&offset=0`,
+    `galerie?limit=${initialLimit}&offset=0&dossier=all`,
     300,
   );
   return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;

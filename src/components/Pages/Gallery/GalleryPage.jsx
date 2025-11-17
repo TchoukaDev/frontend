@@ -120,8 +120,8 @@ export default function GalleryPage({ initialData = {}, initialLimit = 10 }) {
 
   //Choisir un dossier
   const handleChangeFolder = (folder) => {
-    setSelectedFolder(folder);
     setOffset(0);
+    setSelectedFolder(folder);
     setAllPhotos([]);
   };
 

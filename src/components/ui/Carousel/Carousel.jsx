@@ -188,12 +188,10 @@ const Carousel = ({
               value={selectedFolder || "all"}
               onChange={(e) => onChangeFolder(e.target.value)}
             >
-              <option value="all">
-                Toutes les photos ({isFetching ? <ClipLoader /> : totalCount})
-              </option>
+              <option value="all">Toutes les photos ({totalCount})</option>
               {folders?.map((f) => (
                 <option key={f.id} value={f.id}>
-                  {f.nom || f.id} ({isFetching ? <ClipLoader /> : f.count})
+                  {f.nom || f.id} ({f.count})
                 </option>
               ))}
             </select>

@@ -193,7 +193,7 @@ const Carousel = ({
               </option>
               {folders?.map((f) => (
                 <option key={f.id} value={f.id}>
-                  {f.nom || f.id} ({f.count})
+                  {f.nom || f.id} ({isFetching ? <ClipLoader /> : f.count})
                 </option>
               ))}
             </select>

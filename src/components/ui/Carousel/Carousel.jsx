@@ -176,61 +176,67 @@ const Carousel = ({
         </div>
       </div>
 
-      {/* Sélecteur de dossier */}
-      <div className="text-center">
-        <select
-          className="border border-gray-300 rounded-md px-3 py-1 pr-8 text-sm    focus:ring-2 focus:ring-blue-500 focus:border-blue-500    disabled:opacity-50 disabled:cursor-not-allowed    cursor-pointer min-w-[70px] bg-sand"
-          value={selectedFolder || "all"}
-          onChange={(e) => {
-            onChangeFolder(e.target.value);
-          }}
-        >
-          <option value="all">Toutes les photos ({totalCount})</option>
-          {folders?.map((f) => (
-            <option key={f.id} value={f.id}>
-              {f.nom || f.id} ({f.count})
-            </option>
-          ))}
-        </select>
-      </div>
+      {gallery && (
+        <>
+          {/* Galerie de miniatures en bas */}
 
-      {/* Galerie de miniatures en bas */}
-      {gallery &&
-        (isFetching ? (
-          <div className="flex items-center justify-center">
-            <ClipLoader size={60} color="#41c9e2" />
+          {/* Sélecteur de dossier */}
+
+          <div className="text-center">
+            <select
+              className="border border-gray-300 rounded-md px-3 py-1 pr-8 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer min-w-[70px] bg-sand"
+              value={selectedFolder || "all"}
+              onChange={(e) => onChangeFolder(e.target.value)}
+            >
+              <option value="all">Toutes les photos ({totalCount})</option>
+              {folders?.map((f) => (
+                <option key={f.id} value={f.id}>
+                  {f.nom || f.id} ({f.count})
+                </option>
+              ))}
+            </select>
           </div>
-        ) : (
-          <div className="flex gap-5 md:gap-20 flex-wrap items-center justify-center">
-            {images.map((image, i) => (
-              <div key={image.id} className="flex flex-col items-center gap-2">
-                <div className=" size-12 md:size-25 relative">
-                  <Image
-                    onClick={() => {
-                      setDirection(i > index ? 1 : -1);
-                      setIndex(i);
-                    }}
-                    onMouseEnter={() => {
-                      // Précharge l'image en grand quand on survole la miniature
-                      const img = new window.Image();
-                      img.src = `${image?.url}`;
-                    }}
-                    src={`${image?.url}`}
-                    alt={image.alternativeText || `Miniature ${i + 1}`}
-                    fill
-                    className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-                      i === index ? "border-3 border-blue3 shadow-lg" : "" // Bordure sur la miniature active
-                    }`}
-                    priority={i < 3} // Les 3 premières miniatures chargent en priorité
-                  />
+
+          {/* Loader ou images */}
+          {isFetching ? (
+            <div className="flex items-center justify-center">
+              <ClipLoader size={60} color="#41c9e2" />
+            </div>
+          ) : (
+            <div className="flex gap-5 md:gap-20 flex-wrap items-center justify-center">
+              {images.map((image, i) => (
+                <div
+                  key={image.id}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <div className="size-12 md:size-25 relative">
+                    <Image
+                      onClick={() => {
+                        setDirection(i > index ? 1 : -1);
+                        setIndex(i);
+                      }}
+                      onMouseEnter={() => {
+                        const img = new window.Image();
+                        img.src = `${image?.url}`;
+                      }}
+                      src={`${image?.url}`}
+                      alt={image.alternativeText || `Miniature ${i + 1}`}
+                      fill
+                      className={`object-cover aspect-square rounded cursor-pointer transition-all ${
+                        i === index ? "border-3 border-blue3 shadow-lg" : ""
+                      }`}
+                      priority={i < 3}
+                    />
+                  </div>
+                  {image?.caption && (
+                    <div className="hidden md:block">{image.caption}</div>
+                  )}
                 </div>
-                {image?.caption && (
-                  <div className="hidden md:block">{image.caption}</div>
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

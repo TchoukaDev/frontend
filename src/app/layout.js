@@ -70,12 +70,13 @@ export default function RootLayout({ children }) {
           <QueryProvider>
             <BackgroundImage />
             <Header />
-            <Navbar /> */}
-        {/* <main>{children}</main> */}
-        <h1 className="flex mt-[50vh]">Site actuellement en maintenance</h1>
-        {/* <Footer /> */}
-        {/* </QueryProvider>
+            <Navbar />
+            <main>{children}</main>
+
+            <Footer />
+          </QueryProvider>
         </AuthProvider> */}
+        <h1> Ce site est actuellement en maintenance</h1>
       </body>
     </html>
   );

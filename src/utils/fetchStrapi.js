@@ -14,21 +14,27 @@ async function fetchStrapiUncached(endpoint) {
 
   if (!response.ok) {
     console.error(`Erreur ${response.status}`);
+    return { data: [] }; // Retourne un tableau vide au lieu de crasher
   }
-  const data = await response.json();
+
   return response.json();
 }
 
 export async function fetchStrapi(endpoint, revalidate = 300) {
   // ✅ Créer une fonction cachée pour CET endpoint spécifique
-  const getCachedData = unstable_cache(
-    async () => fetchStrapiUncached(endpoint),
-    [endpoint], // Cache key
-    {
-      revalidate: revalidate,
-      tags: [endpoint.split("?")[0]],
-    },
-  );
+  try {
+    const getCachedData = unstable_cache(
+      async () => fetchStrapiUncached(endpoint),
+      [endpoint], // Cache key
+      {
+        revalidate: revalidate,
+        tags: [endpoint.split("?")[0]],
+      },
+    );
 
-  return getCachedData();
+    return getCachedData();
+  } catch (error) {
+    console.error(`Failed to fetch ${endpoint}:`, error);
+    return { data: [] }; // Fallback en cas d'erreur
+  }
 }

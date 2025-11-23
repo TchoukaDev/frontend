@@ -66,16 +66,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
-        {/* <AuthProvider>
+        <AuthProvider>
           <QueryProvider>
-            <BackgroundImage />
+            {/* <BackgroundImage />
             <Header />
             <Navbar /> */}
-        <main>{children}</main>
-
-        {/* <Footer />
+            <main>{children}</main>
+            {/* 
+        <Footer /> */}
           </QueryProvider>
-        </AuthProvider> */}
+        </AuthProvider>
       </body>
     </html>
   );

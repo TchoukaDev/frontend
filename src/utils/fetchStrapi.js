@@ -15,7 +15,7 @@ async function fetchStrapiUncached(endpoint) {
   if (!response.ok) {
     console.error(`Erreur ${response.status}`);
   }
-
+  const data = await response.json();
   return response.json();
 }
 

@@ -66,15 +66,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body>
-        <AuthProvider>
+        {/* <AuthProvider>
           <QueryProvider>
             <BackgroundImage />
             <Header />
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </QueryProvider>
-        </AuthProvider>
+            <Navbar /> */}
+        {/* <main>{children}</main> */}
+        <h1 className="flex mt-[50vh]">Site actuellement en maintenance</h1>
+        {/* <Footer /> */}
+        {/* </QueryProvider>
+        </AuthProvider> */}
       </body>
     </html>
   );

@@ -1,10 +1,11 @@
 import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 
-export default function Actuality({ params }) {
+export default async function Actuality({ params }) {
+  const resolvedParams = await params;
   return (
     <Article
-      params={params}
+      params={resolvedParams}
       slug="infos-diverses"
       title="Informations diverses"
     />

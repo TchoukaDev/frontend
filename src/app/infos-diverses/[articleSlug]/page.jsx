@@ -13,8 +13,6 @@ export default async function Actuality({ params }) {
 
 export const revalidate = 300;
 export const dynamicParams = true;
-// ✅ Ajoutez ceci pour autoriser les fetches dynamiques dans generateMetadata
-export const fetchCache = "force-no-store";
 
 export async function generateStaticParams() {
   try {
@@ -34,51 +32,38 @@ export async function generateStaticParams() {
   }
 }
 
+// ✅ SOLUTION : try/catch dans generateMetadata
 export async function generateMetadata({ params }) {
   try {
+    // 1️⃣ Récupérer le slug
     const { articleSlug } = await params;
 
-    // ✅ Fetch avec cache 'no-store' pour éviter l'erreur
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/infos-diverses/${articleSlug}?populate=*`,
-      {
-        cache: "no-store", // ✅ Important !
-        next: { revalidate: 300 },
-      },
-    );
+    // 2️⃣ Fetch de l'article
+    const response = await fetchStrapi(`infos-diverses/${articleSlug}`, 300);
+    const data = response?.data || {};
 
-    if (!response.ok) {
-      return {
-        title: "Information",
-        description:
-          "Découvrez les dernières informations des Randonneurs des Sables du Born",
-      };
-    }
-
-    const result = await response.json();
-    const data = result?.data || {};
-
+    // 3️⃣ Si pas de données, retourner métadonnées par défaut
     if (!data?.id) {
       return {
-        title: "Information",
+        title: "Information | Randonneurs des Sables",
         description:
           "Découvrez les dernières informations des Randonneurs des Sables du Born",
       };
     }
 
+    // 4️⃣ Extraction des données
     const description =
-      data.attributes?.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) ||
+      data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) ||
       "Découvrez les dernières informations des Randonneurs des Sables du Born";
 
-    const ogImage = data.attributes?.images?.data?.[0]?.attributes?.url
-      ? data.attributes.images.data[0].attributes.url
-      : undefined;
+    const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined;
 
+    // 5️⃣ Retour des métadonnées complètes
     return {
-      title: data.attributes?.titre || "Information",
+      title: data.titre || "Information",
       description: description,
       keywords: [
-        data.attributes?.titre,
+        data.titre,
         "information",
         "actualité",
         "marche aquatique",
@@ -86,7 +71,7 @@ export async function generateMetadata({ params }) {
         "Randonneurs des Sables",
       ].filter(Boolean),
       openGraph: {
-        title: data.attributes?.titre || "Information",
+        title: data.titre || "Information",
         description: description,
         url: `/infos-diverses/${articleSlug}`,
         type: "article",
@@ -96,13 +81,13 @@ export async function generateMetadata({ params }) {
               url: ogImage,
               width: 1200,
               height: 630,
-              alt: data.attributes?.titre || "Information",
+              alt: data.titre || "Information",
             },
           ],
         }),
         article: {
-          publishedTime: data.attributes?.publishedAt,
-          modifiedTime: data.attributes?.updatedAt,
+          publishedTime: data.publishedAt,
+          modifiedTime: data.updatedAt,
           section: "Informations diverses",
           tags: ["marche aquatique", "longe-côte", "information"],
         },
@@ -110,7 +95,7 @@ export async function generateMetadata({ params }) {
       ...(ogImage && {
         twitter: {
           card: "summary_large_image",
-          title: data.attributes?.titre,
+          title: data.titre,
           description: description,
           images: [ogImage],
         },
@@ -124,9 +109,10 @@ export async function generateMetadata({ params }) {
       },
     };
   } catch (error) {
+    // ✅ EN CAS D'ERREUR : Retourner métadonnées par défaut
     console.error("Erreur generateMetadata infos-diverses:", error.message);
     return {
-      title: "Information",
+      title: "Information | Randonneurs des Sables",
       description:
         "Découvrez les dernières informations des Randonneurs des Sables du Born",
     };

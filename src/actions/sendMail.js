@@ -55,7 +55,7 @@ export const sendMail = async (prevState, formData) => {
 
     // 5. Envoyer l'email avec Resend
     const { data, error } = await resend.emails.send({
-      from: "Formulaire de Contact <onboarding@resend.dev>",
+      from: "Formulaire de Contact <contact@romainwirth.fr>",
       to: [process.env.EMAIL_TO],
       replyTo: validatedData.email,
       subject: `Nouveau message de ${validatedData.firstname} ${validatedData.name}`,

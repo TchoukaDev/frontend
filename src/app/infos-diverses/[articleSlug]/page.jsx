@@ -2,7 +2,7 @@ import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
 
-export default async function Actuality({ params }) {
+export default async function Info({ params }) {
   const { articleSlug } = await params;
 
   // ✅ Si c'est le placeholder, retourner 404

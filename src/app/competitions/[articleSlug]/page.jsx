@@ -1,7 +1,16 @@
 import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
+import { notFound } from "next/navigation";
 
-export default function Competition({ params }) {
+// ✅ AJOUT : async
+export default async function Competition({ params }) {
+  const { articleSlug } = await params;
+
+  // ✅ Si c'est le placeholder, retourner 404
+  if (articleSlug === "placeholder") {
+    notFound();
+  }
+
   return (
     <Article
       params={params}
@@ -13,49 +22,93 @@ export default function Competition({ params }) {
 
 export const revalidate = 300;
 export const dynamicParams = true;
+
 export async function generateStaticParams() {
   try {
     const data = await fetchStrapi(
       `competitions?pagination[limit]=50&sort=updatedAt:desc`,
       300,
     );
-    return (data?.data || []).map((article) => ({
+
+    const articles = data?.data || [];
+
+    // ✅ Si vide, retourner le placeholder
+    if (articles.length === 0) {
+      return [{ articleSlug: "placeholder" }];
+    }
+
+    return articles.map((article) => ({
       articleSlug: article.slug,
     }));
   } catch (e) {
     console.error("Erreur generateStaticParams competitions:", e.message);
-    return [];
+    // ✅ CORRECTION : retourner le placeholder au lieu de []
+    return [{ articleSlug: "placeholder" }];
   }
 }
 
 export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
+
+  // ✅ AJOUT : Gérer le placeholder
+  if (articleSlug === "placeholder") {
+    return {
+      title: "Compétitions | Randonneurs des Sables",
+      description:
+        "Informations sur les compétitions des Randonneurs des Sables du Born",
+      robots: {
+        index: false,
+        follow: false,
+        noarchive: true,
+      },
+    };
+  }
+
   const response = await fetchStrapi(`competitions/${articleSlug}`, 300);
   const data = response?.data || {};
 
+  // ✅ AJOUT : Si pas de données, retourner métadonnées par défaut
+  if (!data?.id) {
+    return {
+      title: "Compétition | Randonneurs des Sables",
+      description:
+        "Informations sur les compétitions des Randonneurs des Sables du Born",
+      robots: {
+        index: false,
+        follow: false,
+        noarchive: true,
+      },
+    };
+  }
+
   // Extraction description
   const description =
-    data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) || "c";
+    data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) ||
+    "Informations sur les compétitions des Randonneurs des Sables du Born";
 
   // Gestion image
   const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined;
 
   return {
-    title: data.titre || "Boutique du Club",
+    // ✅ CORRECTION : titre cohérent avec la page
+    title: data.titre || "Compétition",
     description: description,
 
+    // ✅ CORRECTION : mots-clés cohérents
     keywords: [
       data.titre,
-      "boutique",
-      "vêtements",
-      "accesssoires de sport",
+      "compétition",
+      "course",
+      "marche aquatique",
+      "longe-côte",
       "Randonneurs des Sables",
     ].filter(Boolean),
 
     openGraph: {
-      title: data.titre || "Boutique",
+      title: data.titre || "Compétition",
       description: description,
-      url: `/boutique/${articleSlug}`,
+      // ✅ CORRECTION : URL cohérente
+      url: `/competitions/${articleSlug}`,
       type: "article",
 
       ...(ogImage && {
@@ -64,7 +117,7 @@ export async function generateMetadata({ params }) {
             url: ogImage,
             width: 1200,
             height: 630,
-            alt: data.titre || "Boutique",
+            alt: data.titre || "Compétition",
           },
         ],
       }),
@@ -72,8 +125,9 @@ export async function generateMetadata({ params }) {
       article: {
         publishedTime: data.publishedAt,
         modifiedTime: data.updatedAt,
-        section: "Boutique",
-        tags: ["boutique", "marche aquatique", "longe-côte"],
+        // ✅ CORRECTION : section cohérente
+        section: "Compétitions",
+        tags: ["compétition", "marche aquatique", "longe-côte"],
       },
     },
 
@@ -87,7 +141,8 @@ export async function generateMetadata({ params }) {
     }),
 
     alternates: {
-      canonical: `/boutique/${articleSlug}`,
+      // ✅ CORRECTION : URL canonique cohérente
+      canonical: `/competitions/${articleSlug}`,
     },
 
     // ⚠️ ROBOTS PRIVÉ

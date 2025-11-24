@@ -1,7 +1,16 @@
 import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
+import { notFound } from "next/navigation";
 
-export default function AnimSection({ params }) {
+// ✅ AJOUT : async
+export default async function AnimSection({ params }) {
+  const { articleSlug } = await params;
+
+  // ✅ Si c'est le placeholder, retourner 404
+  if (articleSlug === "placeholder") {
+    notFound();
+  }
+
   return (
     <Article
       params={params}
@@ -12,6 +21,8 @@ export default function AnimSection({ params }) {
 }
 
 export const revalidate = 300;
+// ✅ AJOUT : dynamicParams
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   try {
@@ -22,12 +33,18 @@ export async function generateStaticParams() {
 
     const articles = data?.data || [];
 
+    // ✅ Si vide, retourner le placeholder
+    if (articles.length === 0) {
+      return [{ articleSlug: "placeholder" }];
+    }
+
     return articles.map((article) => ({
       articleSlug: article.slug,
     }));
   } catch (e) {
     console.error("Erreur generateStaticParams section-animateurs:", e.message);
-    return [];
+    // ✅ CORRECTION : retourner le placeholder au lieu de []
+    return [{ articleSlug: "placeholder" }];
   }
 }
 
@@ -39,9 +56,37 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { articleSlug } = await params;
 
+  // ✅ AJOUT : Gérer le placeholder
+  if (articleSlug === "placeholder") {
+    return {
+      title: "Section Animateurs | Randonneurs des Sables",
+      description:
+        "Information réservée aux animateurs des Randonneurs des Sables du Born",
+      robots: {
+        index: false,
+        follow: false,
+        noarchive: true,
+      },
+    };
+  }
+
   // Récupération des données de l'article
   const response = await fetchStrapi(`section-animateurs/${articleSlug}`, 300);
   const data = response?.data || {};
+
+  // ✅ AJOUT : Si pas de données, retourner métadonnées par défaut
+  if (!data?.id) {
+    return {
+      title: "Article animateurs | Randonneurs des Sables",
+      description:
+        "Information réservée aux animateurs des Randonneurs des Sables du Born",
+      robots: {
+        index: false,
+        follow: false,
+        noarchive: true,
+      },
+    };
+  }
 
   // ✅ Extraction description optimisée
   const description =
@@ -49,7 +94,7 @@ export async function generateMetadata({ params }) {
     "Information réservée aux animateurs des Randonneurs des Sables du Born";
 
   // ✅ Gestion image : spécifique ou héritage
-  const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined; // undefined = héritage du layout.js
+  const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined;
 
   return {
     // 📌 TITRE

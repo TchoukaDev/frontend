@@ -11,12 +11,7 @@ export default async function Article({ params, slug, title }) {
   const response = await fetchStrapi(`${apiCollection}/${articleSlug}`, 300);
   const data = response?.data || {};
   if (!data?.id) {
-    return (
-      <div>
-        <h1>Article non trouvé</h1>
-        <p>L'article "{articleSlug}" n'existe pas.</p>
-      </div>
-    );
+    notFound();
   }
 
   const documents = data.documents || [];

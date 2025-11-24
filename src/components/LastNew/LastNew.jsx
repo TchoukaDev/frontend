@@ -15,7 +15,7 @@ export default async function LastNew() {
     );
     return hasText;
   });
-  return data?.lenght > 0 ? (
+  return !article ? (
     <div className=" w-full md:w-[500px]  bg-sand p-2 md:p-3 gap-2 flex flex-col justify-between rounded border border-blue2 overflow-hidden">
       <div>
         <h3 className="text-blue3 text-center font-semibold underline text-xs  md:text-base line-clamp-1">

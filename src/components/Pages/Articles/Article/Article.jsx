@@ -1,24 +1,33 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
+import ArticleClient from "./ArticleClient";
+import Card from "@/components/ui/Card/Card";
 import { slugToApiCollection } from "@/libs/slugToApi";
 
 export default async function Article({ params, slug, title }) {
   const { articleSlug } = await params;
   const apiCollection = slugToApiCollection(slug);
-
+  // Récupération de l'article
   const response = await fetchStrapi(`${apiCollection}/${articleSlug}`, 300);
   const data = response?.data || {};
-
   if (!data?.id) {
-    notFound();
+    return (
+      <div>
+        <h1>Article non trouvé</h1>
+        <p>L'article "{articleSlug}" n'existe pas.</p>
+      </div>
+    );
   }
 
-  // ✅ TEST : Composant ultra-minimal
+  const documents = data.documents || [];
+  const images = data.images || [];
+
+  // Dans votre composant
+
   return (
-    <div>
+    <Card>
       <h1>{title}</h1>
-      <h2>{data?.titre}</h2>
-      <p>Test minimal</p>
-    </div>
+      <ArticleClient slug={slug} articleSlug={articleSlug} initialData={data} />
+    </Card>
   );
 }

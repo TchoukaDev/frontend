@@ -15,7 +15,7 @@ export default async function LastNew() {
     );
     return hasText;
   });
-  return (
+  return data?.lenght > 0 ? (
     <div className=" w-full md:w-[500px]  bg-sand p-2 md:p-3 gap-2 flex flex-col justify-between rounded border border-blue2 overflow-hidden">
       <div>
         <h3 className="text-blue3 text-center font-semibold underline text-xs  md:text-base line-clamp-1">
@@ -38,6 +38,12 @@ export default async function LastNew() {
       >
         Voir l'article
       </Link>
+    </div>
+  ) : (
+    <div>
+      <h3 className="text-blue3 text-center font-semibold underline text-xs  md:text-base line-clamp-1">
+        Aucune publication récente
+      </h3>
     </div>
   );
 }

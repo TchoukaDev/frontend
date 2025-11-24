@@ -68,12 +68,12 @@ export default function RootLayout({ children }) {
       <body>
         <AuthProvider>
           <QueryProvider>
-            {/* <BackgroundImage />
+            <BackgroundImage />
             <Header />
-            <Navbar /> */}
+            <Navbar />
             <main>{children}</main>
-            {/* 
-        <Footer /> */}
+
+            <Footer />
           </QueryProvider>
         </AuthProvider>
       </body>

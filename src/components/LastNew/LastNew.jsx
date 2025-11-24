@@ -4,10 +4,10 @@ import Link from "next/link";
 
 export default async function LastNew() {
   const data = await fetchStrapi("infos?page=1&limit=1", 300);
-  const article = data.data[0];
+  const article = data?.data[0];
 
   // ✅ Trouver le premier paragraphe NON VIDE
-  const firstParagraph = article.contenu?.find((block) => {
+  const firstParagraph = article?.contenu?.find((block) => {
     if (block.type !== "paragraph") return false;
     // Vérifier qu'il contient du texte
     const hasText = block.children?.some(

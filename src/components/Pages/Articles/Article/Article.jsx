@@ -22,7 +22,7 @@ export default async function Article({ params, slug, title }) {
   return (
     <Card>
       <h1>{title}</h1>
-      <ArticleClient slug={slug} articleSlug={articleSlug} initialData={data} />
+      <ArticleClient slug={slug} articleSlug={articleSlug} data={data} />
     </Card>
   );
 }

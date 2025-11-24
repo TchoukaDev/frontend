@@ -1,6 +1,8 @@
 import Article from "@/components/Pages/Articles/Article/Article";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 
+export const dynamic = "force-dynamic";
+
 export default async function Actuality({ params }) {
   const resolvedParams = await params;
   return (

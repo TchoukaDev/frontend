@@ -1,6 +1,6 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
-import ArticleClient from "./ArticleClient";
+
 import Card from "@/components/ui/Card/Card";
 import { slugToApiCollection } from "@/libs/slugToApi";
 

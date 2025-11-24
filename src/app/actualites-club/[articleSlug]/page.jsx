@@ -22,6 +22,11 @@ export async function generateStaticParams() {
 
     const articles = data?.data || [];
 
+    // ✅ Si vide, retourner au moins une page fictive
+    if (articles.length === 0) {
+      return [{ articleSlug: "placeholder" }];
+    }
+
     return articles.map((article) => ({
       articleSlug: article.slug,
     }));

@@ -3,8 +3,16 @@ import { notFound } from "next/navigation";
 import ArticleClient from "./ArticleClient";
 import Card from "@/components/ui/Card/Card";
 import { slugToApiCollection } from "@/libs/slugToApi";
-import { Suspense } from "react";
-import { ClipLoader } from "react-spinners";
+
+// ✅ Charger ArticleClient uniquement côté client
+const ArticleClient = dynamic(() => import("./ArticleClient"), {
+  ssr: false, // ✅ Désactive le SSR pour ce composant
+  loading: () => (
+    <div className="p-8 text-center text-gray-500">
+      Chargement de l'article...
+    </div>
+  ),
+});
 
 export default async function Article({ params, slug, title }) {
   const { articleSlug } = await params;
@@ -24,21 +32,7 @@ export default async function Article({ params, slug, title }) {
   return (
     <Card>
       <h1>{title}</h1>
-      {/* ✅ Wrapper avec Suspense */}
-      <Suspense
-        fallback={
-          <div className="p-8 text-center text-gray-500">
-            Chargement de l'article...
-            <ClipLoader />
-          </div>
-        }
-      >
-        <ArticleClient
-          slug={slug}
-          articleSlug={articleSlug}
-          initialData={data}
-        />
-      </Suspense>
+      <ArticleClient slug={slug} articleSlug={articleSlug} initialData={data} />
     </Card>
   );
 }

@@ -7,7 +7,7 @@ export function useGetArticle(slug, articleSlug, initialData = null) {
     queryKey: ["article", apiCollection, articleSlug],
     queryFn: async () => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/articles/${apiCollectiong}/${articleSlug}`,
+        `${process.env.NEXT_PUBLIC_URL}/api/articles/${apiCollection}/${articleSlug}`,
       );
       const data = await response.json();
 

@@ -7,12 +7,8 @@ import Link from "next/link";
 import { formatDate } from "@/utils/formatDate";
 import BlocksRendererWrapper from "@/components/Utils/BlockRendererWrapper/BlocksRendererWrapper";
 
-export default function ArticleClient({
-  slug,
-  articleSlug,
-  initialData = null,
-}) {
-  const { data = [] } = useGetArticle(slug, articleSlug, initialData);
+export default function ArticleClient({ slug, articleSlug, data }) {
+  // const { data = [] } = useGetArticle(slug, articleSlug, initialData);
   const documents = data?.documents || [];
   const images = data?.images || [];
 

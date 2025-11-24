@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import Card from "@/components/ui/Card/Card";
 import { slugToApiCollection } from "@/libs/slugToApi";
+import dynamic from "next/dynamic";
 
 // ✅ Charger ArticleClient uniquement côté client
 const ArticleClient = dynamic(() => import("./ArticleClient"), {

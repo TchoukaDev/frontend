@@ -1,19 +1,8 @@
 import { fetchStrapi } from "@/utils/fetchStrapi";
 import { notFound } from "next/navigation";
-
+import ArticleClient from "./ArticleClient";
 import Card from "@/components/ui/Card/Card";
 import { slugToApiCollection } from "@/libs/slugToApi";
-import dynamic from "next/dynamic";
-
-// ✅ Charger ArticleClient uniquement côté client
-const ArticleClient = dynamic(() => import("./ArticleClient"), {
-  ssr: false, // ✅ Désactive le SSR pour ce composant
-  loading: () => (
-    <div className="p-8 text-center text-gray-500">
-      Chargement de l'article...
-    </div>
-  ),
-});
 
 export default async function Article({ params, slug, title }) {
   const { articleSlug } = await params;

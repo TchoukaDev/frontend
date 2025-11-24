@@ -15,134 +15,37 @@ export default async function Actuality({ params }) {
 export const revalidate = 300;
 export const dynamicParams = true;
 export async function generateStaticParams() {
-  try {
-    const data = await fetchStrapi(
-      `infos-diverses?pagination[limit]=50&sort=updatedAt:desc`,
-      300,
-    );
+  const data = await fetchStrapi("infos-diverses?pagination[limit]=50");
+  const articles = data?.data || [];
 
-    const articles = data?.data || [];
-
-    return articles.map((article) => ({
-      articleSlug: article.slug,
-    }));
-  } catch (e) {
-    console.error("Erreur generateStaticParams infos-diverses:", e.message);
-    return [];
-  }
+  return articles.map((article) => ({
+    articleSlug: article.slug,
+    metadata: {
+      titre: article.titre,
+      description:
+        article.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) || "",
+      images: article.images || [],
+      publishedAt: article.publishedAt,
+      updatedAt: article.updatedAt,
+    },
+  }));
 }
 
-/**
- * generateMetadata - Génère les balises <meta> du <head> pour chaque article
- *
- * ⚙️ QUAND S'EXÉCUTE-T-ELLE ?
- * - Au BUILD pour les pages pré-générées (avec generateStaticParams)
- * - À la PREMIÈRE visite pour les nouvelles pages (dynamicParams)
- * - Lors de la REVALIDATION (toutes les 300s)
- *
- * 🎯 POURQUOI ?
- * Pour que chaque article ait ses propres métadonnées SEO optimisées
- */
 export async function generateMetadata({ params }) {
-  // 1️⃣ RÉCUPÉRATION DU SLUG
-  try {
-    const { articleSlug } = await params;
+  const { metadata } = params;
+  if (!metadata) return { title: "Information", description: "..." };
 
-    // 2️⃣ RÉCUPÉRATION DES DONNÉES DE L'ARTICLE
-    const response = await fetchStrapi(`infos-diverses/${articleSlug}`, 300);
-    const data = response?.data || {};
-
-    // ✅ Si pas de données, retourner des métadonnées par défaut
-    if (!data?.id) {
-      return {
-        title: "Information",
-        description:
-          "Découvrez les dernières informations des Randonneurs des Sables du Born",
-      };
-    }
-
-    // 3️⃣ EXTRACTION DE LA DESCRIPTION
-    const description =
-      data.contenu?.[0]?.children?.[0]?.text?.substring(0, 160) ||
-      "Découvrez les dernières informations des Randonneurs des Sables du Born";
-
-    // 4️⃣ GESTION DE L'IMAGE : spécifique ou héritage
-    const ogImage = data.images?.[0]?.url ? data.images[0].url : undefined; // ✅ undefined = héritage du layout.js
-
-    // 5️⃣ RETOUR DES MÉTADONNÉES COMPLÈTES
-    return {
-      // 📌 TITRE DE LA PAGE
-      title: data.titre || "Information",
-
-      // 📝 DESCRIPTION
-      description: description,
-
-      // 🔑 MOTS-CLÉS DYNAMIQUES
-      keywords: [
-        data.titre,
-        "information",
-        "actualité",
-        "marche aquatique",
-        "longe-côte",
-        "Randonneurs des Sables",
-      ].filter(Boolean),
-
-      // 🖼️ OPEN GRAPH (Réseaux sociaux)
-      openGraph: {
-        title: data.titre || "Information",
-        description: description,
-        url: `/infos-diverses/${articleSlug}`,
-        type: "article", // ✅ "article" au lieu de "website"
-
-        // ✅ Image conditionnelle
-        ...(ogImage && {
-          images: [
-            {
-              url: ogImage,
-              width: 1200,
-              height: 630,
-              alt: data.titre || "Information",
-            },
-          ],
-        }),
-
-        // ✅ Métadonnées article
-        article: {
-          publishedTime: data.publishedAt,
-          modifiedTime: data.updatedAt,
-          section: "Informations diverses",
-          tags: ["marche aquatique", "longe-côte", "information"],
-        },
-      },
-
-      // 🐦 TWITTER CARD (si image disponible)
-      ...(ogImage && {
-        twitter: {
-          card: "summary_large_image",
-          title: data.titre,
-          description: description,
-          images: [ogImage],
-        },
-      }),
-
-      // 🔗 URL CANONIQUE
-      alternates: {
-        canonical: `/infos-diverses/${articleSlug}`,
-      },
-
-      // 🤖 ROBOTS
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  } catch (error) {
-    // ✅ En cas d'erreur (DB vide, réseau, etc.)
-    console.error("Erreur generateMetadata infos-diverses:", error.message);
-    return {
-      title: "Information",
-      description:
-        "Découvrez les dernières informations des Randonneurs des Sables du Born",
-    };
-  }
+  return {
+    title: metadata.titre,
+    description: metadata.description,
+    openGraph: {
+      title: metadata.titre,
+      description: metadata.description,
+      images: metadata.images,
+    },
+    article: {
+      publishedTime: metadata.publishedAt,
+      modifiedTime: metadata.updatedAt,
+    },
+  };
 }

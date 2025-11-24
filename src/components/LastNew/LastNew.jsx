@@ -40,10 +40,8 @@ export default async function LastNew() {
       </Link>
     </div>
   ) : (
-    <div>
-      <h3 className="text-blue3 text-center font-semibold underline text-xs  md:text-base line-clamp-1">
-        Aucune publication récente
-      </h3>
+    <div className="text-gray-700 flex-1 text-xs md:text-sm line-clamp-2 md:line-clamp-3  overflow-hidden">
+      Aucune publication récente
     </div>
   );
 }

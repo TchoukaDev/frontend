@@ -40,8 +40,11 @@ export default async function LastNew() {
       </Link>
     </div>
   ) : (
-    <div className="text-gray-700 flex-1 text-xs md:text-sm line-clamp-2 md:line-clamp-3  overflow-hidden">
-      Aucune publication récente
+    <div className=" w-full md:w-[500px]  bg-sand p-2 md:p-3 gap-2 flex flex-col justify-center items-center rounded border border-blue2 overflow-hidden">
+      <div></div>{" "}
+      <div className="text-gray-700 flex-1 text-xs md:text-sm line-clamp-2 md:line-clamp-3  overflow-hidden">
+        Aucune publication récente
+      </div>
     </div>
   );
 }

@@ -34,23 +34,27 @@ export default function ClubPage({ initialData = {}, slug }) {
 
           {/* Photos */}
           {animateurs.length > 0 && (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-10">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 auto-rows-fr">
               {animateurs?.map((anim) => (
                 <div
                   key={anim.id}
-                  className="flex flex-col justify-between items-center gap-2"
+                  className="flex flex-col items-center gap-3 p-2"
                 >
-                  <Image
-                    width={80}
-                    height={80}
-                    src={anim?.file?.formats?.thumbnail?.url}
-                    className="object-cover"
-                    alt={anim.file?.alternativeText}
-                    sizes="80px"
-                  />
-                  <div className="text-center prose grow">
-                    {anim.file?.caption}
+                  {/* Conteneur image avec ratio fixe */}
+                  <div className="relative w-20 h-20 shrink-0">
+                    <Image
+                      fill
+                      src={anim?.file?.formats?.thumbnail?.url}
+                      className="object-cover rounded"
+                      alt={anim.file?.alternativeText}
+                      sizes="80px"
+                    />
                   </div>
+
+                  {/* Texte avec hauteur flexible mais limitée */}
+                  <p className="text-center text-sm leading-tight ">
+                    {anim.file?.caption}
+                  </p>
                 </div>
               ))}
             </div>

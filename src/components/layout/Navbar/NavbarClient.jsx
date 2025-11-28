@@ -55,7 +55,7 @@ export default function NavbarClient({ session }) {
       ],
     },
     { label: "Boutique", href: "/boutique" },
-    { label: "Galerie", href: "/galerie" },
+    // { label: "Galerie", href: "/galerie" },
   ];
 
   // --- Fonctions utilitaires ---

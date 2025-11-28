@@ -14,5 +14,11 @@ export default async function Gallery() {
     `galerie?limit=${initialLimit}&offset=0&dossier=all`,
     300,
   );
+
+  return (
+    <h1>
+      Cet page est actuellement en maintenance. Elle sera de retour très vite.
+    </h1>
+  );
   return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;
 }

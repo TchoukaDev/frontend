@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const searchParams = new URL(request.url).searchParams;
-    const limit = searchParams.get("limit") || "20";
-    const offset = searchParams.get("offset") || "0";
+    const limit = searchParams.get("limit") || "10";
     const dossier = searchParams.get("dossier") || "all";
 
-    const url = `${process.env.STRAPI_API_URL}/api/galerie?limit=${limit}&offset=${offset}&dossier=${dossier}`;
+    const url = `${process.env.STRAPI_API_URL}/api/galerie?limit=${limit}&dossier=${dossier}`;
 
     const response = await fetch(url, {
       headers: {

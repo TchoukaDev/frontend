@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners";
 
 export default async function MiniCarousel() {
   const data = await fetchStrapi("galerie?limit=5", 300);
-  const photos = data?.photos;
+  const photos = data?.data;
 
   return (
     <Suspense

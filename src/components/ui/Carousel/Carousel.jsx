@@ -232,11 +232,6 @@ const Carousel = ({
                       priority={i < 3}
                     />
                   </div>
-                  {(image?.titre || image?.image?.caption) && (
-                    <div className="hidden md:block text-sm">
-                      {image.titre || image.image.caption}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>

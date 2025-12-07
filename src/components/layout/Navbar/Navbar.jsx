@@ -1,16 +1,8 @@
-import { Suspense } from "react";
-import NavbarServer from "./NavbarServer";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import NavbarClient from "./NavbarClient";
 
-function Skeleton() {
-  return (
-    <div className="bg-sand w-full shadow-lg shadow-black/40 z-1000 h-10 md:h-[60px]"></div>
-  );
-}
-
-export default function NavBar() {
-  return (
-    <Suspense fallback={<Skeleton />}>
-      <NavbarServer />
-    </Suspense>
-  );
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
+  return <NavbarClient session={session} />;
 }

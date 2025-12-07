@@ -14,6 +14,7 @@ import Link from "next/link";
 
 export default function LoginForm({ callbackUrl = "/" }) {
   const [serverError, setServerError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef();
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors: clientErrors, isSubmitting },
+    formState: { errors: clientErrors },
   } = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -41,6 +42,7 @@ export default function LoginForm({ callbackUrl = "/" }) {
 
   // Soumission du formulaire
   const onSubmit = async (data) => {
+    setLoading(true);
     setServerError(null);
 
     try {
@@ -54,7 +56,9 @@ export default function LoginForm({ callbackUrl = "/" }) {
 
       if (result?.error) {
         // Erreur de connexion
-        setServerError(result.error);
+        setServerError(
+          "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard",
+        );
       } else {
         // Succès !
         const redirect = getSafeRedirectUrl(callbackUrl);
@@ -62,8 +66,11 @@ export default function LoginForm({ callbackUrl = "/" }) {
         router.refresh(); // Force le rafraîchissement de la session
       }
     } catch (error) {
+      setLoading(false);
       console.error("Erreur:", error);
-      setServerError("Une erreur s'est produite lors de la connexion");
+      setServerError(
+        "Une erreur s'est produite lors de la connexion. Veuillez réessayer plus tard",
+      );
     } finally {
       reset();
     }
@@ -151,8 +158,8 @@ export default function LoginForm({ callbackUrl = "/" }) {
         Mot de passe oublié?
       </Link>
       <div className="text-center my-2">
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
+        <Button type="submit" disabled={loading}>
+          {loading ? (
             <span className="flex items-center text-sand justify-center gap-2">
               Connexion... <ClipLoader size={20} />
             </span>

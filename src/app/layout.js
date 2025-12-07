@@ -1,3 +1,4 @@
+import localFont from "next/font/local";
 import Header from "@/components/layout/Header/Header";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar/Navbar";
@@ -62,9 +63,23 @@ export const viewport = {
   maximumScale: 5,
 };
 
+const pacifico = localFont({
+  src: "./fonts/pacifico_regular.woff2",
+  variable: "--font-pacifico",
+  display: "swap",
+  preload: true, // ✅ Précharge critique
+});
+
+const delius = localFont({
+  src: "./fonts/Delius.woff2",
+  variable: "--font-delius",
+  display: "swap",
+  preload: true,
+});
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${pacifico.variable} ${delius.variable}`}>
       <body>
         <AuthProvider>
           <QueryProvider>

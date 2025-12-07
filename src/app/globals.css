@@ -3,24 +3,13 @@
 /* Pour config typography */
 @config "./tailwind.config.js";
 
-@font-face {
-  font-family: "Pacifico";
-  src: url("/fonts/pacifico_regular.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Delius";
-  src: url("/fonts/Delius.ttf");
-  font-display: swap;
-}
-
 @theme {
   --color-sand: #f7eedd;
   --color-blue1: #ace2e1;
   --color-blue2: #41c9e2;
   --color-blue3: #008dda;
-  --font-title: "Pacifico", fantasy;
-  --font-main: "Delius", cursive;
+  --font-title: var(--font-pacifico), fantasy;
+  --font-main: var(--font-delius), cursive;
 }
 * {
   box-sizing: border-box;
@@ -63,6 +52,7 @@
 body {
   @apply flex flex-col font-main min-h-screen w-full shrink-0;
 }
+
 @utility custom-gradient {
   @apply bg-gradient-to-br from-blue3 to-blue1;
 }

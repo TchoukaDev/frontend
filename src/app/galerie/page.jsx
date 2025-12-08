@@ -1,4 +1,7 @@
+// app/galerie/page.tsx
 import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
+import SkeletonArticlesPage from "@/components/ui/Skeleton/SkeletonArticlesPage";
+import SkeletonSingleArticlePage from "@/components/ui/Skeleton/SkeletonSingleArticlePage";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 
 export const metadata = {
@@ -13,6 +16,6 @@ export default async function Gallery() {
     `galerie?limit=${initialLimit}&dossier=all`,
     300,
   );
-
-  return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;
+  return <SkeletonSingleArticlePage />;
+  // return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;
 }

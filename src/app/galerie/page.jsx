@@ -1,4 +1,3 @@
-// app/galerie/page.tsx
 import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
 import { fetchStrapi } from "@/utils/fetchStrapi";
 

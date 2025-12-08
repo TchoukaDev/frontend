@@ -16,6 +16,6 @@ export default async function Gallery() {
     `galerie?limit=${initialLimit}&dossier=all`,
     300,
   );
-  return <SkeletonSingleArticlePage />;
-  // return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;
+
+  return <GalleryPage initialData={initialData} initialLimit={initialLimit} />;
 }

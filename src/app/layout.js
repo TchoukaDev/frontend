@@ -78,7 +78,7 @@ const delius = localFont({
 });
 
 export default function RootLayout({ children }) {
-  const maintenance = true;
+  const maintenance = false;
 
   if (maintenance)
     return (

@@ -78,6 +78,24 @@ const delius = localFont({
 });
 
 export default function RootLayout({ children }) {
+  const maintenance = true;
+
+  if (maintenance)
+    return (
+      <html lang="fr" className={`${pacifico.variable} ${delius.variable}`}>
+        <body className="h-screen">
+          <BackgroundImage />
+          <Header />
+          <main className="h-full flex justify-center items-center">
+            <section className="section flex justify-center items-center font-semibold">
+              Le site est actuellement en maintenance. Nous serons de retour
+              très vite!
+            </section>
+          </main>
+        </body>
+      </html>
+    );
+
   return (
     <html lang="fr" className={`${pacifico.variable} ${delius.variable}`}>
       <body>

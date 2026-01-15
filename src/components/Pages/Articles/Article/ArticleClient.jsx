@@ -52,21 +52,28 @@ export default function ArticleClient({
             </a>
           </div>
         ))}
-      {images.length > 0 &&
-        images?.map((image) => (
-          <div
-            key={image?.id}
-            className="flex my-7 flex-col md:flex-row justify-center items-center gap-5"
-          >
-            <Image
-              src={image?.url}
-              alt={image?.alternativeText}
-              width={300}
-              height={200}
-              className="rounded shadow-md"
-            />
-          </div>
-        ))}
+      <div className="flex my-7 flex-col md:flex-row justify-center flex-wrap items-center gap-5 md:gap-10 mt-10">
+        {images.length > 0 &&
+          images?.map(
+            (image) =>
+              image?.url && (
+                <a
+                  href={image.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative block size-40 md:size-60 overflow-hidden"
+                >
+                  <Image
+                    key={image.id}
+                    fill
+                    src={image.url}
+                    alt={image.alternativeText || "Image"}
+                    className="rounded shadow-md cursor-pointer object-cover object-center hover:scale-105 transition-all duration-300"
+                  />
+                </a>
+              ),
+          )}
+      </div>
     </section>
   );
 }

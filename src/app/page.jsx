@@ -45,8 +45,8 @@ export default function Home() {
   return (
     <>
       {/* Section principale */}
-      <section className="h-full grow ">
-        <div className="flex flex-col justify-between gap-15 md:gap-20 items-center my-5 h-full relative">
+      <section className="h-full grow flex flex-col">
+        <div className="flex grow flex-col justify-between gap-15 md:gap-20 items-center my-5 h-full relative">
           <div className="md:flex-row gap-5 flex items-center justify-between  w-[90%]">
             {/* Meteo */}
             <MeteoWidget />
@@ -58,7 +58,7 @@ export default function Home() {
           </div>
 
           {/* Bienvenue */}
-          <div className="flex justify-center grow-1 top-2/3 bottom-1/3 w-full left-1/2 right-1/2  items-start">
+          <div className="flex justify-center items-center grow-1 top-2/3 bottom-1/3 w-full left-1/2 right-1/2  ">
             <span className="animateLetter">B</span>
             <span className="animateLetter">i</span>
             <span className="animateLetter">e</span>

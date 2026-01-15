@@ -104,7 +104,7 @@ export default function RootLayout({ children }) {
             <BackgroundImage />
             <Header />
             <Navbar />
-            <main>{children}</main>
+            <main className="grow flex flex-col">{children}</main>
 
             <Footer />
           </QueryProvider>

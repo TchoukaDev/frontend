@@ -18,7 +18,7 @@ const pageMetadata = {
   club: {
     title: "Le Club",
     description:
-      "Découvrez Les Randonneurs des Sables du Born, notre histoire, nos animateurs et nos valeurs. Club de marche aquatique dans les Landes.",
+      "Découvrez Les Randonneurs des Sables du Born, notre histoire, nos animateurs et nos valeurs. Club de marche aquatique à Biscarrosse dans les Landes.",
     openGraph: {
       title: "Le Club - Randonneurs des Sables du Born",
       description: "Notre histoire, nos animateurs et nos valeurs",
@@ -27,11 +27,11 @@ const pageMetadata = {
     },
   },
   "marche-aquatique": {
-    title: "Marche Aquatique",
+    title: "Marche Aquatique Biscarrosse ",
     description:
       "Qu'est-ce que la marche aquatique (longe-côte) ? Découvrez cette activité nautique accessible à tous, ses bienfaits et nos conseils.",
     openGraph: {
-      title: "Marche Aquatique - Longe-Côte",
+      title: "Marche Aquatique Biscarrosse - Longe-Côte",
       description:
         "Découvrez la marche aquatique, ses bienfaits et nos conseils",
       url: "/marche-aquatique",

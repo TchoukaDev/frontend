@@ -7,10 +7,10 @@ import { FaFacebook } from "react-icons/fa";
 export const metadata = {
   title: "Accueil",
   description:
-    "Bienvenue au club de marche aquatique Les Randonneurs des Sables du Born. Découvrez nos activités, animations et événements dans les Landes.",
+    "Bienvenue au club de marche aquatique Les Randonneurs des Sables du Born à Biscarrosse. Découvrez nos activités, animations et événements dans les Landes.",
 
   openGraph: {
-    title: "Les Randonneurs des Sables du Born - Marche Aquatique",
+    title: "Les Randonneurs des Sables du Born - Marche Aquatique Biscarrosse",
     description:
       "Club de marche aquatique et longe-côte à Biscarrosse. Rejoignez-nous pour des randonnées conviviales dans les Landes.",
     url: "/",

@@ -5,12 +5,12 @@
 // Pour metadata du layout, politique de confidentialité, informations générales et informations légales
 export const siteConfig = {
   // 🔹 Informations générales
-  name: "Les Randonneurs des Sables du Born",
-  siteName: "Les Randonneurs des Sables du Born",
+  name: "Marche Aquatique Biscarrosse - Les Randonneurs des Sables du Born",
+  siteName: "Marche Aquatique Biscarrosse - Les Randonneurs des Sables du Born",
   description:
-    "Club de marche aquatique et longe-côte dans les Landes. Découvrez nos animations, événements et rejoignez-nous pour des activités conviviales en milieu lacustre.",
+    "Club de marche aquatique et longe-côte à Biscarrosse dans les Landes. Découvrez nos animations, événements et rejoignez-nous pour des activités conviviales en milieu lacustre.",
   url: process.env.NEXT_PUBLIC_URL,
-  author: "Les Randonneurs des Sables du Born",
+  author: "Marche Aquatique Biscarrosse - Les Randonneurs des Sables du Born",
   keywords: [
     "marche aquatique",
     "longe-côte",
@@ -30,7 +30,8 @@ export const siteConfig = {
   // 🔹 Informations légales
   legal: {
     responsable: "Alain WIRTH",
-    entreprise: "Les randonneurs des Sables",
+    entreprise:
+      "Marche Aquatique Biscarrosse - Les Randonneurs des Sables du Born",
     adresse: "Mairie de Biscarrosse: 149 Av. du 14 Juillet, 40600 Biscarrosse",
     email: "randoduborn@gmail.com",
     telephone: "06 81 99 37 18",

@@ -68,6 +68,7 @@ export default function ArticleClient({
                     fill
                     src={image.url}
                     alt={image.alternativeText || "Image"}
+                    sizes="(max-width: 768px) 160px, 240px"
                     className="rounded shadow-md cursor-pointer object-cover object-center hover:scale-105 transition-all duration-300"
                   />
                 </a>

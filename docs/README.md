@@ -101,9 +101,7 @@ Site développé **bénévolement** pour le club de marche aquatique de Biscarro
 - **Best Practices** : 100/100 ✅
 - **SEO** : 100/100 🔍
 
-> [📊 Voir le rapport complet](https://pagespeed.web.dev/analysis/https-www-marcheaquatique-lesrandonneursdessables-fr/ng3467kqhu?form_factor=mobile)
-
-![PageSpeed Insights](./docs/pagespeed.png)
+![PageSpeed Insights](/pagespeed.png)
 
 ### 🔍 SEO
 

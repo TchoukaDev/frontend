@@ -101,7 +101,7 @@ Site développé **bénévolement** pour le club de marche aquatique de Biscarro
 - **Best Practices** : 100/100 ✅
 - **SEO** : 100/100 🔍
 
-![PageSpeed Insights](/pagespeed.png)
+![PageSpeed Insights](/docs/pagespeed.png)
 
 ### 🔍 SEO
 

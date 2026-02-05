@@ -53,6 +53,19 @@ const Carousel = ({
     return () => clearTimeout(timeout);
   }, [index, paused, images.length]);
 
+
+  // Calcul des points visibles
+  const MAX_DOTS = 10;
+
+  // Calcule la page actuelle
+  const currentPage = Math.floor(index / MAX_DOTS);
+  const totalPages = Math.ceil(images.length / MAX_DOTS);
+
+  // Images visibles pour cette page
+  const start = currentPage * MAX_DOTS;
+  const end = Math.min(start + MAX_DOTS, images.length);
+  const visibleImages = images.slice(start, end);
+
   // Préchargement
   useEffect(() => {
     if (images.length === 0) return;
@@ -146,22 +159,45 @@ const Carousel = ({
         </button>
 
         {/* Points indicateurs */}
-        <div className="absolute bottom-4 w-full flex justify-center space-x-2">
-          {images.map((image, i) => (
+        <div className="absolute bottom-4 w-full flex justify-center space-x-2 items-center">
+          {/* Flèche page précédente */}
+          {currentPage > 0 && (
             <button
-              key={image.id}
-              onClick={() => {
-                setDirection(i > index ? 1 : -1);
-                setIndex(i);
-              }}
-              onMouseEnter={() => setPaused(true)}
-              onMouseLeave={() => setPaused(false)}
-              className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
-                i === index ? "bg-white" : "bg-gray-400/70"
-              }`}
-              aria-label={`Aller à l'image ${i + 1}`}
-            />
-          ))}
+              onClick={() => setIndex((currentPage - 1) * MAX_DOTS)}
+              className="text-white/70 hover:text-white text-xs cursor-pointer"
+            >
+              ◀
+            </button>
+          )}
+
+          {/* Dots de la page actuelle */}
+          {visibleImages.map((image, i) => {
+            const realIndex = start + i;
+            return (
+              <button
+                key={image.id}
+                onClick={() => {
+                  setDirection(realIndex > index ? 1 : -1);
+                  setIndex(realIndex);
+                }}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+                className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${realIndex === index ? "bg-white" : "bg-gray-400/70"
+                  }`}
+                aria-label={`Aller à l'image ${realIndex + 1}`}
+              />
+            );
+          })}
+
+          {/* Flèche page suivante */}
+          {currentPage < totalPages - 1 && (
+            <button
+              onClick={() => setIndex((currentPage + 1) * MAX_DOTS)}
+              className="text-white/70 hover:text-white text-xs cursor-pointer"
+            >
+              ▶
+            </button>
+          )}
         </div>
       </div>
 
@@ -205,7 +241,7 @@ const Carousel = ({
                   key={image.id}
                   className="flex flex-col items-center gap-2"
                 >
-                  <div className="size-12 md:size-25 relative">
+                  <div className="size-12 md:size-25 relative text-black">
                     <Image
                       onClick={() => {
                         setDirection(i > index ? 1 : -1);
@@ -226,9 +262,8 @@ const Carousel = ({
                         `Miniature ${i + 1}`
                       }
                       fill
-                      className={`object-cover aspect-square rounded cursor-pointer transition-all ${
-                        i === index ? "border-3 border-blue3 shadow-lg" : ""
-                      }`}
+                      className={`object-cover aspect-square rounded cursor-pointer transition-all ${i === index ? "border-3 border-blue3 shadow-lg" : ""
+                        }`}
                       priority={i < 3}
                     />
                   </div>

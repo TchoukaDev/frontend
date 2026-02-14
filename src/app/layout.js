@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer/Footer";
 import BackgroundImage from "@/components/ui/BackgroundImage/BackgroundImage";
 import AuthProvider from "@/components/Providers/AuthProvider/AuthProvider";
 import { siteConfig } from "@/utils/siteConfig";
+import InitialLoader from "@/components/ui/InitialLoader/InitialLoader";
 
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -99,6 +100,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr" className={`${pacifico.variable} ${delius.variable}`}>
       <body>
+        <InitialLoader />
         <AuthProvider>
           <QueryProvider>
             <BackgroundImage />

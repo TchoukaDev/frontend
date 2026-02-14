@@ -1,4 +1,3 @@
-import { array } from "zod";
 import SkeletonHeading from "./SkeletonHeading";
 import SkeletonSection from "./SkeletonSection";
 

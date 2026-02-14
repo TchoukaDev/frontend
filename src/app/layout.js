@@ -98,7 +98,38 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="fr" className={`${pacifico.variable} ${delius.variable}`}>
+      <head>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+          #site-loader {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999999;
+            transition: opacity 0.4s ease;
+          }
+          #site-loader.hide {
+            opacity: 0;
+            pointer-events: none;
+          }
+          .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+          }
+          @keyframes spin { to { transform: rotate(360deg); } }
+        `}} />
+      </head>
       <body>
+        <div id="site-loader" className="hide">
+          <div className="spinner"></div>
+        </div>
         <AuthProvider>
           <QueryProvider>
             <BackgroundImage />
@@ -109,6 +140,16 @@ export default function RootLayout({ children }) {
             <Footer />
           </QueryProvider>
         </AuthProvider>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+          window.addEventListener('load', () => {
+            const l = document.getElementById('site-loader');
+            if (l) {
+              l.classList.add('hide');
+              setTimeout(() => l.remove(), 400);
+            }
+          });
+        `}} />
       </body>
     </html>
   );

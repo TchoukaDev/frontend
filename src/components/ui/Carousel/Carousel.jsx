@@ -121,7 +121,7 @@ const Carousel = ({
                       `Slide ${index + 1}`
                     }
                     fill
-                    className="object-contain "
+                    className="object-cover "
                     priority={index === 0}
                     sizes="(max-width: 768px) 95vw, 768px"
                   />

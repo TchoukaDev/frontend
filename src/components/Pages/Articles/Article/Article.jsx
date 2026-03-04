@@ -14,8 +14,7 @@ export default async function Article({ params, slug, title }) {
     notFound();
   }
 
-  const documents = data.documents || [];
-  const images = data.images || [];
+
 
   // Dans votre composant
 

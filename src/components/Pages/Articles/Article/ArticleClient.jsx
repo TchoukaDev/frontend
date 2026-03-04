@@ -43,7 +43,7 @@ export default function ArticleClient({
             className=" flex justify-center gap-5 w-full prose my-7 max-w-none"
           >
             <a
-              className="flex flex-col items-center w-fit justify-center"
+              className="flex flex-col  items-center w-fit justify-center"
               href={`${doc?.url}`}
               target="_blank"
             >
@@ -52,24 +52,25 @@ export default function ArticleClient({
             </a>
           </div>
         ))}
-      <div className="flex my-7 flex-col md:flex-row justify-center flex-wrap items-center gap-5 md:gap-10 mt-10">
+      <div className="flex my-7 flex-row justify-center flex-wrap items-center gap-5 md:gap-10 mt-10">
         {images.length > 0 &&
           images?.map(
             (image) =>
               image?.url && (
                 <a
+                  key={image.id}
                   href={image.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative block size-40 md:size-60 overflow-hidden"
                 >
                   <Image
-                    key={image.id}
-                    fill
                     src={image.url}
                     alt={image.alternativeText || "Image"}
-                    sizes="(max-width: 768px) 160px, 240px"
-                    className="rounded shadow-md cursor-pointer object-cover object-center hover:scale-105 transition-all duration-300"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ height: "clamp(160px, 20vw, 240px)", width: "auto" }}
+                    className="rounded shadow-md cursor-pointer hover:scale-105 transition-all duration-300"
                   />
                 </a>
               ),
